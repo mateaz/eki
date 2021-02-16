@@ -4,13 +4,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./Komponente/Header"; 
 
 import './App.css';
-import { Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup} from 'react-leaflet';
+import { Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup, CircleMarker, Popup, Tooltip} from 'react-leaflet';
 
 import * as ceste from "./data/javne_ceste_wgs.json";
 
 import * as bosana_nc from "./data/bosana_nc.json";
 import * as gorica_nc from "./data/gorica_nz.json";
 import * as kosljun_nc from "./data/kosljun_nc.json";
+import * as rasvjeta from "./data/rasvjeta.json";
+
 
 import * as drzavneceste from "./data/javneceste/drzavneceste.json";
 import * as lokalneceste from "./data/javneceste/lokalneceste.json";
@@ -52,11 +54,99 @@ export default function SimpleExample() {
     const cestePagInputRef = useRef();
     const cesteMiskoviciInputRef = useRef();
     const cesteGoricaInputRef = useRef();
-    
+
+    const rasvjeta1InputRef = useRef();
+    const rasvjeta2InputRef = useRef();
+    const rasvjeta3InputRef = useRef();
+    const rasvjeta4InputRef = useRef();
+    const rasvjeta5InputRef = useRef();
+    const rasvjeta6InputRef = useRef();
+    const rasvjeta7InputRef = useRef();
+
 
 
     const handleCheckboxLayer = (checkboxProps) => {
       let a = checkboxProps.target;
+
+      if ('rasvjeta1InputRef'.includes(a)) {
+        let layerAdd = rasvjeta1InputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && rasvjeta1InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && rasvjeta1InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+
+      if ('rasvjeta2InputRef'.includes(a)) {
+        let layerAdd = rasvjeta2InputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && rasvjeta2InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && rasvjeta2InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+
+      if ('rasvjeta3InputRef'.includes(a)) {
+        let layerAdd = rasvjeta3InputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && rasvjeta3InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && rasvjeta3InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+      if ('rasvjeta4InputRef'.includes(a)) {
+        let layerAdd = rasvjeta4InputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && rasvjeta4InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && rasvjeta4InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+      if ('rasvjeta5InputRef'.includes(a)) {
+        let layerAdd = rasvjeta5InputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && rasvjeta5InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && rasvjeta5InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+      if ('rasvjeta6InputRef'.includes(a)) {
+        let layerAdd = rasvjeta6InputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && rasvjeta6InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && rasvjeta6InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+      if ('rasvjeta7InputRef'.includes(a)) {
+        let layerAdd = rasvjeta7InputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && rasvjeta7InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && rasvjeta7InputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
 
       if ('cestePagInputRef'.includes(a)) {
         let layerAdd = cestePagInputRef.current.leafletElement;
@@ -135,6 +225,31 @@ export default function SimpleExample() {
       console.log({[checkboxProps.target]:checkboxProps.checked})
 
     };
+    
+    const rasvjeta1 = rasvjeta.features.filter(data => data.properties.Tip === 1).map((data) => {
+      return data;
+    })
+
+    const rasvjeta2 = rasvjeta.features.filter(data => data.properties.Tip === 2).map((data) => {
+      return data;
+    })
+
+    const rasvjeta3 = rasvjeta.features.filter(data => data.properties.Tip === 3).map((data) => {
+      return data;
+    })
+    const rasvjeta4 = rasvjeta.features.filter(data => data.properties.Tip === 4).map((data) => {
+      return data;
+    })
+    const rasvjeta5 = rasvjeta.features.filter(data => data.properties.Tip === 5).map((data) => {
+      return data;
+    })
+    const rasvjeta6 = rasvjeta.features.filter(data => data.properties.Tip === 6).map((data) => {
+      return data;
+    })
+    const rasvjeta7 = rasvjeta.features.filter(data => data.properties.Tip === 7).map((data) => {
+      return data;
+    })
+
 
     return (
       <>
@@ -201,13 +316,162 @@ export default function SimpleExample() {
                 </LayerGroup>
               </Overlay>
 
-              <Overlay name="Layer 2" name="Grid1" >
+              <Overlay name="Layer 2">
                 <LayerGroup ref={cesteGoricaInputRef}>
                   {gorica_nc.features.map(data => (
                   <GeoJSON key={data.properties.fid} data={data} color="orange"/>
                   ))}
                 </LayerGroup>
             </Overlay>
+
+            <Overlay name="rasvjeta 1">
+              <LayerGroup ref={rasvjeta1InputRef}>
+                {rasvjeta1.map((elem, i) => {
+                return (
+                <CircleMarker 
+                    key = {i}
+                    center={{lat: elem.geometry.coordinates[1], lng: elem.geometry.coordinates[0]}}
+                    fillColor="#1f78b4" 
+                    color="black"
+                    opacity= {1}
+                    fillOpacity= {1}
+                    weight={1}
+                    radius={5}>
+                    <Tooltip direction='right' offset={[-8, -2]} opacity={1} permanent>
+                      <span>{elem.properties.id}</span>
+                    </Tooltip>
+                </CircleMarker>
+                )
+              })}
+              </LayerGroup>
+            </Overlay>
+            <Overlay name="rasvjeta 2">
+              <LayerGroup ref={rasvjeta2InputRef}>
+                {rasvjeta2.map((elem, i) => {
+                return (
+                <CircleMarker 
+                    key = {i}
+                    center={{lat: elem.geometry.coordinates[1], lng: elem.geometry.coordinates[0]}}
+                    fillColor="#e84c54" 
+                    color="black"
+                    opacity= {1}
+                    weight={1}
+                    fillOpacity= {1}
+                    radius={5}>
+                    <Tooltip direction='right' offset={[-8, -2]} opacity={1} permanent>
+                      <span>{elem.properties.id}</span>
+                    </Tooltip>
+                </CircleMarker>
+                )
+              })}
+              </LayerGroup>
+            </Overlay>
+            <Overlay name="rasvjeta 3">
+              <LayerGroup ref={rasvjeta3InputRef}>
+                {rasvjeta3.map((elem, i) => {
+                return (
+                <CircleMarker 
+                    key = {i}
+                    center={{lat: elem.geometry.coordinates[1], lng: elem.geometry.coordinates[0]}}
+                    fillColor="#18af18" 
+                    color="black"
+                    opacity= {1}
+                    weight={1}
+                    fillOpacity= {1}
+                    radius={5}>
+                    <Tooltip direction='right' offset={[-8, -2]} opacity={1} permanent>
+                      <span>{elem.properties.id}</span>
+                    </Tooltip>
+                </CircleMarker>
+                )
+              })}
+              </LayerGroup>
+            </Overlay>
+            <Overlay name="rasvjeta 4">
+              <LayerGroup ref={rasvjeta4InputRef}>
+                {rasvjeta4.map((elem, i) => {
+                return (
+                <CircleMarker 
+                    key = {i}
+                    center={{lat: elem.geometry.coordinates[1], lng: elem.geometry.coordinates[0]}}
+                    fillColor="#d53fc9" 
+                    color="black"
+                    opacity= {1}
+                    weight={1}
+                    fillOpacity= {1}
+                    radius={5}>
+                    <Tooltip direction='right' offset={[-8, -2]} opacity={1} permanent>
+                      <span>{elem.properties.id}</span>
+                    </Tooltip>
+                </CircleMarker>
+                )
+              })}
+              </LayerGroup>
+            </Overlay>
+            <Overlay name="rasvjeta 5">
+              <LayerGroup ref={rasvjeta5InputRef}>
+                {rasvjeta5.map((elem, i) => {
+                return (
+                <CircleMarker 
+                    key = {i}
+                    center={{lat: elem.geometry.coordinates[1], lng: elem.geometry.coordinates[0]}}
+                    fillColor="#000000" 
+                    color="black"
+                    opacity= {1}
+                    weight={1}
+                    fillOpacity= {1}
+                    radius={5}>
+                    <Tooltip direction='right' offset={[-8, -2]} opacity={1} permanent>
+                      <span>{elem.properties.id}</span>
+                    </Tooltip>
+                </CircleMarker>
+                )
+              })}
+              </LayerGroup>
+            </Overlay>
+            <Overlay name="rasvjeta 6">
+              <LayerGroup ref={rasvjeta6InputRef}>
+                {rasvjeta6.map((elem, i) => {
+                return (
+                <CircleMarker
+                    key = {i}
+                    center={{lat: elem.geometry.coordinates[1], lng: elem.geometry.coordinates[0]}}
+                    fillColor="#32c7c5" 
+                    color="black"
+                    opacity= {1}
+                    weight={1}
+                    fillOpacity= {1}
+                    radius={5}>
+                    <Tooltip direction='right' offset={[-8, -2]} opacity={1} permanent>
+                      <span>{elem.properties.id}</span>
+                    </Tooltip>
+                </CircleMarker>
+                )
+              })}
+              </LayerGroup>
+            </Overlay>
+            <Overlay name="rasvjeta sss">
+              <LayerGroup ref={rasvjeta7InputRef}>
+                {rasvjeta7.map((elem, i) => {
+                return (
+                <CircleMarker 
+                    key = {i}
+                    center={{lat: elem.geometry.coordinates[1], lng: elem.geometry.coordinates[0]}}
+                    fillColor="#e9e335"
+                    color="black"
+                    weight={1}
+                    opacity= {1}
+                    fillOpacity= {1}
+                    radius={5}> <Tooltip direction='right' offset={[-8, -2]} opacity={1} permanent>
+                        <span>{elem.properties.id}</span>
+                    </Tooltip>
+                </CircleMarker>
+                )
+              })}
+              </LayerGroup>
+            </Overlay>
+
+
           </LayersControl>
         </Map>
       </>

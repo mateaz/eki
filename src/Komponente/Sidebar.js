@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SidebarContent from './SidebarContent';
 import Checkbox from './Checkbox';
-import { faCaretRight, faCaretDown, faRoad, faCity, faArchive } from '@fortawesome/free-solid-svg-icons'
+import { faCaretRight, faCaretDown, faRoad, faCity, faArchive } from '@fortawesome/free-solid-svg-icons';
+import * as rasvjeta from "../data/rasvjeta.json";
 
 
 export default class  Sidebar extends Component{
@@ -16,6 +17,13 @@ export default class  Sidebar extends Component{
         javneCesteDrzavneInput: false,
         javneCesteZupanijskeInput: false,
         javneCesteLokalneInput: false,
+        rasvjeta1Input: false,
+        rasvjeta2Input: false,
+        rasvjeta3Input: false,
+        rasvjeta4Input: false,
+        rasvjeta5Input: false,
+        rasvjeta6Input: false,
+        rasvjeta7Input: false,
     }
 
     toggleChange = (evt) => {  
@@ -29,6 +37,7 @@ export default class  Sidebar extends Component{
           
         checkboxProps.target = evt.target.name;
         checkboxProps.checked = evt.target.checked ;
+        console.log(checkboxProps)
         this.props.OnMessageOut(checkboxProps);
       }
     
@@ -64,7 +73,7 @@ export default class  Sidebar extends Component{
     return (
         <div> 
             {this.props.showSidebar && 
-            <div className="sidebar-div">
+            <div className="sidebar-div" id="sidebar-div">
                 <div className="sidebar-nav-menu">
                     <div className={`sidebar-nav-menu-item ${this.state.activeCollapse === "javneceste" ? 'item-active' : ''}`}  data-id="javneceste">
                         <div className="sidebar-nav-menu-item-head" onClick={() => this.handleExpandCollaps("javneceste")}>
@@ -324,46 +333,52 @@ export default class  Sidebar extends Component{
                                 Change={this.toggleChange.bind(this)}
                             />
                             <SidebarContent
-                                klasa = {this.state.activeItem === "gradjevine" ? 'item-display': ''}
-                                handleExpand={()=>this.handleExpandSpan("gradjevine")}
-                                ikonica = {this.state.activeItem === "gradjevine" ? incompleteIcon: completeIcon}
+                                klasa = {this.state.activeItem === "rasvjeta" ? 'item-display': ''}
+                                handleExpand={()=>this.handleExpandSpan("rasvjeta")}
+                                ikonica = {this.state.activeItem === "rasvjeta" ? incompleteIcon: completeIcon}
                                 imeNaselja={'Rasvjeta'}
                                 body = {
                                     <div>
                                         <Checkbox
-                                            nameCheckbox="Stajališta javnog prijevoza"
-                                            name="stajalistaPrijevozInput"
-                                            checked={this.state.stajalistaPrijevozInput}
+                                            nameCheckbox="1"
+                                            name="rasvjeta1Input"
+                                            checked={this.state.rasvjeta1Input}
                                             Change={this.toggleChange.bind(this)}
                                         />
                                         <Checkbox
-                                            nameCheckbox="Spomenici"
-                                            name="spomeniciInput"
-                                            checked={this.state.spomeniciInput}
+                                            nameCheckbox="2"
+                                            name="rasvjeta2Input"
+                                            checked={this.state.rasvjeta2Input}
                                             Change={this.toggleChange.bind(this)}
                                         />
                                         <Checkbox
-                                            nameCheckbox="Odlagališta otpada"
-                                            name="odlagalistaInput"
-                                            checked={this.state.odlagalistaInput}
+                                            nameCheckbox="3"
+                                            name="rasvjeta3Input"
+                                            checked={this.state.rasvjeta3Input}
                                             Change={this.toggleChange.bind(this)}
                                         />
                                         <Checkbox
-                                            nameCheckbox="Reciklažna dvorišta"
-                                            name="reciklaznaInput"
-                                            checked={this.state.reciklaznaInput}
+                                            nameCheckbox="4"
+                                            name="rasvjeta4Input"
+                                            checked={this.state.rasvjeta4Input}
                                             Change={this.toggleChange.bind(this)}
                                         />
                                         <Checkbox
-                                            nameCheckbox="Sajmišta i tržnice"
-                                            name="trzniceInput"
-                                            checked={this.state.trzniceInput}
+                                            nameCheckbox="5"
+                                            name="rasvjeta5Input"
+                                            checked={this.state.rasvjeta5Input}
                                             Change={this.toggleChange.bind(this)}
                                         />
                                          <Checkbox
-                                            nameCheckbox="Građevine lokalnog značaja"
-                                            name="gradjevineInput"
-                                            checked={this.state.gradjevineInput}
+                                            nameCheckbox="6"
+                                            name="rasvjeta6Input"
+                                            checked={this.state.rasvjeta6Input}
+                                            Change={this.toggleChange.bind(this)}
+                                        />
+                                        <Checkbox
+                                            nameCheckbox="7"
+                                            name="rasvjeta7Input"
+                                            checked={this.state.rasvjeta7Input}
                                             Change={this.toggleChange.bind(this)}
                                         />
                                     </div>

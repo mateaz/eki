@@ -5,11 +5,17 @@ import Sidebar from './Sidebar';
 
 export default class Header extends Component {
     state = {
-        showSidebar: false
+        showSidebar: false,
+        klasa: 'show'
       }
 
       handleClickButton = () => {
         this.setState({showSidebar: !this.state.showSidebar})
+        if (!this.state.showSidebar) {
+            console.log(document.getElementsByClassName('sidebar-div'))
+        }
+        console.log(!this.state.showSidebar);
+        //.sidebar-div
       }
 
       handleStateCheckbox = (checkboxInput) => {
@@ -24,7 +30,7 @@ export default class Header extends Component {
                 <button className ="button-logo" onClick = {this.handleClickButton}><img className="listlogo" src={listlogo}/></button>
                 <Nav className="mr-auto navbar-pag">GRAD PAG <br />Evidencija Komunalne infrastrukture</Nav>
             </Navbar>
-            <Sidebar showSidebar = {this.state.showSidebar} OnMessageOut={this.handleStateCheckbox}/>
+            <Sidebar showSidebar = {this.state.showSidebar}   OnMessageOut={this.handleStateCheckbox} />
         </div>
     )
 }
