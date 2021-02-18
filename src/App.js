@@ -306,7 +306,7 @@ export default function SimpleExample() {
       <>
         <Header checkboxState={handleCheckboxLayer}/>
 
-        <Map className="markercluster-map" center={[44.442669, 15.054280]} zoom={13} ref={mapRef} maxZoom={25} minZoom={10}>
+        <Map className="markercluster-map" center={[44.442669, 15.054280]} zoom={13} ref={mapRef} maxZoom={25} minZoom={10} maxBounds={maxBounds}>
           <LayersControl position="topright">
             <LayersControl.BaseLayer checked name="OpenStreetMap">
               <TileLayer
