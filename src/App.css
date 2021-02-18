@@ -216,3 +216,79 @@ div .buttonabsolute:last-child {
 .leaflet-tooltip-right {
   margin-left: 10px;
 }
+
+/* Customize the Clustered Markers */
+.marker-cluster-custom-1 {
+  background: #1f78b4;
+  border: 3px solid #ffffff81;
+  border-radius: 50%;
+  color: white;
+  height: 40px;
+  line-height: 37px;
+  text-align: center;
+  width: 40px;
+}
+
+.marker-cluster-custom-2 {
+  background: #e84c54;
+  border: 3px solid #c4091280;
+  border-radius: 50%;
+  color: white;
+  height: 40px;
+  line-height: 37px;
+  text-align: center;
+  width: 40px;
+}
+.marker-cluster-custom-3 {
+  background: #18af18;
+  border: 3px solid rgba(90, 90, 90, 0.397);
+  border-radius: 50%;
+  color: white;
+  height: 40px;
+  line-height: 37px;
+  text-align: center;
+  width: 40px;
+}
+
+.marker-cluster-custom-4 {
+  background: #d53fc9;
+  border: 3px solid rgba(90, 90, 90, 0.397);
+  border-radius: 50%;
+  color: white;
+  height: 40px;
+  line-height: 37px;
+  text-align: center;
+  width: 40px;
+}
+
+.marker-cluster-custom-5 {
+  background: rgb(32, 32, 32);
+  border: 3px solid rgba(201, 198, 198, 0.397);
+  border-radius: 50%;
+  color: white;
+  height: 40px;
+  line-height: 37px;
+  text-align: center;
+  width: 40px;
+}
+.marker-cluster-custom-6 {
+  background: #32c7c5;
+  border: 3px solid rgba(90, 90, 90, 0.397);
+  border-radius: 50%;
+  color: white;
+  height: 40px;
+  line-height: 37px;
+  text-align: center;
+  width: 40px;
+}
+
+.marker-cluster-custom-7 {
+  background: #f5ee30;
+  border: 3px solid rgba(90, 90, 90, 0.397);
+  border-radius: 50%;
+  color: black;
+  height: 40px;
+  line-height: 37px;
+  text-align: center;
+  width: 40px;
+}

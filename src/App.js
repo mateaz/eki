@@ -19,6 +19,8 @@ import * as lokalneceste from "./data/javneceste/lokalneceste.json";
 import * as zupanijskeceste from "./data/javneceste/zupanijskeceste.json";
 
 import MarkerClusterGroup from 'react-leaflet-markercluster';
+import L from 'leaflet';
+
 
 
 
@@ -253,12 +255,58 @@ export default function SimpleExample() {
       return data;
     })
 
+    const createClusterCustomIcon = function (cluster) {
+      if (this.id === "rasvjeta1") {
+        return L.divIcon({
+          html: `<span>${cluster.getChildCount()}</span>`,
+          className: 'marker-cluster-custom-1',
+          iconSize: L.point(40, 40, true),
+          });
+      } else if (this.id === "rasvjeta2") {
+      return L.divIcon({
+        html: `<span>${cluster.getChildCount()}</span>`,
+        className: 'marker-cluster-custom-2',
+        iconSize: L.point(40, 40, true),
+        });
+      } else if (this.id === "rasvjeta3") {
+      return L.divIcon({
+        html: `<span>${cluster.getChildCount()}</span>`,
+        className: 'marker-cluster-custom-3',
+        iconSize: L.point(40, 40, true),
+        });
+      } else if (this.id === "rasvjeta4") {
+        return L.divIcon({
+          html: `<span>${cluster.getChildCount()}</span>`,
+          className: 'marker-cluster-custom-4',
+          iconSize: L.point(40, 40, true),
+          });
+      } else if (this.id === "rasvjeta5") {
+        return L.divIcon({
+          html: `<span>${cluster.getChildCount()}</span>`,
+          className: 'marker-cluster-custom-5',
+          iconSize: L.point(40, 40, true),
+          });
+      } else if (this.id === "rasvjeta6") {
+        return L.divIcon({
+          html: `<span>${cluster.getChildCount()}</span>`,
+          className: 'marker-cluster-custom-6',
+          iconSize: L.point(40, 40, true),
+          });
+      } else if (this.id === "rasvjeta7") {
+        return L.divIcon({
+          html: `<span>${cluster.getChildCount()}</span>`,
+          className: 'marker-cluster-custom-7',
+          iconSize: L.point(40, 40, true),
+          });
+       }
+      
+    };
 
     return (
       <>
         <Header checkboxState={handleCheckboxLayer}/>
 
-        <Map center={[44.442669, 15.054280]} zoom={13} ref={mapRef} >
+        <Map className="markercluster-map" center={[44.442669, 15.054280]} zoom={13} ref={mapRef} maxZoom={25} minZoom={10}>
           <LayersControl position="topright">
             <LayersControl.BaseLayer checked name="OpenStreetMap">
               <TileLayer
@@ -328,7 +376,7 @@ export default function SimpleExample() {
             </Overlay>
 
             <Overlay name="rasvjeta 1">
-              <MarkerClusterGroup ref={rasvjeta1InputRef}>
+              <MarkerClusterGroup ref={rasvjeta1InputRef} id="rasvjeta1" iconCreateFunction={createClusterCustomIcon}>
                 {rasvjeta1.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -349,7 +397,7 @@ export default function SimpleExample() {
               </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 2">
-              <MarkerClusterGroup ref={rasvjeta2InputRef}>
+              <MarkerClusterGroup ref={rasvjeta2InputRef} id="rasvjeta2" iconCreateFunction={createClusterCustomIcon}>
                 {rasvjeta2.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -370,7 +418,7 @@ export default function SimpleExample() {
               </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 3">
-              <MarkerClusterGroup ref={rasvjeta3InputRef}>
+              <MarkerClusterGroup ref={rasvjeta3InputRef} id="rasvjeta3" iconCreateFunction={createClusterCustomIcon}>
                 {rasvjeta3.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -391,7 +439,7 @@ export default function SimpleExample() {
               </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 4">
-              <MarkerClusterGroup ref={rasvjeta4InputRef}>
+              <MarkerClusterGroup ref={rasvjeta4InputRef} id="rasvjeta4" iconCreateFunction={createClusterCustomIcon}>
                 {rasvjeta4.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -412,13 +460,13 @@ export default function SimpleExample() {
               </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 5">
-              <MarkerClusterGroup ref={rasvjeta5InputRef}>
+              <MarkerClusterGroup ref={rasvjeta5InputRef} id="rasvjeta5" iconCreateFunction={createClusterCustomIcon}>
                 {rasvjeta5.map((elem, i) => {
                 return (
                 <CircleMarker 
                     key = {i}
                     center={{lat: elem.geometry.coordinates[1], lng: elem.geometry.coordinates[0]}}
-                    fillColor="#000000" 
+                    fillColor="black" 
                     color="black"
                     opacity= {1}
                     weight={1}
@@ -433,7 +481,7 @@ export default function SimpleExample() {
               </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 6">
-              <MarkerClusterGroup ref={rasvjeta6InputRef}>
+              <MarkerClusterGroup ref={rasvjeta6InputRef} id="rasvjeta6" iconCreateFunction={createClusterCustomIcon}>
                 {rasvjeta6.map((elem, i) => {
                 return (
                 <CircleMarker
@@ -454,7 +502,7 @@ export default function SimpleExample() {
               </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta sss">
-              <MarkerClusterGroup ref={rasvjeta7InputRef}>
+              <MarkerClusterGroup ref={rasvjeta7InputRef} id="rasvjeta7" iconCreateFunction={createClusterCustomIcon}>
                 {rasvjeta7.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -473,8 +521,6 @@ export default function SimpleExample() {
               })}
               </MarkerClusterGroup>
             </Overlay>
-
-
           </LayersControl>
         </Map>
       </>
