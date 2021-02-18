@@ -18,6 +18,9 @@ import * as drzavneceste from "./data/javneceste/drzavneceste.json";
 import * as lokalneceste from "./data/javneceste/lokalneceste.json";
 import * as zupanijskeceste from "./data/javneceste/zupanijskeceste.json";
 
+import MarkerClusterGroup from 'react-leaflet-markercluster';
+
+
 
 
 const { Overlay } = LayersControl;
@@ -325,7 +328,7 @@ export default function SimpleExample() {
             </Overlay>
 
             <Overlay name="rasvjeta 1">
-              <LayerGroup ref={rasvjeta1InputRef}>
+              <MarkerClusterGroup ref={rasvjeta1InputRef}>
                 {rasvjeta1.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -343,10 +346,10 @@ export default function SimpleExample() {
                 </CircleMarker>
                 )
               })}
-              </LayerGroup>
+              </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 2">
-              <LayerGroup ref={rasvjeta2InputRef}>
+              <MarkerClusterGroup ref={rasvjeta2InputRef}>
                 {rasvjeta2.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -364,10 +367,10 @@ export default function SimpleExample() {
                 </CircleMarker>
                 )
               })}
-              </LayerGroup>
+              </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 3">
-              <LayerGroup ref={rasvjeta3InputRef}>
+              <MarkerClusterGroup ref={rasvjeta3InputRef}>
                 {rasvjeta3.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -385,10 +388,10 @@ export default function SimpleExample() {
                 </CircleMarker>
                 )
               })}
-              </LayerGroup>
+              </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 4">
-              <LayerGroup ref={rasvjeta4InputRef}>
+              <MarkerClusterGroup ref={rasvjeta4InputRef}>
                 {rasvjeta4.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -406,10 +409,10 @@ export default function SimpleExample() {
                 </CircleMarker>
                 )
               })}
-              </LayerGroup>
+              </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 5">
-              <LayerGroup ref={rasvjeta5InputRef}>
+              <MarkerClusterGroup ref={rasvjeta5InputRef}>
                 {rasvjeta5.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -427,10 +430,10 @@ export default function SimpleExample() {
                 </CircleMarker>
                 )
               })}
-              </LayerGroup>
+              </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 6">
-              <LayerGroup ref={rasvjeta6InputRef}>
+              <MarkerClusterGroup ref={rasvjeta6InputRef}>
                 {rasvjeta6.map((elem, i) => {
                 return (
                 <CircleMarker
@@ -448,10 +451,10 @@ export default function SimpleExample() {
                 </CircleMarker>
                 )
               })}
-              </LayerGroup>
+              </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta sss">
-              <LayerGroup ref={rasvjeta7InputRef}>
+              <MarkerClusterGroup ref={rasvjeta7InputRef}>
                 {rasvjeta7.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -468,7 +471,7 @@ export default function SimpleExample() {
                 </CircleMarker>
                 )
               })}
-              </LayerGroup>
+              </MarkerClusterGroup>
             </Overlay>
 
 
