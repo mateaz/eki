@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "odlagalista_otpada",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Id": 1, "Oznaka": "6-GJN", "Vrsta": "Zeleni otok", "Naziv": null, "Kat opcina": "Povljana", "Naselje": "Smokvica", "kcbr": "327\/1", "osn kc": "327\/1", "Vlasnistvo": "14", "Upravitelj": null, "Vektoriz.": 1, "zkc": "327\/1", "MBR K.O": 321559 }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 15.188465923957994, 44.321169067963112 ], [ 15.188568807662596, 44.321147873287487 ], [ 15.188552584218844, 44.321100302422231 ], [ 15.188447691308118, 44.321123377772018 ], [ 15.188465923957994, 44.321169067963112 ] ] ] ] } }
+]
+}

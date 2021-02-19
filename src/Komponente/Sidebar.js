@@ -24,6 +24,7 @@ export default class  Sidebar extends Component{
         rasvjeta5Input: false,
         rasvjeta6Input: false,
         rasvjeta7Input: false,
+        grobljaInput: false,
     }
 
     toggleChange = (evt) => {  

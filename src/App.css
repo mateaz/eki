@@ -209,8 +209,11 @@ div .buttonabsolute:last-child {
 
 .leaflet-tooltip {
   border: none;
-  background: none;
+  /*background: unset;*/
+  background: rgba(255, 255, 255, 0.589);
+  padding: 2px;
   box-shadow: none;
+  font-weight: 700;
 }
 
 .leaflet-tooltip-right {

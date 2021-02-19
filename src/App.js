@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./Komponente/Header"; 
 
 import './App.css';
-import { Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup, CircleMarker, Popup, Tooltip} from 'react-leaflet';
+import { Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup, CircleMarker, Polygon, Tooltip} from 'react-leaflet';
 
 import * as ceste from "./data/javne_ceste_wgs.json";
 
@@ -12,6 +12,8 @@ import * as bosana_nc from "./data/bosana_nc.json";
 import * as gorica_nc from "./data/gorica_nz.json";
 import * as kosljun_nc from "./data/kosljun_nc.json";
 import * as rasvjeta from "./data/rasvjeta.json";
+import * as groblja from "./data/groblja_krematoriji.json";
+
 
 
 import * as drzavneceste from "./data/javneceste/drzavneceste.json";
@@ -67,11 +69,26 @@ export default function SimpleExample() {
     const rasvjeta5InputRef = useRef();
     const rasvjeta6InputRef = useRef();
     const rasvjeta7InputRef = useRef();
+    const grobljaInputRef = useRef();
 
 
 
     const handleCheckboxLayer = (checkboxProps) => {
       let a = checkboxProps.target;
+
+      if ('grobljaInputRef'.includes(a)) {
+        let layerAdd = grobljaInputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && grobljaInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && grobljaInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+
+
 
       if ('rasvjeta1InputRef'.includes(a)) {
         let layerAdd = rasvjeta1InputRef.current.leafletElement;
@@ -306,7 +323,7 @@ export default function SimpleExample() {
       <>
         <Header checkboxState={handleCheckboxLayer}/>
 
-        <Map className="markercluster-map" center={[44.442669, 15.054280]} zoom={13} ref={mapRef} maxZoom={25} minZoom={10} maxBounds={maxBounds}>
+        <Map className="markercluster-map" center={[44.442669, 15.054280]} zoom={13} ref={mapRef} maxZoom={25} minZoom={10}/* maxBounds={(45, 14), (43, 16)}*/>
           <LayersControl position="topright">
             <LayersControl.BaseLayer checked name="OpenStreetMap">
               <TileLayer
@@ -376,7 +393,7 @@ export default function SimpleExample() {
             </Overlay>
 
             <Overlay name="rasvjeta 1">
-              <MarkerClusterGroup ref={rasvjeta1InputRef} id="rasvjeta1" iconCreateFunction={createClusterCustomIcon}>
+              <MarkerClusterGroup ref={rasvjeta1InputRef} id="rasvjeta1" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={17}>
                 {rasvjeta1.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -397,7 +414,7 @@ export default function SimpleExample() {
               </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 2">
-              <MarkerClusterGroup ref={rasvjeta2InputRef} id="rasvjeta2" iconCreateFunction={createClusterCustomIcon}>
+              <MarkerClusterGroup ref={rasvjeta2InputRef} id="rasvjeta2" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={16}>
                 {rasvjeta2.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -418,7 +435,7 @@ export default function SimpleExample() {
               </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 3">
-              <MarkerClusterGroup ref={rasvjeta3InputRef} id="rasvjeta3" iconCreateFunction={createClusterCustomIcon}>
+              <MarkerClusterGroup ref={rasvjeta3InputRef} id="rasvjeta3" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={16}>
                 {rasvjeta3.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -439,7 +456,7 @@ export default function SimpleExample() {
               </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 4">
-              <MarkerClusterGroup ref={rasvjeta4InputRef} id="rasvjeta4" iconCreateFunction={createClusterCustomIcon}>
+              <MarkerClusterGroup ref={rasvjeta4InputRef} id="rasvjeta4" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={16}>
                 {rasvjeta4.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -460,7 +477,7 @@ export default function SimpleExample() {
               </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 5">
-              <MarkerClusterGroup ref={rasvjeta5InputRef} id="rasvjeta5" iconCreateFunction={createClusterCustomIcon}>
+              <MarkerClusterGroup ref={rasvjeta5InputRef} id="rasvjeta5" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={17}>
                 {rasvjeta5.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -481,7 +498,7 @@ export default function SimpleExample() {
               </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta 6">
-              <MarkerClusterGroup ref={rasvjeta6InputRef} id="rasvjeta6" iconCreateFunction={createClusterCustomIcon}>
+              <MarkerClusterGroup ref={rasvjeta6InputRef} id="rasvjeta6" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={18}>
                 {rasvjeta6.map((elem, i) => {
                 return (
                 <CircleMarker
@@ -502,7 +519,7 @@ export default function SimpleExample() {
               </MarkerClusterGroup>
             </Overlay>
             <Overlay name="rasvjeta sss">
-              <MarkerClusterGroup ref={rasvjeta7InputRef} id="rasvjeta7" iconCreateFunction={createClusterCustomIcon}>
+              <MarkerClusterGroup ref={rasvjeta7InputRef} id="rasvjeta7" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={18}>
                 {rasvjeta7.map((elem, i) => {
                 return (
                 <CircleMarker 
@@ -520,6 +537,24 @@ export default function SimpleExample() {
                 )
               })}
               </MarkerClusterGroup>
+            </Overlay>
+            <Overlay name="fffff sss">
+              <LayerGroup ref={grobljaInputRef}>
+                {groblja.features.map((elem, i) => {
+                return (
+                <Polygon 
+                    key = {i}
+                    positions={{lat: elem.geometry.coordinates[1], lng: elem.geometry.coordinates[0]}}
+                   // fillColor="#e9e335"
+                    color="black"
+                    weight={1}
+                    opacity= {1}
+                    fillOpacity= {1}
+                    radius={5}>
+                </Polygon>
+                  )
+                })}
+              </LayerGroup>
             </Overlay>
           </LayersControl>
         </Map>
