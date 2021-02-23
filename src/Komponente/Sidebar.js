@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SidebarContent from './SidebarContent';
 import Checkbox from './Checkbox';
-import { faCaretRight, faCaretDown, faRoad, faCity, faArchive } from '@fortawesome/free-solid-svg-icons';
-import * as rasvjeta from "../data/rasvjeta.json";
-
+import { faChevronRight, faChevronDown, faRoad, faCity, faArchive } from '@fortawesome/free-solid-svg-icons';
 
 export default class  Sidebar extends Component{
     state = {
@@ -87,8 +85,8 @@ export default class  Sidebar extends Component{
 
    render() {
 
-    const incompleteIcon =  <span className="span_icon"><FontAwesomeIcon icon={faCaretDown} /></span>;
-    const completeIcon = <span className="span_icon"><FontAwesomeIcon icon={faCaretRight} /></span>;
+    const incompleteIcon =  <span className="span_icon"><FontAwesomeIcon icon={faChevronDown} /></span>;
+    const completeIcon = <span className="span_icon"><FontAwesomeIcon icon={faChevronRight} /></span>;
 
     return (
         <div> 

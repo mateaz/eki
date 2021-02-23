@@ -29,6 +29,7 @@ export default class Header extends Component {
             <Navbar bg="light" expand="lg">
                 <button className ="button-logo" onClick = {this.handleClickButton}><img className="listlogo" src={listlogo}/></button>
                 <Nav className="mr-auto navbar-pag">GRAD PAG <br />Evidencija Komunalne infrastrukture</Nav>
+                <Nav className="navbar-pag">sadas</Nav>
             </Navbar>
             <Sidebar showSidebar = {this.state.showSidebar}   OnMessageOut={this.handleStateCheckbox} />
         </div>

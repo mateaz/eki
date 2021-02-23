@@ -8,7 +8,8 @@ export default class Checkbox extends Component{
         <form>
             <label>
                 <input type="checkbox" name={this.props.name} checked={this.props.checked} onChange={this.props.Change}/>
-                {this.props.nameCheckbox}
+                <span >{this.props.nameCheckbox}</span>
+                
             </label>
         </form>
     )
