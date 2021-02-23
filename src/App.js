@@ -76,6 +76,10 @@ export default function SimpleExample() {
     })
 
     const mapRef = useRef();
+
+    const OSMRef = useRef();
+    const DOFRef = useRef();
+
     const javneCesteDrzavneInputRef = useRef();
     const javneCesteZupanijskeInputRef = useRef();
     const javneCesteLokalneInputRef = useRef();
@@ -120,8 +124,35 @@ export default function SimpleExample() {
 
 
     const handleCheckboxLayer = (checkboxProps) => {
+      //console.log(checkboxProps)
       let a = checkboxProps.target;
       
+
+
+      if ('OSMRef'.includes(a)) {
+        let layerAdd = OSMRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && OSMRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && OSMRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+
+      if ('DOFRef'.includes(a)) {
+        let layerAdd = DOFRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && DOFRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && DOFRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+
       if ('stajalistaPrijevozInputRef'.includes(a)) {
         let layerAdd = stajalistaPrijevozInputRef.current.leafletElement;
         if (checkboxProps.checked && mapRef.current && stajalistaPrijevozInputRef.current) {
@@ -511,9 +542,9 @@ export default function SimpleExample() {
         }
       };
 
-      setCheckedCeste({[checkboxProps.target]: checkboxProps.checked});
+     // setCheckedCeste({[checkboxProps.target]: checkboxProps.checked});
 
-      console.log({[checkboxProps.target]:checkboxProps.checked})
+      //console.log({[checkboxProps.target]:checkboxProps.checked})
 
     };
     
@@ -599,13 +630,13 @@ export default function SimpleExample() {
 
         <Map className="markercluster-map" center={[44.442669, 15.054280]} zoom={13} ref={mapRef} maxZoom={25} minZoom={10}/* maxBounds={(45, 14), (43, 16)}*/>
           <LayersControl position="topright">
-            <LayersControl.BaseLayer checked name="OpenStreetMap">
+            <LayersControl.BaseLayer checked name="OpenStreetMap" ref={OSMRef}>
               <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
             </LayersControl.BaseLayer>
-            <LayersControl.BaseLayer name="DOF 2014-2016">
+            <LayersControl.BaseLayer name="DOF 2014-2016" ref={DOFRef}>
               <WMSTileLayer
                 format="image/png"
                 layers= "OI.OrthoImagery"

@@ -54,8 +54,7 @@ export default class  Sidebar extends Component{
         let checkboxProps = Object.create(a);
           
         checkboxProps.target = evt.target.name;
-        checkboxProps.checked = evt.target.checked ;
-        console.log(checkboxProps)
+        checkboxProps.checked = evt.target.checked;
         this.props.OnMessageOut(checkboxProps);
       }
     

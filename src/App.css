@@ -60,6 +60,10 @@ body {
   box-shadow: 4px 4px 6px 0px #00000061;
 }
 
+button:focus {
+  outline: unset!important;
+}
+
 .button-logo {
   margin: 0;
   padding: 12px;
@@ -313,9 +317,41 @@ div .buttonabsolute:last-child {
 :checked + span {
   font-weight: bold;
 }
+.baselayers {
+  display: flex;
+  flex-basis: 100%;
+  justify-content: space-evenly;
+  flex-direction: row;
+  align-items: center;
+}
 
+.mapBaseLayers{
+  border: unset;
+  background-color: unset;
+  color: #2e6ca4;
+  cursor: pointer;
+  flex-basis: 33%;
+  width: 3vw;
+  height: 65px;
+}
+.mapBaseLayers:hover {
+  background-color: #d1e1e9;
+}
 
-
+.mapBaseLayers svg {
+  width: 48px!important;
+  height: 28px!important;
+}
 /*input[type="checkbox"] { 
   filter: invert(100%) hue-rotate(18deg) brightness(1.7);
 }*/
+
+/*
+PANEL
+*/
+.mypanel {
+  position: absolute;
+  top: 65px;
+  right: 115px;
+  box-shadow: 0px 0px 9px 2px #00000061;
+}

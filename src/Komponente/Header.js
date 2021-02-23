@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import listlogo from '../img/list-znak_small.png';
 import { Navbar, Nav} from 'react-bootstrap';
+import Information from './Information';
 import Sidebar from './Sidebar';
 
 export default class Header extends Component {
@@ -11,10 +12,10 @@ export default class Header extends Component {
 
       handleClickButton = () => {
         this.setState({showSidebar: !this.state.showSidebar})
-        if (!this.state.showSidebar) {
+      /* if (!this.state.showSidebar) {
             console.log(document.getElementsByClassName('sidebar-div'))
         }
-        console.log(!this.state.showSidebar);
+        console.log(!this.state.showSidebar);*/
         //.sidebar-div
       }
 
@@ -29,9 +30,11 @@ export default class Header extends Component {
             <Navbar bg="light" expand="lg">
                 <button className ="button-logo" onClick = {this.handleClickButton}><img className="listlogo" src={listlogo}/></button>
                 <Nav className="mr-auto navbar-pag">GRAD PAG <br />Evidencija Komunalne infrastrukture</Nav>
-                <Nav className="navbar-pag">sadas</Nav>
+                <Nav className="navbar-pag">
+                    <Information OnInformationOut={this.handleStateCheckbox}/>
+                </Nav>
             </Navbar>
-            <Sidebar showSidebar = {this.state.showSidebar}   OnMessageOut={this.handleStateCheckbox} />
+            <Sidebar showSidebar = {this.state.showSidebar}  OnMessageOut={this.handleStateCheckbox} />
         </div>
     )
 }
