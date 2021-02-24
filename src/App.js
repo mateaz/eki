@@ -124,28 +124,30 @@ export default function SimpleExample() {
 
 
     const handleCheckboxLayer = (checkboxProps) => {
-      //console.log(checkboxProps)
+      console.log(checkboxProps)
       let a = checkboxProps.target;
       
 
 
       if ('OSMRef'.includes(a)) {
         let layerAdd = OSMRef.current.leafletElement;
+        let layerRemove = DOFRef.current.leafletElement;
         if (checkboxProps.checked && mapRef.current && OSMRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          map.removeLayer(layerRemove);
         }
         else if (!checkboxProps.checked && mapRef.current && OSMRef.current) {
           const map = mapRef.current.leafletElement;
           map.removeLayer(layerAdd);
         }
-      };
-
-      if ('DOFRef'.includes(a)) {
+      } else if ('DOFRef'.includes(a)) {
         let layerAdd = DOFRef.current.leafletElement;
+        let layerRemove = OSMRef.current.leafletElement;
         if (checkboxProps.checked && mapRef.current && DOFRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          map.removeLayer(layerRemove);
         }
         else if (!checkboxProps.checked && mapRef.current && DOFRef.current) {
           const map = mapRef.current.leafletElement;
@@ -630,14 +632,14 @@ export default function SimpleExample() {
 
         <Map className="markercluster-map" center={[44.442669, 15.054280]} zoom={13} ref={mapRef} maxZoom={25} minZoom={10}/* maxBounds={(45, 14), (43, 16)}*/>
           <LayersControl position="topright">
-            <LayersControl.BaseLayer checked name="OpenStreetMap" ref={OSMRef}>
-              <TileLayer
+            <LayersControl.BaseLayer checked name="OpenStreetMap" >
+              <TileLayer ref={OSMRef}
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
             </LayersControl.BaseLayer>
-            <LayersControl.BaseLayer name="DOF 2014-2016" ref={DOFRef}>
-              <WMSTileLayer
+            <LayersControl.BaseLayer  name="DOF 2014-2016" >
+              <WMSTileLayer ref={DOFRef}
                 format="image/png"
                 layers= "OI.OrthoImagery"
                 url="https://geoportal.dgu.hr/services/inspire/orthophoto_2014-2016/wms"

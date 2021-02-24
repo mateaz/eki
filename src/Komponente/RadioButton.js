@@ -5,12 +5,11 @@ export default class RadioButton extends Component{
     
    render() {
     return (
-        <form>
+        <form className="radiobutton">
             <label>
                 <input type="radio" name={this.props.name} checked={this.props.checked} onChange={this.props.Change}/>
-                <span >{this.props.nameCheckbox}</span>
+                <span>{this.props.nameCheckbox}</span>
             </label>
         </form>
     )
-}
-}
+}}

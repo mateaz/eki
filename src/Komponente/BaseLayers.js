@@ -5,8 +5,19 @@ import RadioButton from './RadioButton';
 
 export default class BaseLayers extends Component {
     state = {
-        selectedOption: "OSM"
+        selectedOption: ""
     }
+
+    componentDidMount() {
+        this.setState({selectedOption: "OSM"})
+        console.log('mount')
+    }
+
+   /* componentDidUpdate() {
+        console.log(this.state.selectedOption)
+        //this.setState({selectedOption: this.state.selectedOption})
+    }*/
+   
 
     handleChangeCheckBox = (event) => {
 
@@ -16,12 +27,11 @@ export default class BaseLayers extends Component {
           
         checkboxProps.target = event.target.name;
         checkboxProps.checked = event.target.checked;
-
-        console.log(event.target.name)
         
         this.setState({selectedOption: event.target.name });
         this.props.checkboxMap(checkboxProps);
     }
+
     render () {
 
     return (
@@ -31,6 +41,7 @@ export default class BaseLayers extends Component {
                     <RadioButton 
                         nameCheckbox="OpenStreetMap"
                         name="OSM"
+                       /* ikonica = {this.state.activeItem === "pag" ? incompleteIcon: completeIcon}*/
                         checked={this.state.selectedOption === "OSM"}
                         Change={this.handleChangeCheckBox.bind(this)}
                     />
@@ -39,6 +50,7 @@ export default class BaseLayers extends Component {
                     <RadioButton 
                         nameCheckbox="DOF 2014-2016"
                         name="DOF"
+                      /*  checked={this.state.selectedOption === "DOF"}*/
                         checked={this.state.selectedOption === "DOF"}
                         Change={this.handleChangeCheckBox.bind(this)}
                     />
@@ -46,5 +58,4 @@ export default class BaseLayers extends Component {
             </ListGroup>
         </Card>
     )
-}
-}
+}}
