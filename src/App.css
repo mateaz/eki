@@ -374,3 +374,7 @@ LEAFLET LAYERS CONTROL
 .paglogo a img {
   height: 38px!important;
 }
+
+.test {
+  display: none;
+}

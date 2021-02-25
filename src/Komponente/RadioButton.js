@@ -7,7 +7,7 @@ export default class RadioButton extends Component{
     return (
         <form className="radiobutton">
             <label>
-                <input type="radio" name={this.props.name} checked={this.props.checked} onChange={this.props.Change}/>
+                <input type="radio" value={this.props.value} checked={this.props.checked} onChange={this.props.Change}/>
                 <span>{this.props.nameCheckbox}</span>
             </label>
         </form>

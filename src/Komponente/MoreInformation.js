@@ -58,13 +58,16 @@ export default class MoreInformation extends Component {
 
     render () {
 
+    let showPanel = this.state.showPanel ? null : "test";
+
     return (
         <div className="baselayers" ref={this.wrapperRef}>
             <button className="mapBaseLayers" onClick = {() => this.handleButtonClick('mapa')}>
                 <FontAwesomeIcon icon={faMap}/>
             </button>
-           {this.state.showPanel === 'mapa' && <BaseLayers  checkboxMap={this.handlecheckboxMap}/>}
-
+            <div className={showPanel} >
+                <BaseLayers checkboxMap={this.handlecheckboxMap}/>
+            </div>
             <button className="mapBaseLayers" onClick = {this.handleClickClose}>
                 <FontAwesomeIcon icon={faInfoCircle}/>
             </button>
