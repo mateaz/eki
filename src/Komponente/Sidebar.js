@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SidebarContent from './SidebarContent';
 import Checkbox from './Checkbox';
 import { faChevronRight, faChevronDown, faRoad, faCity, faArchive } from '@fortawesome/free-solid-svg-icons';
+import ModalTable from './ModalTable';
 
 export default class  Sidebar extends Component{
     state = {
@@ -93,9 +94,10 @@ export default class  Sidebar extends Component{
             <div className="sidebar-div" id="sidebar-div">
                 <div className="sidebar-nav-menu">
                     <div className={`sidebar-nav-menu-item ${this.state.activeCollapse === "javneceste" ? 'item-active' : ''}`}  data-id="javneceste">
-                        <div className="sidebar-nav-menu-item-head" onClick={() => this.handleExpandCollaps("javneceste")}>
-                            <span className="span_icon"><FontAwesomeIcon icon={faArchive} /></span>
-                            <span className="sidebar-nav-menu-item-head-title">Javne ceste</span>
+                        <div className="sidebar-nav-menu-item-head" >
+                            <span className="span_icon" onClick={() => this.handleExpandCollaps("javneceste")}><FontAwesomeIcon icon={faArchive} /></span>
+                            <span className="sidebar-nav-menu-item-head-title" onClick={() => this.handleExpandCollaps("javneceste")}>Javne ceste</span>
+                            {this.state.activeCollapse === "javneceste" ? <ModalTable /> : null}
                         </div>
                         <div className="sidebar-nav-menu-item-body">
                             <div>

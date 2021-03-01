@@ -16,6 +16,6 @@ export default function Information({handleClose, show}) {
                     Zatvori
                 </Button>
             </Modal.Footer>
-      </Modal>
+        </Modal>
     )
 }

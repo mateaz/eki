@@ -33,7 +33,6 @@ export default class BaseLayers extends Component {
                     <RadioButton 
                         nameCheckbox="OpenStreetMap"
                         value="OSM"
-                       /* ikonica = {this.state.activeItem === "pag" ? incompleteIcon: completeIcon}*/
                         checked={this.state.selectedOption==="OSM"}
                         Change={(event)=> this.handleChangeCheckBox(event)}
                     />
@@ -42,7 +41,6 @@ export default class BaseLayers extends Component {
                     <RadioButton 
                         nameCheckbox="DOF 2014-2016"
                         value="DOF"
-                      /*  checked={this.state.selectedOption === "DOF"}*/
                         checked={this.state.selectedOption==="DOF"}
                         Change={(event)=> this.handleChangeCheckBox(event)}
                     />

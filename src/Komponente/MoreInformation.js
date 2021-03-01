@@ -58,7 +58,7 @@ export default class MoreInformation extends Component {
 
     render () {
 
-    let showPanel = this.state.showPanel ? null : "test";
+    let showPanel = this.state.showPanel ? null : "panelMap";
 
     return (
         <div className="baselayers" ref={this.wrapperRef}>
