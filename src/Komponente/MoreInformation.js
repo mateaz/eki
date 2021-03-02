@@ -13,7 +13,6 @@ export default class MoreInformation extends Component {
         super(props);
 
         this.wrapperRef = React.createRef();
-        this.setWrapperRef = this.setWrapperRef;
         this.handleClickOutside = this.handleClickOutside.bind(this);
         this.state = {
             showPanel: '',

@@ -97,7 +97,6 @@ export default class  Sidebar extends Component{
                         <div className="sidebar-nav-menu-item-head" >
                             <span className="span_icon" onClick={() => this.handleExpandCollaps("javneceste")}><FontAwesomeIcon icon={faArchive} /></span>
                             <span className="sidebar-nav-menu-item-head-title" onClick={() => this.handleExpandCollaps("javneceste")}>Javne ceste</span>
-                            {this.state.activeCollapse === "javneceste" ? <ModalTable /> : null}
                         </div>
                         <div className="sidebar-nav-menu-item-body">
                             <div>
@@ -128,9 +127,10 @@ export default class  Sidebar extends Component{
                     </div>
 
                     <div className={`sidebar-nav-menu-item ${this.state.activeCollapse === "registar" ? 'item-active' : ''}`}  data-id="registar" >
-                        <div className="sidebar-nav-menu-item-head" onClick={() => this.handleExpandCollaps("registar")}>
-                            <span className="span_icon"><FontAwesomeIcon icon={faRoad} /></span>
-                            <span className="sidebar-nav-menu-item-head-title">Registar nerazvrstanih cesta</span>
+                        <div className="sidebar-nav-menu-item-head">
+                            <span className="span_icon"  onClick={() => this.handleExpandCollaps("registar")}><FontAwesomeIcon icon={faRoad} /></span>
+                            <span className="sidebar-nav-menu-item-head-title"  onClick={() => this.handleExpandCollaps("registar")}>Registar nerazvrstanih cesta</span>
+                            {this.state.activeCollapse === "registar" ? <ModalTable /> : null}
                         </div>
                         <div className="sidebar-nav-menu-item-body">
                             <SidebarContent

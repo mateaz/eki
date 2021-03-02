@@ -1,19 +1,38 @@
-import React from 'react';
-import {Modal, Button} from 'react-bootstrap';
+import React from "react";
+import {Modal, Button} from "react-bootstrap";
+import DataTable from "react-data-table-component";
+import DataTableExtensions from "react-data-table-component-extensions";
+import {MdArrowDownward} from "react-icons/md";
+import "react-data-table-component-extensions/dist/index.css";
+
+import {columns, data} from "./datatable";
 
 export default function Table({handleClose, show}) {
+    const tableData = {
+        columns,
+        data
+      };
    
-    return(
+    return (
         <Modal show={show} onHide={handleClose} backdrop="static">
-            <Modal.Header closeButton>
-                <Modal.Title>Modal heading</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+            <Modal.Body>
+                <DataTableExtensions {...tableData} export={false} print={false} filterPlaceholder="Pretraži">
+                    <DataTable
+                        title="Tablica nerazvrstanih cesta"
+                        columns={columns}
+                        data={data}
+                        sortIcon={<MdArrowDownward />}
+                        pagination
+                        highlightOnHover
+                    />
+                </DataTableExtensions>
+
+            </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" onClick={handleClose}>
-                     close
+                     Zatvori
                 </Button>
             </Modal.Footer>
-          </Modal>
+         </Modal>
         )
 };

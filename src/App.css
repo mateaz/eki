@@ -162,6 +162,9 @@ h1, p {
   font-weight: 600;
   background-color: #d1e1e9;
   border-top-color: #a1adb3;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: normal;
 }
 
 .item-active {
@@ -187,6 +190,7 @@ input[type=checkbox] {
 }
 .sidebar-nav-menu-item-head-title {
   cursor: pointer;
+  flex-basis: 90%;
 }
 
 .head-sidebarcontent{
@@ -384,9 +388,7 @@ LEAFLET LAYERS CONTROL
 }
 
 .ikona_tablica {
-  display: inline-block;
   font-size: 15px;
-  margin-left: 170px;
 }
 
 .tablica_button {
@@ -399,4 +401,26 @@ LEAFLET LAYERS CONTROL
   color: white;
   border-radius: 5px;
   background-color: #1d292f;
+}
+
+.modal-dialog {
+  max-width: 95%!important;
+}
+
+.jpnrBA {
+  font-size: 16px!important;
+}
+
+.jkEUmm:hover {
+  font-weight: 700;
+  opacity: 1!important;
+  color: #2e6ca4!important;
+}
+.gcJCzv {
+  color: #2e6ca4!important;
+  font-weight: 700;
+}
+
+.iQRTBA:hover {
+  background-color: #2e6ca424!important;
 }
