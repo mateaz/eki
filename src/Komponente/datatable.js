@@ -23,6 +23,6 @@ export const columns = [
     },
 ];
 
-export const data = neraz_ceste.features.map((data, i) => {
+export const data = neraz_ceste.features.map((data) => {
     return data.properties;
 })
