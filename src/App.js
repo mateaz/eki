@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./Komponente/Header"; 
 
 import './App.css';
-import { Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup, CircleMarker, Tooltip } from 'react-leaflet';
+import { Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup, CircleMarker, Tooltip, Popup } from 'react-leaflet';
 
 import * as ceste from "./data/javne_ceste_wgs.json";
 
@@ -626,6 +626,15 @@ export default function SimpleExample() {
       
     };
 
+    const onEachFeature = (feature, layer) => {
+      console.log(feature)
+      const popupContent = `Oznaka državne ceste: ${feature.properties.OZNAKA}`;
+      if (feature.properties && feature.properties.popupContent) {
+        popupContent += feature.properties.popupContent;
+      }
+      layer.bindPopup(popupContent);
+    };
+
     return (
       <>
         <Header checkboxState={handleCheckboxLayer}/>
@@ -652,7 +661,7 @@ export default function SimpleExample() {
             <Overlay name="Layer 1">
               <LayerGroup ref={javneCesteDrzavneInputRef}>
                   {drzavneceste.features.map(data => (
-                    <GeoJSON key={data.properties.fid} data={data} color="red"/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" onEachFeature={onEachFeature.bind(this)}/>
                     ))
                   }
               </LayerGroup>

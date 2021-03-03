@@ -424,3 +424,7 @@ LEAFLET LAYERS CONTROL
 .iQRTBA:hover {
   background-color: #2e6ca424!important;
 }
+
+.modal-information .modal-dialog{
+  width: 500px;
+}

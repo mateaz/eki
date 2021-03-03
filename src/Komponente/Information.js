@@ -6,11 +6,11 @@ export default function Information({handleClose, show}) {
 
     
     return (
-        <Modal show={show} onHide={handleClose} >
+        <Modal className="modal-information" show={show} onHide={handleClose} >
             <Modal.Header closeButton>
                 <Modal.Title>EKI GIS aplikacija</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Informacija o aplikaciji</Modal.Body>
+            <Modal.Body>Informacija o aplikaciji. Kratke upute o korištenju aplikacije.</Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                     Zatvori
