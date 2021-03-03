@@ -11,6 +11,9 @@ import * as ceste from "./data/javne_ceste_wgs.json";
 import * as bosana_nc from "./data/bosana_nc.json";
 import * as gorica_nc from "./data/gorica_nz.json";
 import * as kosljun_nc from "./data/kosljun_nc.json";
+
+import * as gradpag from "./data/nerazvrstaneceste/gradpag.json"
+
 import * as rasvjeta from "./data/rasvjeta.json";
 import * as groblja from "./data/groblja_krematoriji.json";
 
@@ -74,6 +77,8 @@ export default function SimpleExample() {
     let lokalne_c = ceste.features.filter(data => data.properties.vrsta === 'lokalna').map((data) => {
       return data;
     })
+
+    const geoJsonRef = useRef();
 
     const mapRef = useRef();
 
@@ -626,13 +631,42 @@ export default function SimpleExample() {
       
     };
 
-    const onEachFeature = (feature, layer) => {
-      console.log(feature)
-      const popupContent = `Oznaka državne ceste: ${feature.properties.OZNAKA}`;
+   const highlightFeature = (e) => {
+      var layer = e.target;
+      layer.setStyle({
+          weight: 5,
+          color: "red",
+          dashArray: "",
+          fillOpacity: 0.7
+      });
+  
+      layer.bringToFront();
+  
+  }
+  
+  const resetHighlight = (e) => {
+    geoJsonRef.current.leafletElement.resetStyle(e.target);
+      //console.log(event.target)
+  }
+
+    const onEachFeatureNerazCeste = (feature, layer) => {
+      const popupContent = `
+        <div class="main-popup-div">
+          <p class="popup-p">Oznaka nerazvrstane ceste: <span class="popup-span">${feature.properties.OZNAKA}</span></p>
+          <p class="popup-p">Naziv ulice: <span class="popup-span">${feature.properties.UL_IME}</span></p>
+          <p class="popup-p">Naziv naselja: <span class="popup-span">${feature.properties.NA_IME}</span></p>
+          <p class="popup-p">Broj katastarske čestice: <span class="popup-span">${feature.properties.KCBR}</span></p>
+          <p class="popup-p">Zastor: <span class="popup-span">${feature.properties.ZASTOR}</span></p>
+        </div>`;
       if (feature.properties && feature.properties.popupContent) {
         popupContent += feature.properties.popupContent;
       }
       layer.bindPopup(popupContent);
+
+      layer.on({
+        mouseover: highlightFeature.bind(this),
+        mouseout: resetHighlight.bind(this)
+    });
     };
 
     return (
@@ -661,7 +695,7 @@ export default function SimpleExample() {
             <Overlay name="Layer 1">
               <LayerGroup ref={javneCesteDrzavneInputRef}>
                   {drzavneceste.features.map(data => (
-                    <GeoJSON key={data.properties.fid} data={data} color="red" onEachFeature={onEachFeature.bind(this)}/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red"/>
                     ))
                   }
               </LayerGroup>
@@ -686,8 +720,8 @@ export default function SimpleExample() {
 
             <Overlay name="Layer 2">
               <LayerGroup ref={cestePagInputRef} >
-                  {bosana_nc.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="pink"/>
+                  {gradpag.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="black" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
               </Overlay>

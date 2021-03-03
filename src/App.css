@@ -428,3 +428,14 @@ LEAFLET LAYERS CONTROL
 .modal-information .modal-dialog{
   width: 500px;
 }
+
+/*POPUP NERAZ CESTE*/
+
+.popup-span {
+  color: #2e6ca4;
+  font-weight: 600;
+}
+
+.popup-p {
+  font-weight: 600;
+}
