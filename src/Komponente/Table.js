@@ -6,6 +6,7 @@ import {MdArrowDownward} from "react-icons/md";
 import "react-data-table-component-extensions/dist/index.css";
 
 import {columns, data} from "./datatable";
+import TestTable from "./TestTable";
 
 export default function Table({handleClose, show}) {
     const tableData = {
@@ -16,16 +17,7 @@ export default function Table({handleClose, show}) {
     return (
         <Modal show={show} onHide={handleClose} backdrop="static">
             <Modal.Body>
-                <DataTableExtensions {...tableData} export={false} print={false} filterPlaceholder="Pretraži">
-                    <DataTable
-                        title="Tablica nerazvrstanih cesta"
-                        columns={columns}
-                        data={data}
-                        sortIcon={<MdArrowDownward />}
-                        pagination
-                        highlightOnHover
-                    />
-                </DataTableExtensions>
+                <TestTable/>
 
             </Modal.Body>
             <Modal.Footer>
