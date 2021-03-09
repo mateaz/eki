@@ -729,7 +729,7 @@ export default function SimpleExample() {
             <Overlay name="Layer 2">
               <LayerGroup ref={cesteMiskoviciInputRef}>
                   {kosljun_nc.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="brown"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
               </Overlay>
@@ -737,7 +737,7 @@ export default function SimpleExample() {
             <Overlay name="Layer 2">
                 <LayerGroup ref={cesteGoricaInputRef}>
                   {gorica_nc.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="orange"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="orange" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
             </Overlay>

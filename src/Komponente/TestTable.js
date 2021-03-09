@@ -89,26 +89,21 @@ export default class TestTable extends Component {
     };
 
     onSortColumns(key, namecolumn) {
-        console.log(key)
-        console.log(namecolumn)
 
         const direction = this.state.sortedBy ? (this.state.direction === 'desc' ? 'asc' : 'desc') : 'asc';
-        const a = this.state.data;
-
-        
-        a.sort(function(a, b) {
+        const sortData = this.state.data;
+        sortData.sort(function(a, b) {
             if (direction === 'desc') {
                 return (a.properties[key] === null) - (b.properties[key] === null) || ('' + b.properties[key]).localeCompare(a.properties[key]);
             } else if (direction === 'asc') {
                 return (b.properties[key] === null) - (a.properties[key] === null) || ('' + a.properties[key]).localeCompare(b.properties[key]);
             }
         });
-        this.setState({data: a, direction: direction, sortedBy: key, columnSort: namecolumn})
+        this.setState({data: sortData, direction: direction, sortedBy: key, columnSort: namecolumn})
 
       };
 
-    render() {
-        
+    render() {     
        
         return (                                                                                                                                                       
             <div>            
