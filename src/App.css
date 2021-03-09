@@ -443,3 +443,90 @@ LEAFLET LAYERS CONTROL
 /*
 Datatable
 */
+.buton-datatable {
+  font-weight: 700;
+  background-color: #d1e1e9;
+  color: #526f7f;
+  border: 1.5px solid #526f7f;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 32px;
+  line-height: 16px;
+  margin-right: 2px;
+}
+
+.buton-datatable:hover {
+  background-color: #2e6ca4;
+  color: #d1e1e9;
+}
+
+.buton-datatable:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: unset;
+}
+
+.button-div-datatable {
+  flex-basis: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.forma-datatable:hover label {
+  font-weight: 500;
+  cursor: unset;
+}
+
+.forma-datatable input {
+  width: 50px;
+}
+
+.forma-datatable label {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.my-datatable {
+  width: 100%;
+  margin: 10px;
+}
+
+.my-datatable thead {
+  color: #526f7f;
+  border-bottom: 2px solid #526f7f3d;
+}
+.my-datatable th:hover {
+  cursor: pointer;
+  color: black;
+}
+
+.my-datatable tr, .my-datatable td {
+  padding: 5px;
+  cursor: pointer;
+}
+.my-datatable tr:hover {
+  background-color: #526f7f3d;
+}
+
+.my-datatable tr:first-child {
+  background-color: unset;
+  cursor: unset;
+}
+
+.my-datatable tr{
+  border-bottom: 1px solid #526f7f3d;
+}
+
+.my-datatable tr:last-child {
+  border: none;
+}
+
+.my-datatable tr td {
+  width: 15%;
+}
+
+.my-datatable tr td:nth-child(2) {
+  width: 30%;
+}
+

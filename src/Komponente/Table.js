@@ -21,7 +21,7 @@ export default function Table({handleClose, show}) {
 
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" onClick={handleClose}>
+                <Button  onClick={handleClose} className="buton-datatable">
                      Zatvori
                 </Button>
             </Modal.Footer>

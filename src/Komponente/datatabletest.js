@@ -1,4 +1,4 @@
-import * as neraz_ceste from '../data/neraz_ceste.json';
+import * as neraz_ceste from '../data/centroidiceste/centroidi.json';
  
 export const columns = [
     {   name: "Oznaka",
