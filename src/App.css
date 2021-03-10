@@ -546,4 +546,7 @@ Datatable
 .eki tr td:nth-child(3), .eki tr td:nth-child(6), .eki tr td:nth-child(7) {
   width: 20%;
 }
+.a-datatable {
+  margin-right: 5px;
+}
 

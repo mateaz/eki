@@ -3,7 +3,7 @@ import {columnseki, ekipodaci} from "../datatable";
 import {MdFirstPage, MdLastPage, MdKeyboardArrowRight, MdKeyboardArrowLeft, MdArrowDownward, MdArrowUpward} from "react-icons/md";
 
 
-export default class TableNerazCeste extends Component {
+export default class TableKI extends Component {
     state = {
         pageSize: 20,
         pageIndex: 0,
@@ -15,6 +15,7 @@ export default class TableNerazCeste extends Component {
         sortedBy: '',
         direction: 'asc',
         columnsnerazcesteort: '',
+
     };
 
     componentDidMount() {
@@ -27,16 +28,6 @@ export default class TableNerazCeste extends Component {
 
         let maxDataPerPage = Math.floor(ekipodaci.length/this.state.pageSize)
         this.setState({maxPage: maxDataPerPage})
-
-        const regex = /[+-]?\d+(?:\.\d+)?/g;
-        let match;
-
-       /* let a = ekipodaci.map((data)=> {
-            while (match = regex.exec(data.properties.Vlasnistvo)) {
-                //console.log(match[0]);
-                console.log(match);
-            }
-        })*/
     };
 
     handlePrevPageClick(event) {
@@ -124,17 +115,21 @@ export default class TableNerazCeste extends Component {
                     </thead>
                     <tbody>
                         {this.state.data.slice(this.state.pageIndex * this.state.pageSize, this.state.pageIndex * this.state.pageSize + this.state.pageSize).map((row, i) => (
-                            <tr key={i} onClick={event=> this.handleClickOnTr(event)}>
+                            <tr key={i} /*onClick={event=> this.handleClickOnTr(event)}*/>
                                 {this.state.column.map((column, i) => { 
-                                  /*  if (row.properties[column.selector]) {
-
-                                    }*/
-                                    console.log(row.properties[column.selector])
-                                    
-                                    //<td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td> //centroidi
-                                    //<td key={i} data-attribute={row.properties.geometrija}>{row.properties[column.selector]}</td> //ceste s geomtrijom u atributu
-                                    return <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td>; 
-                                
+                                    if (column.selector === 'Vlasnistvo') {
+                                        if (row.properties[column.selector]) {
+                                            if (row.properties[column.selector].match(/\d+/g)) {
+                                                /*console.log(row.properties[column.selector].match(/\d+/g))
+                                                console.log(row.properties[column.selector])*/
+                                                return <td>{row.properties[column.selector].match(/\d+/g).map(Number).map((lista, i) => {                                                       
+                                                        return <a key={i} className="a-datatable">{lista}</a>
+                                                    
+                                                    })}
+                                                </td>
+                                            } else return <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td>;
+                                        } else return <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td>;
+                                } else return <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td>;  
                                 })}
                             </tr>
                         ))}
