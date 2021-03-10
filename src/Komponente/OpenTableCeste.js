@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { BsReverseLayoutTextWindowReverse } from 'react-icons/bs';
-import Table from './Table'
+import ModalTableCeste from './ModalTableCeste';
 
 
-export default class ModalTable extends Component {
+export default class OpenTableCeste extends Component {
     state = {
         show: false,
     }
@@ -16,8 +16,7 @@ export default class ModalTable extends Component {
         return(
             <div className="ikona_tablica">
                 <button onClick={this.handleClickClose} className="tablica_button"><BsReverseLayoutTextWindowReverse /></button>
-                <Table  handleClose={this.handleClickClose} show={this.state.show}/>
-
+                <ModalTableCeste  handleClose={this.handleClickClose} show={this.state.show}/>
             </div>
         )
     }

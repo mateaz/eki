@@ -1,33 +1,43 @@
 import React, {Component} from 'react';
-import {datatest, columns} from "./datatabletest";
-
+import {columnseki, ekipodaci} from "../datatable";
 import {MdFirstPage, MdLastPage, MdKeyboardArrowRight, MdKeyboardArrowLeft, MdArrowDownward, MdArrowUpward} from "react-icons/md";
 
 
-export default class TestTable extends Component {
+export default class TableNerazCeste extends Component {
     state = {
         pageSize: 20,
         pageIndex: 0,
         data: [],
-        q: '',
+        q: '', //za filtriranje podataka tj pronalazk, TREBA IMPLEMENTIRATI!
         column: [],
         maxPage: 0,
         numberInput: 1,
         sortedBy: '',
         direction: 'asc',
-        columnSort: '',
+        columnsnerazcesteort: '',
     };
 
     componentDidMount() {
-        let data = datatest.map(data => {
+       /* let data = ekipodaci.map(data => {
             return data
-        })
-        this.setState({data: datatest})
+        })  OBRISATI*/
+        this.setState({data: ekipodaci})
 
-        this.setState({column: columns})
-        let maxDataPerPage = Math.floor(data.length/this.state.pageSize)
+        this.setState({column: columnseki})
+
+        let maxDataPerPage = Math.floor(ekipodaci.length/this.state.pageSize)
         this.setState({maxPage: maxDataPerPage})
-    }
+
+        const regex = /[+-]?\d+(?:\.\d+)?/g;
+        let match;
+
+       /* let a = ekipodaci.map((data)=> {
+            while (match = regex.exec(data.properties.Vlasnistvo)) {
+                //console.log(match[0]);
+                console.log(match);
+            }
+        })*/
+    };
 
     handlePrevPageClick(event) {
         this.setState(prevState => ({
@@ -85,7 +95,8 @@ export default class TestTable extends Component {
     };
 
     handleClickOnTr(event) {
-        console.log(event.target.getAttribute("data-attribute"))
+        console.log(event.target.getAttribute("data-attribute")) //centroid za zumiranje na kartu!!!! TESTIRATI!
+        console.log(event.target.getAttribute("data-id")) //da uzme id, proslijedi i onda prema njemu oboja cestu, TESTIRATI!!!
     };
 
     onSortColumns(key, namecolumn) {
@@ -99,7 +110,7 @@ export default class TestTable extends Component {
                 return (b.properties[key] === null) - (a.properties[key] === null) || ('' + a.properties[key]).localeCompare(b.properties[key]);
             }
         });
-        this.setState({data: sortData, direction: direction, sortedBy: key, columnSort: namecolumn})
+        this.setState({data: sortData, direction: direction, sortedBy: key, columnsnerazcesteort: namecolumn})
 
       };
 
@@ -107,16 +118,24 @@ export default class TestTable extends Component {
        
         return (                                                                                                                                                       
             <div>            
-                <table className="my-datatable">
+               <table className="my-datatable eki">
                     <thead>
-                        <tr>{this.state.column.map((heading, i) => <th onClick={() => this.onSortColumns(heading.selector, heading.name)} key={i}>{heading.name} {this.state.columnSort === heading.name ? (this.state.direction === "asc" ? <MdArrowUpward/> : <MdArrowDownward/>) : null}</th>)}</tr>
+                        <tr>{this.state.column.map((heading, i) => <th onClick={() => this.onSortColumns(heading.selector, heading.name)} key={i}>{heading.name} {this.state.columnsnerazcesteort === heading.name ? (this.state.direction === "asc" ? <MdArrowUpward/> : <MdArrowDownward/>) : null}</th>)}</tr>
                     </thead>
                     <tbody>
                         {this.state.data.slice(this.state.pageIndex * this.state.pageSize, this.state.pageIndex * this.state.pageSize + this.state.pageSize).map((row, i) => (
                             <tr key={i} onClick={event=> this.handleClickOnTr(event)}>
-                                {this.state.column.map((column, i) => (
-                                    <td key={i} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td>
-                                ))}
+                                {this.state.column.map((column, i) => { 
+                                  /*  if (row.properties[column.selector]) {
+
+                                    }*/
+                                    console.log(row.properties[column.selector])
+                                    
+                                    //<td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td> //centroidi
+                                    //<td key={i} data-attribute={row.properties.geometrija}>{row.properties[column.selector]}</td> //ceste s geomtrijom u atributu
+                                    return <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td>; 
+                                
+                                })}
                             </tr>
                         ))}
                     </tbody>

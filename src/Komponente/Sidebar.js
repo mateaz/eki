@@ -3,7 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SidebarContent from './SidebarContent';
 import Checkbox from './Checkbox';
 import { faChevronRight, faChevronDown, faRoad, faCity, faArchive } from '@fortawesome/free-solid-svg-icons';
-import ModalTable from './ModalTable';
+import OpenTableCeste from './OpenTableCeste';
+import OpenTableKI from './Tablica komunalna infrastruktura/OpenTableKI';
+
 
 export default class  Sidebar extends Component{
     state = {
@@ -128,9 +130,9 @@ export default class  Sidebar extends Component{
 
                     <div className={`sidebar-nav-menu-item ${this.state.activeCollapse === "registar" ? 'item-active' : ''}`}  data-id="registar" >
                         <div className="sidebar-nav-menu-item-head">
-                            <span className="span_icon"  onClick={() => this.handleExpandCollaps("registar")}><FontAwesomeIcon icon={faRoad} /></span>
-                            <span className="sidebar-nav-menu-item-head-title"  onClick={() => this.handleExpandCollaps("registar")}>Registar nerazvrstanih cesta</span>
-                            {this.state.activeCollapse === "registar" ? <ModalTable /> : null}
+                            <span className="span_icon"  onClick={() => this.handleExpandCollaps("registar")}><FontAwesomeIcon icon={faRoad}/></span>
+                            <span className="sidebar-nav-menu-item-head-title" onClick={() => this.handleExpandCollaps("registar")}>Registar nerazvrstanih cesta</span>
+                            {this.state.activeCollapse === "registar" ? <OpenTableCeste /> : null}
                         </div>
                         <div className="sidebar-nav-menu-item-body">
                             <SidebarContent
@@ -185,9 +187,10 @@ export default class  Sidebar extends Component{
                     </div>
 
                     <div className={`sidebar-nav-menu-item ${this.state.activeCollapse === "komunalna" ? 'item-active' : ''}`}  data-id="komunalna">
-                        <div className="sidebar-nav-menu-item-head" onClick={() => this.handleExpandCollaps("komunalna")}>
-                            <span className="span_icon"><FontAwesomeIcon icon={faCity} /></span>
-                            <span className="sidebar-nav-menu-item-head-title">Komunalna infrastrukutra</span>
+                        <div className="sidebar-nav-menu-item-head" >
+                            <span className="span_icon" onClick={() => this.handleExpandCollaps("komunalna")}><FontAwesomeIcon icon={faCity}/></span>
+                            <span className="sidebar-nav-menu-item-head-title" onClick={() => this.handleExpandCollaps("komunalna")}>Komunalna infrastrukutra</span>
+                            {this.state.activeCollapse === "komunalna" ? <OpenTableKI/> : null}
                         </div>
                         <div className="sidebar-nav-menu-item-body">
                             <SidebarContent

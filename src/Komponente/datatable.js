@@ -1,6 +1,9 @@
-import * as neraz_ceste from '../data/neraz_ceste.json';
- 
-export const columns = [
+import * as neraz_ceste from '../data/centroidiceste/centroidi.json';
+//import * as neraz_ceste from '../data/nerazvrstaneceste/testneraz.json';
+
+import * as eki from '../data/javnepovrsinebezprometa/centroidi/javnepovrsinebezprometa.json'; //testiranje, kasnije idu svi podaci vamo iz cijelog KI
+
+export const columnsnerazceste = [
     {   name: "Oznaka",
         selector: "OZNAKA",
         sortable: true
@@ -23,6 +26,41 @@ export const columns = [
     },
 ];
 
-export const data = neraz_ceste.features.map((data) => {
-    return data.properties;
+export const nerazceste = neraz_ceste.features.map((data) => {
+    return data;
+})
+
+export const columnseki = [
+    {   name: "Vrsta",
+        selector: "Vrsta",
+        sortable: true
+    },
+    {   name: "Oznaka",
+        selector: "Oznaka",
+        sortable: true
+    },
+    {   name: "Naziv",
+        selector: "Naziv",
+        sortable: true,
+    },
+    {   name: "Naselje",
+        selector: "Naselje",
+        sortable: true,
+    },
+    {   name: "Kat. općina",
+        selector: "Kat opcina",
+        sortable: true,
+    },
+    {   name: "Kat. čestica",
+        selector: "kcbr",
+        sortable: true,
+    },
+    {   name: "Vlasništvo",
+        selector: "Vlasnistvo",
+        sortable: true,
+    },
+];
+
+export const ekipodaci = eki.features.map((data) => {
+    return data;
 })
