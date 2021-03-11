@@ -137,6 +137,7 @@ export default function SimpleExample() {
       if ('OSMRef'.includes(a)) {
         let layerAdd = OSMRef.current.leafletElement;
         let layerRemove = DOFRef.current.leafletElement;
+
         if (checkboxProps.checked && mapRef.current && OSMRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
@@ -352,6 +353,7 @@ export default function SimpleExample() {
           map.removeLayer(layerAdd);
         }
       };
+
       if ('plazeJavnePovrsineInputRef'.includes(a)) {
         let layerAdd = plazeJavnePovrsineInputRef.current.leafletElement;
         if (checkboxProps.checked && mapRef.current && plazeJavnePovrsineInputRef.current) {
@@ -363,6 +365,7 @@ export default function SimpleExample() {
           map.removeLayer(layerAdd);
         }
       };
+
       if ('plocniciJavnePovrsineInputRef'.includes(a)) {
         let layerAdd = plocniciJavnePovrsineInputRef.current.leafletElement;
         if (checkboxProps.checked && mapRef.current && plocniciJavnePovrsineInputRef.current) {
@@ -374,6 +377,7 @@ export default function SimpleExample() {
           map.removeLayer(layerAdd);
         }
       };
+
       if ('trgJavnePovrsineInputRef'.includes(a)) {
         let layerAdd = trgJavnePovrsineInputRef.current.leafletElement;
         if (checkboxProps.checked && mapRef.current && trgJavnePovrsineInputRef.current) {
@@ -385,6 +389,7 @@ export default function SimpleExample() {
           map.removeLayer(layerAdd);
         }
       };
+
       if ('biciklistickeJavnePovrsineInputRef'.includes(a)) {
         let layerAdd = biciklistickeJavnePovrsineInputRef.current.leafletElement;
         if (checkboxProps.checked && mapRef.current && biciklistickeJavnePovrsineInputRef.current) {
@@ -432,6 +437,7 @@ export default function SimpleExample() {
           map.removeLayer(layerAdd);
         }
       };
+
       if ('rasvjeta4InputRef'.includes(a)) {
         let layerAdd = rasvjeta4InputRef.current.leafletElement;
         if (checkboxProps.checked && mapRef.current && rasvjeta4InputRef.current) {
@@ -443,6 +449,7 @@ export default function SimpleExample() {
           map.removeLayer(layerAdd);
         }
       };
+
       if ('rasvjeta5InputRef'.includes(a)) {
         let layerAdd = rasvjeta5InputRef.current.leafletElement;
         if (checkboxProps.checked && mapRef.current && rasvjeta5InputRef.current) {
@@ -454,6 +461,7 @@ export default function SimpleExample() {
           map.removeLayer(layerAdd);
         }
       };
+
       if ('rasvjeta6InputRef'.includes(a)) {
         let layerAdd = rasvjeta6InputRef.current.leafletElement;
         if (checkboxProps.checked && mapRef.current && rasvjeta6InputRef.current) {
@@ -465,6 +473,7 @@ export default function SimpleExample() {
           map.removeLayer(layerAdd);
         }
       };
+
       if ('rasvjeta7InputRef'.includes(a)) {
         let layerAdd = rasvjeta7InputRef.current.leafletElement;
         if (checkboxProps.checked && mapRef.current && rasvjeta7InputRef.current) {

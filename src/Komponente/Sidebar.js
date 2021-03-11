@@ -71,7 +71,7 @@ export default class  Sidebar extends Component{
             //To show collapsiable
             this.setState({ activeCollapse: name })
         }
-      }
+    };
 
       handleExpandSpan = (naselje) => {
           if (this.state.activeItem === naselje) {
@@ -83,7 +83,7 @@ export default class  Sidebar extends Component{
               //To show collapsiable
               this.setState({ activeItem: naselje })
           }
-      }
+    };
 
    render() {
 

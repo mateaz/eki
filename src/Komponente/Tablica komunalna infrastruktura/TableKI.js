@@ -86,8 +86,13 @@ export default class TableKI extends Component {
     };
 
     handleClickOnTr(event) {
-        console.log(event.target.getAttribute("data-attribute")) //centroid za zumiranje na kartu!!!! TESTIRATI!
-        console.log(event.target.getAttribute("data-id")) //da uzme id, proslijedi i onda prema njemu oboja cestu, TESTIRATI!!!
+       // console.log(event.target.getAttribute("data-attribute")) //centroid za zumiranje na kartu!!!! TESTIRATI!
+        //console.log(event.target.getAttribute("data-id")) //da uzme id, proslijedi i onda prema njemu oboja cestu, TESTIRATI!!!
+        if (event.target.getAttribute("data-attribute") && event.target.getAttribute("data-id")) {
+            this.props.ZoomId(event.target.getAttribute("data-id"))
+            this.props.ZoomCoordinates(event.target.getAttribute("data-attribute"))
+            //console.log('Zumiraj se')
+        } else console.log('Neće se zumirati')
     };
 
     onSortColumns(key, namecolumn) {
@@ -103,7 +108,7 @@ export default class TableKI extends Component {
         });
         this.setState({data: sortData, direction: direction, sortedBy: key, columnsnerazcesteort: namecolumn})
 
-      };
+    };
 
     render() {     
        
@@ -115,16 +120,16 @@ export default class TableKI extends Component {
                     </thead>
                     <tbody>
                         {this.state.data.slice(this.state.pageIndex * this.state.pageSize, this.state.pageIndex * this.state.pageSize + this.state.pageSize).map((row, i) => (
-                            <tr key={i} /*onClick={event=> this.handleClickOnTr(event)}*/>
+                            <tr key={i} onClick={event=> this.handleClickOnTr(event)} title="Lociraj me!">
                                 {this.state.column.map((column, i) => { 
                                     if (column.selector === 'Vlasnistvo') {
                                         if (row.properties[column.selector]) {
                                             if (row.properties[column.selector].match(/\d+/g)) {
                                                // className={`sidebar-nav-menu-item ${this.state.activeCollapse === "javneceste" ? 'item-active' : ''}`}
-                                                return <td key={i}>{row.properties[column.selector].match(/\d+/g).map(Number).map((lista, i) => {  
+                                                return <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector].match(/\d+/g).map(Number).map((lista, i) => {  
                                                      //console.log( row.properties["id"])                                                     
                                                         //return <a key={i} href={`./data/pdf/${lista}.pdf`} download className="a-datatable">{lista}</a>
-                                                        return <a key={i} href={`/2-JPBP-vlasnistvo/${row.properties["objekt"]}/${row.properties["Oznaka"]}-${row.properties["id"]}-${lista}.pdf`} download className="a-datatable">{lista}</a>
+                                                        return <a key={i} title="Preuzmi zemljišno-knjižni uložak!"  href={`/2-JPBP-vlasnistvo/${row.properties["objekt"]}/${row.properties["Oznaka"]}-${row.properties["id"]}-${lista}.pdf`} download className="a-datatable">{lista}</a>
                                                     })}
                                                 </td>
                                             } else return <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td>;

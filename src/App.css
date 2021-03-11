@@ -537,14 +537,14 @@ Datatable
 }
 
 .eki tr td {
-  width: 10%;
+  width: 7%;
 }
 
 .eki tr td:nth-child(2) {
-  width: fit-content;
+  width: 6%;
 }
-.eki tr td:nth-child(3), .eki tr td:nth-child(6), .eki tr td:nth-child(7) {
-  width: 20%;
+.eki tr td:nth-child(3), .eki tr td:nth-child(6), .eki tr td:nth-child(7), .eki tr td:nth-child(8) {
+  width: 15%;
 }
 .a-datatable {
   margin-right: 5px;
