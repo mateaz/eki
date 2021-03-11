@@ -24,6 +24,7 @@
     "react-leaflet-markercluster": "^2.0.0",
     "react-leaflet-sidetabs": "^1.0.1",
     "react-metismenu": "^1.4.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
     "rsuite": "^2.1.3"
   },

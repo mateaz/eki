@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {columnseki, ekipodaci} from "../datatable";
 import {MdFirstPage, MdLastPage, MdKeyboardArrowRight, MdKeyboardArrowLeft, MdArrowDownward, MdArrowUpward} from "react-icons/md";
 
-
 export default class TableKI extends Component {
     state = {
         pageSize: 20,
@@ -28,6 +27,7 @@ export default class TableKI extends Component {
 
         let maxDataPerPage = Math.floor(ekipodaci.length/this.state.pageSize)
         this.setState({maxPage: maxDataPerPage})
+
     };
 
     handlePrevPageClick(event) {
@@ -120,11 +120,11 @@ export default class TableKI extends Component {
                                     if (column.selector === 'Vlasnistvo') {
                                         if (row.properties[column.selector]) {
                                             if (row.properties[column.selector].match(/\d+/g)) {
-                                                /*console.log(row.properties[column.selector].match(/\d+/g))
-                                                console.log(row.properties[column.selector])*/
-                                                return <td>{row.properties[column.selector].match(/\d+/g).map(Number).map((lista, i) => {                                                       
-                                                        return <a key={i} className="a-datatable">{lista}</a>
-                                                    
+                                               // className={`sidebar-nav-menu-item ${this.state.activeCollapse === "javneceste" ? 'item-active' : ''}`}
+                                                return <td key={i}>{row.properties[column.selector].match(/\d+/g).map(Number).map((lista, i) => {  
+                                                     //console.log( row.properties["id"])                                                     
+                                                        //return <a key={i} href={`./data/pdf/${lista}.pdf`} download className="a-datatable">{lista}</a>
+                                                        return <a key={i} href={`/2-JPBP-vlasnistvo/${row.properties["objekt"]}/${row.properties["Oznaka"]}-${row.properties["id"]}-${lista}.pdf`} download className="a-datatable">{lista}</a>
                                                     })}
                                                 </td>
                                             } else return <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td>;
