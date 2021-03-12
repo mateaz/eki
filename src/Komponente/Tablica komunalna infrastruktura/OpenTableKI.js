@@ -6,17 +6,23 @@ import ModalTableKI from './ModalTableKI';
 export default class OpenTableKI extends Component {
     state = {
         show: false,
-    }
+    };
 
     handleClickOpenClose = () => {
         this.setState({show:!this.state.show})
-    }
+    };
+
+    handleZoomOnMap = (a) => {
+        this.props.onZoomOnMap(a);
+        //console.log(a);
+    };
+
 
     render() {
         return(
             <div className="ikona_tablica">
                 <button onClick={this.handleClickOpenClose} className="tablica_button"><BsReverseLayoutTextWindowReverse /></button>
-                <ModalTableKI  handleClose={this.handleClickOpenClose} show={this.state.show}/>
+                <ModalTableKI  handleClose = {this.handleClickOpenClose} show = {this.state.show} zoomIdCoord = {this.handleZoomOnMap}/>
             </div>
         )
     }

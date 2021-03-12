@@ -89,8 +89,23 @@ export default class TableKI extends Component {
        // console.log(event.target.getAttribute("data-attribute")) //centroid za zumiranje na kartu!!!! TESTIRATI!
         //console.log(event.target.getAttribute("data-id")) //da uzme id, proslijedi i onda prema njemu oboja cestu, TESTIRATI!!!
         if (event.target.getAttribute("data-attribute") && event.target.getAttribute("data-id")) {
-            this.props.ZoomId(event.target.getAttribute("data-id"))
-            this.props.ZoomCoordinates(event.target.getAttribute("data-attribute"))
+            let a = {
+                id: "",
+                coord: 0,
+            };
+              
+            let zoomOnMap = Object.create(a);
+              
+            zoomOnMap.id = event.target.getAttribute("data-id");
+            zoomOnMap.coord = JSON.parse("[" + event.target.getAttribute("data-attribute") + "]");
+            //this.props.OnMessageOut(checkboxProps);
+
+           // console.log(zoomOnMap)
+
+
+
+            this.props.zoomFeatureOnMap(zoomOnMap);
+           /* this.props.ZoomCoordinates(event.target.getAttribute("data-attribute"))*/
             //console.log('Zumiraj se')
         } else console.log('Neće se zumirati')
     };

@@ -1,16 +1,13 @@
 import React from "react";
 import {Modal, Button} from "react-bootstrap";
 import TableKI from "./TableKI";
-export default function ModalTableKI({handleClose, show}) {
+export default function ModalTableKI({handleClose, show, zoomIdCoord}) {
     
-   const ZoomConsoleId = (a) => {
-    console.log(a)
-   };
 
     return (
         <Modal show={show} onHide={handleClose} backdrop="static">
             <Modal.Body>
-                <TableKI ZoomCoordinates={ZoomConsoleId} ZoomId={ZoomConsoleId}/>
+                <TableKI zoomFeatureOnMap={zoomIdCoord} /*ZoomId={zoomId*//>
             </Modal.Body>
             <Modal.Footer>
                 <Button  onClick={handleClose} className="buton-datatable">

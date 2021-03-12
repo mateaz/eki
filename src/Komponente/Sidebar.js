@@ -73,7 +73,7 @@ export default class  Sidebar extends Component{
         }
     };
 
-      handleExpandSpan = (naselje) => {
+    handleExpandSpan = (naselje) => {
           if (this.state.activeItem === naselje) {
 
             //If collapsiable is already visible and clicked on same then this will hide it
@@ -84,6 +84,13 @@ export default class  Sidebar extends Component{
               this.setState({ activeItem: naselje })
           }
     };
+
+    handleZoomOnMap = (prop) => {
+        //console.log(prop);
+        this.props.OnZoomOnMap(prop);
+    };
+
+
 
    render() {
 
@@ -190,7 +197,7 @@ export default class  Sidebar extends Component{
                         <div className="sidebar-nav-menu-item-head" >
                             <span className="span_icon" onClick={() => this.handleExpandCollaps("komunalna")}><FontAwesomeIcon icon={faCity}/></span>
                             <span className="sidebar-nav-menu-item-head-title" onClick={() => this.handleExpandCollaps("komunalna")}>Komunalna infrastrukutra</span>
-                            {this.state.activeCollapse === "komunalna" ? <OpenTableKI/> : null}
+                            {this.state.activeCollapse === "komunalna" ? <OpenTableKI onZoomOnMap={this.handleZoomOnMap}/> : null}
                         </div>
                         <div className="sidebar-nav-menu-item-body">
                             <SidebarContent

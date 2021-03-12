@@ -53,7 +53,10 @@ import L from 'leaflet';
 
 const { Overlay } = LayersControl;
 
-export default function SimpleExample() {
+export default function SimpleExample({center, zoom}) {
+  const [centera, setCenter] = useState([44.442669, 15.054280])
+
+
 
 
   let [checkedInput, setCheckedCeste] = useState({ 
@@ -566,27 +569,27 @@ export default function SimpleExample() {
     
     const rasvjeta1 = rasvjeta.features.filter(data => data.properties.Tip === 1).map((data) => {
       return data;
-    })
+    });
 
     const rasvjeta2 = rasvjeta.features.filter(data => data.properties.Tip === 2).map((data) => {
       return data;
-    })
+    });
 
     const rasvjeta3 = rasvjeta.features.filter(data => data.properties.Tip === 3).map((data) => {
       return data;
-    })
+    });
     const rasvjeta4 = rasvjeta.features.filter(data => data.properties.Tip === 4).map((data) => {
       return data;
-    })
+    });
     const rasvjeta5 = rasvjeta.features.filter(data => data.properties.Tip === 5).map((data) => {
       return data;
-    })
+    });
     const rasvjeta6 = rasvjeta.features.filter(data => data.properties.Tip === 6).map((data) => {
       return data;
-    })
+    });
     const rasvjeta7 = rasvjeta.features.filter(data => data.properties.Tip === 7).map((data) => {
       return data;
-    })
+    });
 
   /*  const abc = groblja.features.map((data) => {
 
@@ -650,15 +653,14 @@ export default function SimpleExample() {
       });
   
       layer.bringToFront();
-  
-  }
+  };
   
   const resetHighlight = (e) => {
     geoJsonRef.current.leafletElement.resetStyle(e.target);
       //console.log(event.target)
-  }
+  };
 
-    const onEachFeatureNerazCeste = (feature, layer) => {
+  const onEachFeatureNerazCeste = (feature, layer) => {
       const popupContent = `
         <div class="main-popup-div">
           <p class="popup-p">Oznaka nerazvrstane ceste: <span class="popup-span">${feature.properties.OZNAKA}</span></p>
@@ -669,20 +671,34 @@ export default function SimpleExample() {
         </div>`;
       if (feature.properties && feature.properties.popupContent) {
         popupContent += feature.properties.popupContent;
-      }
+      };
+
       layer.bindPopup(popupContent);
 
       layer.on({
         mouseover: highlightFeature.bind(this),
         mouseout: resetHighlight.bind(this)
-    });
-    };
+      });
+  };
+
+  const handleZoomStateOnMap = (a) => {
+      //console.log(a.coord);
+      //center = a[0];
+      let b = [a.coord[1], a.coord[0]];
+      console.log(b)
+     /* const map = useMap();
+      map.setView(center, 18);
+      return null;*/
+      //setCenter({centera: b});
+     // setCheckedCeste({[checkboxProps.target]: checkboxProps.checked});
+
+  };
 
     return (
-      <>
-        <Header checkboxState={handleCheckboxLayer}/>
+      < div className="map">
+        <Header checkboxState={handleCheckboxLayer} zoomState={handleZoomStateOnMap}/>
 
-        <Map className="markercluster-map" center={[44.442669, 15.054280]} zoom={13} ref={mapRef} maxZoom={25} minZoom={10}/* maxBounds={(45, 14), (43, 16)}*/>
+        <Map className="markercluster-map" center={centera} zoom={13} ref={mapRef} maxZoom={25} minZoom={10}/* maxBounds={(45, 14), (43, 16)}*/>
           <LayersControl position="topright">
             <LayersControl.BaseLayer checked name="OpenStreetMap" >
               <TileLayer ref={OSMRef}
@@ -1051,6 +1067,6 @@ export default function SimpleExample() {
             </Overlay>
           </LayersControl>
         </Map>
-      </>
+      </div>
     )
 }

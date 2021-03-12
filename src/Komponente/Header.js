@@ -8,20 +8,26 @@ export default class Header extends Component {
     state = {
         showSidebar: false,
         klasa: 'show'
-      }
+    };
 
-      handleClickButton = () => {
+    handleClickButton = () => {
         this.setState({showSidebar: !this.state.showSidebar})
       /* if (!this.state.showSidebar) {
             console.log(document.getElementsByClassName('sidebar-div'))
         }
         console.log(!this.state.showSidebar);*/
         //.sidebar-div
-      }
+    };
 
-      handleStateCheckbox = (checkboxInput) => {
-          this.props.checkboxState(checkboxInput);
-      }
+    handleStateCheckbox = (checkboxInput) => {
+        this.props.checkboxState(checkboxInput);
+    };
+
+    handleZoomOnMap = (zoomProp) => {
+       // console.log(zoomProp);
+        this.props.zoomState(zoomProp);
+    };
+
 
     render () {
 
@@ -34,7 +40,7 @@ export default class Header extends Component {
                     <MoreInformation OnInformationOut={this.handleStateCheckbox}/>
                 </Nav>
             </Navbar>
-            <Sidebar showSidebar = {this.state.showSidebar}  OnMessageOut={this.handleStateCheckbox} />
+            <Sidebar showSidebar = {this.state.showSidebar}  OnMessageOut={this.handleStateCheckbox} OnZoomOnMap={this.handleZoomOnMap}/>
         </div>
     )
 }
