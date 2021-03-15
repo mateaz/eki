@@ -403,30 +403,37 @@ LEAFLET LAYERS CONTROL
   background-color: #1d292f;
 }
 
+/*
+MODAL
+*/
 .modal-dialog {
   max-width: 95%!important;
 }
 
-.jpnrBA {
-  font-size: 16px!important;
+.modal-backdrop.show {
+  opacity: unset;
 }
-
-.jkEUmm:hover {
-  font-weight: 700;
-  opacity: 1!important;
-  color: #2e6ca4!important;
+.modal-backdrop {
+  background-color: unset;
+  height: unset;
 }
-.gcJCzv {
-  color: #2e6ca4!important;
-  font-weight: 700;
-}
-
-.iQRTBA:hover {
-  background-color: #2e6ca424!important;
+.modal-open .modal {
+  height: unset!important;
 }
 
 .modal-information .modal-dialog{
   width: 500px;
+}
+
+.modal-content {
+  height: 35vh;
+  overflow: hidden;
+}
+/*test*/
+.modal {
+  position: fixed;
+  top: 60vh;
+  left: 2vw;
 }
 
 /*POPUP NERAZ CESTE*/
@@ -434,6 +441,7 @@ LEAFLET LAYERS CONTROL
 .popup-span {
   color: #2e6ca4;
   font-weight: 600;
+  line-break: anywhere;
 }
 
 .popup-p {
@@ -471,6 +479,10 @@ Datatable
   flex-basis: 100%;
   display: flex;
   justify-content: flex-end;
+  position: sticky;
+  bottom: 0;
+  background: white;
+  font-size: 14px;
 }
 
 .forma-datatable:hover label {
@@ -499,6 +511,10 @@ Datatable
 
 .my-datatable thead th { 
   width: fit-content;
+  position: sticky;
+  top: 0;
+  background: white;
+  font-size: 15px;
 }
 .my-datatable th:hover {
   cursor: pointer;
@@ -513,7 +529,7 @@ Datatable
   background-color: #526f7f3d;
 }
 
-.my-datatable tr:first-child {
+.my-datatable thead tr:first-child {
   background-color: unset;
   cursor: unset;
 }
@@ -530,6 +546,7 @@ Datatable
   width: 10%;
   margin-left: 2px;
   margin-right: 2px;
+  padding: 0px!important;
 }
 
 .my-datatable tr td:nth-child(2) {
@@ -550,3 +567,18 @@ Datatable
   margin-right: 5px;
 }
 
+.div-eki {
+  max-height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 26vh;
+}
+
+.eki tbody {
+  font-size: 14px;
+}
+
+
+/*
+TOOLTIP
+*/

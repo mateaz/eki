@@ -53,8 +53,11 @@ import L from 'leaflet';
 
 const { Overlay } = LayersControl;
 
-export default function SimpleExample({center, zoom}) {
-  const [centera, setCenter] = useState([44.442669, 15.054280])
+export default function SimpleExample() {
+  const [center, setCenter] = useState([44.442669, 15.054280]);
+  const [bounds, setBounds] = useState([[[44.45041, 15.04369], [44.45041, 15.06535]], [[44.43824, 15.06535], [44.43834, 15.04369]]]);
+  const [zoom, setZoom] = useState(15);
+
 
 
 
@@ -682,23 +685,18 @@ export default function SimpleExample({center, zoom}) {
   };
 
   const handleZoomStateOnMap = (a) => {
-      //console.log(a.coord);
-      //center = a[0];
-      let b = [a.coord[1], a.coord[0]];
-      console.log(b)
-     /* const map = useMap();
-      map.setView(center, 18);
-      return null;*/
-      //setCenter({centera: b});
-     // setCheckedCeste({[checkboxProps.target]: checkboxProps.checked});
+      const corner1 = [a.coord[1], a.coord[0]];
+      const corner2 = [a.coord[3], a.coord[2]];
 
+      setBounds([corner1, corner2])
   };
+
 
     return (
       < div className="map">
         <Header checkboxState={handleCheckboxLayer} zoomState={handleZoomStateOnMap}/>
 
-        <Map className="markercluster-map" center={centera} zoom={13} ref={mapRef} maxZoom={25} minZoom={10}/* maxBounds={(45, 14), (43, 16)}*/>
+        <Map className="markercluster-map" center={center} zoom={zoom} ref={mapRef} maxZoom={25} minZoom={10} bounds={bounds}/* maxBounds={(45, 14), (43, 16)}*/>
           <LayersControl position="topright">
             <LayersControl.BaseLayer checked name="OpenStreetMap" >
               <TileLayer ref={OSMRef}
@@ -937,7 +935,11 @@ export default function SimpleExample({center, zoom}) {
             <Overlay name="bicikl">
               <LayerGroup ref={biciklistickeJavnePovrsineInputRef}>
                 {bicikli.features.map(data => (
-                  <GeoJSON key={data.properties.id} data={data} color="#f3a6b2"/>
+                  <GeoJSON key={data.properties.id} data={data} color="#f3a6b2">
+                    <Tooltip direction='center' offset={[0, 0]} opacity={1} permanent>
+                      <span>{data.properties.Naziv}</span>
+                    </Tooltip>
+                    </GeoJSON>
                 ))}
               </LayerGroup>
             </Overlay>

@@ -4,7 +4,7 @@ import {MdFirstPage, MdLastPage, MdKeyboardArrowRight, MdKeyboardArrowLeft, MdAr
 
 export default class TableKI extends Component {
     state = {
-        pageSize: 20,
+        pageSize: 7, //iam bug, istrazi,
         pageIndex: 0,
         data: [],
         q: '', //za filtriranje podataka tj pronalazk, TREBA IMPLEMENTIRATI!
@@ -26,6 +26,7 @@ export default class TableKI extends Component {
         this.setState({column: columnseki})
 
         let maxDataPerPage = Math.floor(ekipodaci.length/this.state.pageSize)
+        console.log(maxDataPerPage)
         this.setState({maxPage: maxDataPerPage})
 
     };
@@ -86,9 +87,8 @@ export default class TableKI extends Component {
     };
 
     handleClickOnTr(event) {
-       // console.log(event.target.getAttribute("data-attribute")) //centroid za zumiranje na kartu!!!! TESTIRATI!
-        //console.log(event.target.getAttribute("data-id")) //da uzme id, proslijedi i onda prema njemu oboja cestu, TESTIRATI!!!
         if (event.target.getAttribute("data-attribute") && event.target.getAttribute("data-id")) {
+
             let a = {
                 id: "",
                 coord: 0,
@@ -97,16 +97,15 @@ export default class TableKI extends Component {
             let zoomOnMap = Object.create(a);
               
             zoomOnMap.id = event.target.getAttribute("data-id");
-            zoomOnMap.coord = JSON.parse("[" + event.target.getAttribute("data-attribute") + "]");
-            //this.props.OnMessageOut(checkboxProps);
 
-           // console.log(zoomOnMap)
+            let firstPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[2] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[3]), parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[0] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[1])-0.004];
+            let secondPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[6] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[7]), parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[4] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[5])-0.004];
+            let thirdPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[10] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[11]), parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[8] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[9])-0.004];
+            let fourthPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[14] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[15]), parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[12] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[13])-0.004];
 
-
+            zoomOnMap.coord = [firstPair, secondPair, thirdPair, fourthPair];
 
             this.props.zoomFeatureOnMap(zoomOnMap);
-           /* this.props.ZoomCoordinates(event.target.getAttribute("data-attribute"))*/
-            //console.log('Zumiraj se')
         } else console.log('Neće se zumirati')
     };
 
@@ -128,7 +127,7 @@ export default class TableKI extends Component {
     render() {     
        
         return (                                                                                                                                                       
-            <div>            
+            <div className="div-eki">            
                <table className="my-datatable eki">
                     <thead>
                         <tr>{this.state.column.map((heading, i) => <th onClick={() => this.onSortColumns(heading.selector, heading.name)} key={i}>{heading.name} {this.state.columnsnerazcesteort === heading.name ? (this.state.direction === "asc" ? <MdArrowUpward/> : <MdArrowDownward/>) : null}</th>)}</tr>
@@ -140,16 +139,13 @@ export default class TableKI extends Component {
                                     if (column.selector === 'Vlasnistvo') {
                                         if (row.properties[column.selector]) {
                                             if (row.properties[column.selector].match(/\d+/g)) {
-                                               // className={`sidebar-nav-menu-item ${this.state.activeCollapse === "javneceste" ? 'item-active' : ''}`}
-                                                return <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector].match(/\d+/g).map(Number).map((lista, i) => {  
-                                                     //console.log( row.properties["id"])                                                     
-                                                        //return <a key={i} href={`./data/pdf/${lista}.pdf`} download className="a-datatable">{lista}</a>
+                                                return <td key={i} data-id={row.properties.fid} data-attribute={row.properties.bbox}>{row.properties[column.selector].match(/\d+/g).map(Number).map((lista, i) => {  
                                                         return <a key={i} title="Preuzmi zemljišno-knjižni uložak!"  href={`/2-JPBP-vlasnistvo/${row.properties["objekt"]}/${row.properties["Oznaka"]}-${row.properties["id"]}-${lista}.pdf`} download className="a-datatable">{lista}</a>
                                                     })}
                                                 </td>
-                                            } else return <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td>;
-                                        } else return <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td>;
-                                } else return <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td>;  
+                                            } else return <td key={i} data-id={row.properties.fid} data-attribute={row.properties.bbox}>{row.properties[column.selector]}</td>;
+                                        } else return <td key={i} data-id={row.properties.fid} data-attribute={row.properties.bbox}>{row.properties[column.selector]}</td>;
+                                } else return <td key={i} data-id={row.properties.fid} data-attribute={row.properties.bbox}>{row.properties[column.selector]}</td>;  
                                 })}
                             </tr>
                         ))}
