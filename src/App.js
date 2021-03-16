@@ -4,9 +4,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./Komponente/Header"; 
 
 import './App.css';
-import { Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup, CircleMarker, Tooltip, Popup } from 'react-leaflet';
+import { Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup, CircleMarker, Tooltip} from 'react-leaflet';
 
 import * as ceste from "./data/javne_ceste_wgs.json";
+
+import {trg, mostovi, plaze, bicikliste_staze, pjeskacke_zone_setalista, pjeskacke_zone, plocnici} from "./Komponente/data/Javnepovrsinebezprometa";
+
 
 import * as bosana_nc from "./data/bosana_nc.json";
 import * as gorica_nc from "./data/gorica_nz.json";
@@ -17,13 +20,6 @@ import * as gradpag from "./data/nerazvrstaneceste/gradpag.json"
 import * as rasvjeta from "./data/rasvjeta.json";
 import * as groblja from "./data/groblja_krematoriji.json";
 
-import * as trg from "./data/javnepovrsinebezprometa/trg.json";
-import * as plocnici from "./data/javnepovrsinebezprometa/plocnici_precaci_nogostupi.json";
-import * as plaze from "./data/javnepovrsinebezprometa/plaze.json";
-import * as bicikli from "./data/javnepovrsinebezprometa/biciklisticke_pjesacke_staze.json";
-import * as mostovi from "./data/javnepovrsinebezprometa/mostovi.json";
-import * as pjeskacke_zone from "./data/javnepovrsinebezprometa/pjesacke_zone.json";
-import * as setalista from "./data/javnepovrsinebezprometa/pjesacke_zone_setalista.json";
 
 import * as parkiralista_naplata from "./data/javnaparkiralista/parkiralista_naplata.json";
 import * as parkiralista from "./data/javnaparkiralista/parkiralista.json";
@@ -46,10 +42,6 @@ import * as zupanijskeceste from "./data/javneceste/zupanijskeceste.json";
 
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import L from 'leaflet';
-
-
-
-
 
 const { Overlay } = LayersControl;
 
@@ -663,6 +655,28 @@ export default function SimpleExample() {
       //console.log(event.target)
   };
 
+  const onEachFeatureEKI = (feature, layer) => {
+    const popupContent = `
+    <div class="main-popup-div">
+      <p class="popup-p">Naziv komunalne infrastrukture: <span class="popup-span">${feature.properties.Naziv}</span></p>
+      <p class="popup-p">Oznaka: <span class="popup-span">${feature.properties.Oznaka}</span></p>
+      <p class="popup-p">Naziv naselja: <span class="popup-span">${feature.properties.Naselje}</span></p>
+      <p class="popup-p">Broj katastarske čestice: <span class="popup-span">${feature.properties.kcbr}</span></p>
+    </div>`;
+
+  if (feature.properties && feature.properties.popupContent) {
+    popupContent += feature.properties.popupContent;
+  };
+
+  layer.bindPopup(popupContent);
+
+  layer.on({
+    mouseover: highlightFeature.bind(this),
+    mouseout: resetHighlight.bind(this)
+  });
+
+};
+
   const onEachFeatureNerazCeste = (feature, layer) => {
       const popupContent = `
         <div class="main-popup-div">
@@ -691,8 +705,7 @@ export default function SimpleExample() {
       setBounds([corner1, corner2])
   };
 
-
-    return (
+  return (
       < div className="map">
         <Header checkboxState={handleCheckboxLayer} zoomState={handleZoomStateOnMap}/>
 
@@ -913,29 +926,29 @@ export default function SimpleExample() {
             </Overlay>
             <Overlay name="trg">
               <LayerGroup ref={trgJavnePovrsineInputRef}>
-                {trg.features.map(data => (
+                {trg.default.features.map(data => (
                   <GeoJSON key={data.properties.id} data={data} color="#bab667" fillColor="#d9d73d" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
             </Overlay>
             <Overlay name="plocnici">
               <LayerGroup ref={plocniciJavnePovrsineInputRef}>
-                {plocnici.features.map(data => (
-                  <GeoJSON key={data.properties.id_2} data={data} color="#7d8b8f" dashArray="5"/>
+                {plocnici.default.features.map(data => (
+                  <GeoJSON key={data.properties.id} data={data} color="#7d8b8f" dashArray="5"/>
                 ))}
               </LayerGroup>
             </Overlay>
             <Overlay name="plaze">
               <LayerGroup ref={plazeJavnePovrsineInputRef}>
-                {plaze.features.map(data => (
-                  <GeoJSON key={data.properties.Id} data={data} color="#265980" fillColor="#7babd0" fillOpacity="0.7" weight="2"/>
+                {plaze.default.features.map(data => (
+                  <GeoJSON key={data.properties.id} data={data} color="#265980" fillColor="#7babd0" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
             </Overlay>
             <Overlay name="bicikl">
               <LayerGroup ref={biciklistickeJavnePovrsineInputRef}>
-                {bicikli.features.map(data => (
-                  <GeoJSON key={data.properties.id} data={data} color="#f3a6b2">
+                {bicikliste_staze.default.features.map(data => (
+                  <GeoJSON key={data.properties.id} data={data} color="#f3a6b2" ref={geoJsonRef} onEachFeature={onEachFeatureEKI.bind(this)}>
                     <Tooltip direction='center' offset={[0, 0]} opacity={1} permanent>
                       <span>{data.properties.Naziv}</span>
                     </Tooltip>
@@ -945,21 +958,21 @@ export default function SimpleExample() {
             </Overlay>
             <Overlay name="mostovi">
               <LayerGroup ref={mostoviJavnePovrsineInputRef}>
-                {mostovi.features.map(data => (
-                  <GeoJSON key={data.properties.Id} data={data} color="#9f7acc" fillColor="#9f7acc" fillOpacity="0.7" weight="2"/>
+                {mostovi.default.features.map(data => (
+                  <GeoJSON key={data.properties.id} data={data} color="#9f7acc" fillColor="#9f7acc" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
             </Overlay>
             <Overlay name="pjesacke_zone">
               <LayerGroup ref={pjesackeJavnePovrsineInputRef}>
-                {pjeskacke_zone.features.map(data => (
-                  <GeoJSON key={data.properties.Id} data={data} color="#098d09" fillColor="#76b70c" fillOpacity="0.7" weight="2"/>
+                {pjeskacke_zone.default.features.map(data => (
+                  <GeoJSON key={data.properties.id} data={data} color="#098d09" fillColor="#76b70c" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
             </Overlay>
             <Overlay name="setalista">
               <LayerGroup ref={setalistaJavnePovrsineInputRef}>
-                {setalista.features.map(data => (
+                {pjeskacke_zone_setalista.default.features.map(data => (
                   <GeoJSON key={data.properties.id} data={data} color="#285b22" dashArray="5"/>
                 ))}
               </LayerGroup>

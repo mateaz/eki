@@ -406,6 +406,9 @@ LEAFLET LAYERS CONTROL
 /*
 MODAL
 */
+.modal-body {
+  padding: 0px;
+}
 .modal-dialog {
   max-width: 95%!important;
 }
@@ -429,11 +432,15 @@ MODAL
   height: 35vh;
   overflow: hidden;
 }
-/*test*/
+
 .modal {
   position: fixed;
   top: 60vh;
   left: 2vw;
+}
+
+.modal-footer {
+  padding: 0px;
 }
 
 /*POPUP NERAZ CESTE*/
@@ -476,10 +483,13 @@ Datatable
 }
 
 .button-div-datatable {
+  width: 100%;
+  padding-top: 5px;
   flex-basis: 100%;
   display: flex;
   justify-content: flex-end;
-  position: sticky;
+  position: absolute;
+  right: 10px;
   bottom: 0;
   background: white;
   font-size: 14px;

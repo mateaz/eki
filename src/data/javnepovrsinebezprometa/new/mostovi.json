@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "mostovi",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "Oznaka": "2-JPBP", "Vrsta": "Most", "Naziv": "Most Katine", "Kat opcina": "Pag", "Naselje": "Pag", "kcbr": "12219, 12221", "osn kc": "12221", "Vlasnistvo": "6487, 7659, 6300, 2864, 7909", "Upravitelj": null, "Vektoriz.": 1, "zkc": "7324, 8486\/1, 8527\/1, 7327\/2, 7322\/2, 7222\/2", "MBR K.O": 321532, "id": 1, "fid": 77, "objekt": "Mostovi", "bbox": "Polygon ((15.05269279 44.44268074, 15.05336187 44.44268074, 15.05336187 44.44314024, 15.05269279 44.44314024, 15.05269279 44.44268074))" }, "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 15.053291914635389, 44.443140237104608 ], [ 15.053361867875754, 44.443087335363202 ], [ 15.052762746775809, 44.442680736289773 ], [ 15.052692793498851, 44.442733637667061 ], [ 15.053291914635389, 44.443140237104608 ] ] ] ] } }
+]
+}
