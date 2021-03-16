@@ -28,6 +28,12 @@ export default class Header extends Component {
         this.props.zoomState(zoomProp);
     };
 
+   /* handleClickClosesidebar = (close) => {
+        if (close) {
+            this.setState({showSidebar: false})
+        };
+    };*/
+
 
     render () {
 
@@ -40,7 +46,7 @@ export default class Header extends Component {
                     <MoreInformation OnInformationOut={this.handleStateCheckbox}/>
                 </Nav>
             </Navbar>
-            <Sidebar showSidebar = {this.state.showSidebar}  OnMessageOut={this.handleStateCheckbox} OnZoomOnMap={this.handleZoomOnMap}/>
+            <Sidebar showSidebar = {this.state.showSidebar}  OnMessageOut={this.handleStateCheckbox} OnZoomOnMap={this.handleZoomOnMap} /*loseSidebarOnClick={this.handleClickClosesidebar}*//>
         </div>
     )
 }

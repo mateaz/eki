@@ -96,7 +96,7 @@ button:focus {
 
 .sidebar-div {
   z-index: 500;
-  position: absolute;
+  position: fixed;
   height: calc(100% - 65px);
   top: 65px;
   width: 368px;
@@ -206,6 +206,23 @@ input[type=checkbox] {
   margin-left: 20px;
 }
 
+#icon_slide {
+  position: absolute;
+  z-index: 500;
+  top: calc(100% - 50vh);
+  line-height: 50px;
+  height: 50px;
+  background-color: #2e6ca433;
+  box-shadow: 6px -1px 6px 0px #00000061;
+  right: -15px;
+  border-left: unset;
+  cursor: pointer;
+}
+
+#icon_slide:hover {
+  background-color: #ffffffcc;
+}
+
 .item-display {
   display: block;
 }
@@ -245,6 +262,15 @@ div .buttonabsolute:last-child {
 .leaflet-tooltip-right {
   margin-left: 10px;
 }
+
+.left-sidebar {
+  width: 0%;
+}
+
+.nav-display {
+  opacity: 0;
+}
+
 
 /* Customize the Clustered Markers */
 .marker-cluster-custom-1 {
@@ -410,7 +436,13 @@ MODAL
   padding: 0px;
 }
 .modal-dialog {
-  max-width: 95%!important;
+  max-width: 100%!important;
+  width: 97%!important;
+  position: fixed;
+  bottom: 0px;
+  right: 2px;
+  left: 2px;
+  margin-bottom: 4px;
 }
 
 .modal-backdrop.show {
@@ -433,14 +465,23 @@ MODAL
   overflow: hidden;
 }
 
-.modal {
+/*.modal {
   position: fixed;
   top: 60vh;
   left: 2vw;
+}*/
+
+/*.modal-footer {
+  padding: 0px;
+}*/
+
+.modal-title {
+  line-height: unset;
+  font-size: 16px;
 }
 
-.modal-footer {
-  padding: 0px;
+.modal-header {
+  padding: 7px;
 }
 
 /*POPUP NERAZ CESTE*/
@@ -458,6 +499,20 @@ MODAL
 /*
 Datatable
 */
+
+.table-down {
+  width: 40px;
+  background-color: #e9f0f4;
+  text-align: center;
+  border-radius: 2px;
+  cursor: pointer;
+  border: 1px solid #637e8d;
+}
+
+.table-down:hover {
+  background-color: #637e8d;
+}
+
 .buton-datatable {
   font-weight: 700;
   background-color: #d1e1e9;
@@ -512,6 +567,7 @@ Datatable
 .my-datatable {
   width: 100%;
   margin: 10px;
+  height: 26vh;
 }
 
 .my-datatable thead {
@@ -588,7 +644,18 @@ Datatable
   font-size: 14px;
 }
 
-
 /*
-TOOLTIP
+PKUS
 */
+
+.modal-content {
+  transition: all 1s;
+}
+
+.modal-dialog-hide {
+  height: 5vh;
+    /* top: 0px; */
+   /* position: fixed;
+    bottom: 2px;
+    right: 0px;
+*/}

@@ -3,7 +3,8 @@ import * as neraz_ceste from '../data/centroidiceste/centroidi.json';
 
 //import * as eki from '../data/javnepovrsinebezprometa/centroidi/javnepovrsinebezprometa.json'; //testiranje, kasnije idu svi podaci vamo iz cijelog KI
 //import * as eki from '../data/javnepovrsinebezprometa/centroidi/test.json'; //testiranje, kasnije idu svi podaci vamo iz cijelog KI
-import * as eki from '../data/javnepovrsinebezprometa/centroidi/bboxbicikl.json'; //testiranje, kasnije idu svi podaci vamo iz cijelog KI
+//import * as eki from '../data/javnepovrsinebezprometa/centroidi/bboxbicikl.json'; //testiranje, kasnije idu svi podaci vamo iz cijelog KI
+import {obj_eki} from "../Komponente/data/Javnepovrsinebezprometa";
 
 export const columnsnerazceste = [
     {   name: "Oznaka",
@@ -67,6 +68,4 @@ export const columnseki = [
     },
 ];
 
-export const ekipodaci = eki.features.map((data) => {
-    return data;
-})
+export const ekipodaci = obj_eki;

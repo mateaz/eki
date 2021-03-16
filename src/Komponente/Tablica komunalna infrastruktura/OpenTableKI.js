@@ -3,6 +3,7 @@ import { BsReverseLayoutTextWindowReverse } from 'react-icons/bs';
 import ModalTableKI from './ModalTableKI';
 
 
+
 export default class OpenTableKI extends Component {
     state = {
         show: false,
@@ -10,13 +11,14 @@ export default class OpenTableKI extends Component {
 
     handleClickOpenClose = () => {
         this.setState({show:!this.state.show})
+        if (!this.state.show) {
+            this.props.closeSidebar('zatvori');
+        } else  this.props.closeSidebar();
     };
 
     handleZoomOnMap = (a) => {
         this.props.onZoomOnMap(a);
-        //console.log(a);
     };
-
 
     render() {
         return(
@@ -27,4 +29,4 @@ export default class OpenTableKI extends Component {
         )
     }
 
-}
+};

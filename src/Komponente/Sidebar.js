@@ -5,7 +5,7 @@ import Checkbox from './Checkbox';
 import { faChevronRight, faChevronDown, faRoad, faCity, faArchive } from '@fortawesome/free-solid-svg-icons';
 import OpenTableCeste from './OpenTableCeste';
 import OpenTableKI from './Tablica komunalna infrastruktura/OpenTableKI';
-
+import { MdSkipPrevious } from "react-icons/md";
 
 export default class  Sidebar extends Component{
     state = {
@@ -45,6 +45,7 @@ export default class  Sidebar extends Component{
         reciklaznaInput: false,
         trzniceInput: false,
         gradjevineInput: false,
+        minimalize: false,
     }
 
     toggleChange = (evt) => {  
@@ -86,8 +87,19 @@ export default class  Sidebar extends Component{
     };
 
     handleZoomOnMap = (prop) => {
-        //console.log(prop);
         this.props.OnZoomOnMap(prop);
+    };
+
+    closeSidebarOnclick = (close) => {
+        console.log(close)
+        if (close) {
+            //this.props.closeSidebarOnClick(close);
+            this.setState({minimalize: true});
+        };
+    };
+
+    minimalizeSidebar = () => {
+        this.setState({minimalize: !this.state.minimalize});
     };
 
 
@@ -100,8 +112,9 @@ export default class  Sidebar extends Component{
     return (
         <div> 
             {this.props.showSidebar && 
-            <div className="sidebar-div" id="sidebar-div">
-                <div className="sidebar-nav-menu">
+            <div className={`sidebar-div ${this.state.minimalize ? 'left-sidebar': ''}` } id="sidebar-div">
+                <div id="icon_slide" onClick={this.minimalizeSidebar}><MdSkipPrevious/></div>
+                <div className={`sidebar-nav-menu ${this.state.minimalize ? 'nav-display': ''}` }>
                     <div className={`sidebar-nav-menu-item ${this.state.activeCollapse === "javneceste" ? 'item-active' : ''}`}  data-id="javneceste">
                         <div className="sidebar-nav-menu-item-head" >
                             <span className="span_icon" onClick={() => this.handleExpandCollaps("javneceste")}><FontAwesomeIcon icon={faArchive} /></span>
@@ -197,7 +210,7 @@ export default class  Sidebar extends Component{
                         <div className="sidebar-nav-menu-item-head" >
                             <span className="span_icon" onClick={() => this.handleExpandCollaps("komunalna")}><FontAwesomeIcon icon={faCity}/></span>
                             <span className="sidebar-nav-menu-item-head-title" onClick={() => this.handleExpandCollaps("komunalna")}>Komunalna infrastrukutra</span>
-                            {this.state.activeCollapse === "komunalna" ? <OpenTableKI onZoomOnMap={this.handleZoomOnMap}/> : null}
+                            {this.state.activeCollapse === "komunalna" ? <OpenTableKI onZoomOnMap={this.handleZoomOnMap} closeSidebar={this.closeSidebarOnclick}/> : null}
                         </div>
                         <div className="sidebar-nav-menu-item-body">
                             <SidebarContent

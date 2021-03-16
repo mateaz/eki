@@ -26,7 +26,7 @@ export default class TableKI extends Component {
         this.setState({column: columnseki})
 
         let maxDataPerPage = Math.floor(ekipodaci.length/this.state.pageSize)
-        console.log(maxDataPerPage)
+        //console.log(maxDataPerPage)
         this.setState({maxPage: maxDataPerPage})
 
     };
@@ -98,10 +98,10 @@ export default class TableKI extends Component {
               
             zoomOnMap.id = event.target.getAttribute("data-id");
 
-            let firstPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[2] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[3]), parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[0] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[1])-0.004];
-            let secondPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[6] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[7]), parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[4] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[5])-0.004];
-            let thirdPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[10] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[11]), parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[8] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[9])-0.004];
-            let fourthPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[14] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[15]), parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[12] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[13])-0.004];
+            let firstPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[2] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[3])-0.0002, parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[0] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[1])-0.0003];
+            let secondPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[6] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[7])-0.0002, parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[4] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[5])-0.0003];
+            let thirdPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[10] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[11])-0.0002, parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[8] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[9])-0.0003];
+            let fourthPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[14] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[15])-0.0002, parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[12] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[13])-0.0003];
 
             zoomOnMap.coord = [firstPair, secondPair, thirdPair, fourthPair];
 
@@ -115,9 +115,9 @@ export default class TableKI extends Component {
         const sortData = this.state.data;
         sortData.sort(function(a, b) {
             if (direction === 'desc') {
-                return (a.properties[key] === null) - (b.properties[key] === null) || ('' + b.properties[key]).localeCompare(a.properties[key]);
+                return (a[key] === null) - (b[key] === null) || ('' + b[key]).localeCompare(a[key]);
             } else if (direction === 'asc') {
-                return (b.properties[key] === null) - (a.properties[key] === null) || ('' + a.properties[key]).localeCompare(b.properties[key]);
+                return (b[key] === null) - (a[key] === null) || ('' + a[key]).localeCompare(b[key]);
             }
         });
         this.setState({data: sortData, direction: direction, sortedBy: key, columnsnerazcesteort: namecolumn})
@@ -137,15 +137,15 @@ export default class TableKI extends Component {
                             <tr key={i} onClick={event=> this.handleClickOnTr(event)} title="Lociraj me!">
                                 {this.state.column.map((column, i) => { 
                                     if (column.selector === 'Vlasnistvo') {
-                                        if (row.properties[column.selector]) {
-                                            if (row.properties[column.selector].match(/\d+/g)) {
-                                                return <td key={i} data-id={row.properties.fid} data-attribute={row.properties.bbox}>{row.properties[column.selector].match(/\d+/g).map(Number).map((lista, i) => {  
-                                                        return <a key={i} title="Preuzmi zemljišno-knjižni uložak!"  href={`/2-JPBP-vlasnistvo/${row.properties["objekt"]}/${row.properties["Oznaka"]}-${row.properties["id"]}-${lista}.pdf`} download className="a-datatable">{lista}</a>
+                                        if (row[column.selector]) {
+                                            if (row[column.selector].match(/\d+/g)) {
+                                                return <td key={i} data-id={row.fid} data-attribute={row.bbox}>{row[column.selector].match(/\d+/g).map(Number).map((lista, i) => {  
+                                                        return <a key={i} title="Preuzmi zemljišno-knjižni uložak!"  href={`/2-JPBP-vlasnistvo/${row["objekt"]}/${row["Oznaka"]}-${row["id"]}-${lista}.pdf`} download className="a-datatable">{lista}</a>
                                                     })}
                                                 </td>
-                                            } else return <td key={i} data-id={row.properties.fid} data-attribute={row.properties.bbox}>{row.properties[column.selector]}</td>;
-                                        } else return <td key={i} data-id={row.properties.fid} data-attribute={row.properties.bbox}>{row.properties[column.selector]}</td>;
-                                } else return <td key={i} data-id={row.properties.fid} data-attribute={row.properties.bbox}>{row.properties[column.selector]}</td>;  
+                                            } else return <td key={i} data-id={row.fid} data-attribute={row.bbox}>{row[column.selector]}</td>;
+                                        } else return <td key={i} data-id={row.fid} data-attribute={row.bbox}>{row[column.selector]}</td>;
+                                } else return <td key={i} data-id={row.fid} data-attribute={row.bbox}>{row[column.selector]}</td>;  
                                 })}
                             </tr>
                         ))}

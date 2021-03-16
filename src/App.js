@@ -9,6 +9,9 @@ import { Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup, Circl
 import * as ceste from "./data/javne_ceste_wgs.json";
 
 import {trg, mostovi, plaze, bicikliste_staze, pjeskacke_zone_setalista, pjeskacke_zone, plocnici} from "./Komponente/data/Javnepovrsinebezprometa";
+import {obj_eki} from "./Komponente/data/Javnepovrsinebezprometa";
+
+
 
 
 import * as bosana_nc from "./data/bosana_nc.json";
@@ -702,14 +705,17 @@ export default function SimpleExample() {
       const corner1 = [a.coord[1], a.coord[0]];
       const corner2 = [a.coord[3], a.coord[2]];
 
-      setBounds([corner1, corner2])
+      setBounds([corner1, corner2]);
   };
+  
+  console.log(obj_eki);
+
 
   return (
       < div className="map">
         <Header checkboxState={handleCheckboxLayer} zoomState={handleZoomStateOnMap}/>
 
-        <Map className="markercluster-map" center={center} zoom={zoom} ref={mapRef} maxZoom={25} minZoom={10} bounds={bounds}/* maxBounds={(45, 14), (43, 16)}*/>
+        <Map className="markercluster-map" center={center} zoom={zoom} ref={mapRef} maxZoom={18} minZoom={10} bounds={bounds}/* maxBounds={(45, 14), (43, 16)}*/>
           <LayersControl position="topright">
             <LayersControl.BaseLayer checked name="OpenStreetMap" >
               <TileLayer ref={OSMRef}
