@@ -432,10 +432,10 @@ LEAFLET LAYERS CONTROL
 /*
 MODAL
 */
-.modal-body {
+.eki-modal .modal-body {
   padding: 0px;
 }
-.modal-dialog {
+.eki-modal .modal-dialog {
   max-width: 100%!important;
   width: 97%!important;
   position: fixed;
@@ -460,27 +460,18 @@ MODAL
   width: 500px;
 }
 
-.modal-content {
-  height: 35vh;
+.eki-modal .modal-content {
+  height: 40vh;
   overflow: hidden;
+  transition: all 1s;
 }
 
-/*.modal {
-  position: fixed;
-  top: 60vh;
-  left: 2vw;
-}*/
-
-/*.modal-footer {
-  padding: 0px;
-}*/
-
-.modal-title {
+.eki-modal .modal-title {
   line-height: unset;
   font-size: 16px;
 }
 
-.modal-header {
+.eki-modal .modal-header {
   padding: 7px;
 }
 
@@ -544,7 +535,6 @@ Datatable
   display: flex;
   justify-content: flex-end;
   position: absolute;
-  right: 10px;
   bottom: 0;
   background: white;
   font-size: 14px;
@@ -567,7 +557,7 @@ Datatable
 .my-datatable {
   width: 100%;
   margin: 10px;
-  height: 26vh;
+  height: 30vh;
 }
 
 .my-datatable thead {
@@ -637,25 +627,32 @@ Datatable
   max-height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 26vh;
+  height: 29vh;
 }
 
 .eki tbody {
   font-size: 14px;
 }
 
-/*
-PKUS
-*/
-
-.modal-content {
-  transition: all 1s;
+.datatable-input {
+  position: absolute;
+  left: 5px;
 }
 
-.modal-dialog-hide {
+.datatable-input:hover {
+  font-weight: 500;
+}
+
+.datatable-input label:hover {
+  cursor: unset;
+}
+
+.datatable-input label {
+  margin-left: 5px;
+  color: #2e6ca4;
+  font-weight: 600;
+}
+
+.eki-modal .modal-dialog-hide {
   height: 5vh;
-    /* top: 0px; */
-   /* position: fixed;
-    bottom: 2px;
-    right: 0px;
-*/}
+}

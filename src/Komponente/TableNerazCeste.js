@@ -6,7 +6,7 @@ import {MdFirstPage, MdLastPage, MdKeyboardArrowRight, MdKeyboardArrowLeft, MdAr
 
 export default class TableNerazCeste extends Component {
     state = {
-        pageSize: 20,
+        pageSize: 7,
         pageIndex: 0,
         data: [],
         q: '', //za filtriranje podataka tj pronalazk, TREBA IMPLEMENTIRATI!
@@ -16,19 +16,22 @@ export default class TableNerazCeste extends Component {
         sortedBy: '',
         direction: 'asc',
         columnsnerazcesteort: '',
+        filteredData: [],
     };
 
     componentDidMount() {
        /* let data = nerazceste.map(data => {
             return data
         }) OBRISATI*/
-        this.setState({data: nerazceste})
+        this.setState({data: nerazceste});
 
-        this.setState({column: columnsnerazceste})
+        this.setState({column: columnsnerazceste});
 
-        let maxDataPerPage = Math.floor(nerazceste.length/this.state.pageSize)
-        this.setState({maxPage: maxDataPerPage})
-    }
+        this.setState({filteredData: nerazceste});
+
+        let maxDataPerPage = Math.ceil(nerazceste.length/this.state.pageSize);
+        this.setState({maxPage: maxDataPerPage});
+    };
 
     handlePrevPageClick(event) {
         this.setState(prevState => ({
@@ -63,8 +66,8 @@ export default class TableNerazCeste extends Component {
     };
 
     handleLastPageClick(event) {
-        this.setState({pageIndex: this.state.maxPage})
-        this.setState({numberInput: this.state.maxPage+1})
+        this.setState({pageIndex: this.state.maxPage-1})
+        this.setState({numberInput: this.state.maxPage})
     };
 
     handleChangePageNumber(event) {
@@ -91,7 +94,6 @@ export default class TableNerazCeste extends Component {
     };
 
     onSortColumns(key, namecolumn) {
-
         const direction = this.state.sortedBy ? (this.state.direction === 'desc' ? 'asc' : 'desc') : 'asc';
         const sortData = this.state.data;
         sortData.sort(function(a, b) {
@@ -101,41 +103,68 @@ export default class TableNerazCeste extends Component {
                 return (b.properties[key] === null) - (a.properties[key] === null) || ('' + a.properties[key]).localeCompare(b.properties[key]);
             }
         });
-        this.setState({data: sortData, direction: direction, sortedBy: key, columnsnerazcesteort: namecolumn})
+        this.setState({data: sortData, direction: direction, sortedBy: key, columnsnerazcesteort: namecolumn});
+    };
 
-      };
+    searchDatatable(e) {
+        e.preventDefault();
+        let value = e.target.value;
+        
+        this.setState({q: value});
+
+        let newData;
+
+        if (value) {
+             newData = this.state.data.filter((row) => { 
+                if (row.Vrsta && row.Naselje && row["Kat opcina"] && row.kcbr && row.zkc) {
+                    return row.Vrsta.toLowerCase().indexOf(value) > -1 || row.Naselje.toLowerCase().indexOf(value) > -1 || row["Kat opcina"].toLowerCase().indexOf(value) > -1 || row.kcbr.toLowerCase().indexOf(value) > -1 || row.zkc.toLowerCase().indexOf(value) > -1}
+                }
+            );
+        } else newData = this.state.data;
+
+        let newMaxPage = Math.ceil(newData.length/this.state.pageSize);
+
+        this.setState({filteredData: newData});
+        this.setState({numberInput: 1})
+        this.setState({pageIndex: 0})
+        this.setState({maxPage: newMaxPage});
+    };
 
     render() {     
        
         return (                                                                                                                                                       
-            <div>            
+            <div className="div-eki">            
                 <table className="my-datatable">
                     <thead>
                         <tr>{this.state.column.map((heading, i) => <th onClick={() => this.onSortColumns(heading.selector, heading.name)} key={i}>{heading.name} {this.state.columnsnerazcesteort === heading.name ? (this.state.direction === "asc" ? <MdArrowUpward/> : <MdArrowDownward/>) : null}</th>)}</tr>
                     </thead>
                     <tbody>
-                        {this.state.data.slice(this.state.pageIndex * this.state.pageSize, this.state.pageIndex * this.state.pageSize + this.state.pageSize).map((row, i) => (
+                        {this.state.filteredData.slice(this.state.pageIndex * this.state.pageSize, this.state.pageIndex * this.state.pageSize + this.state.pageSize).map((row, i) => (
                             <tr key={i} onClick={event=> this.handleClickOnTr(event)}>
                                 {this.state.column.map((column, i) => (
                                     <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td> //centroidi
-                                    //<td key={i} data-attribute={row.properties.geometrija}>{row.properties[column.selector]}</td> //ceste s geomtrijom u atributu
                                 ))}
                             </tr>
                         ))}
                     </tbody>
                 </table>
                 <div className="button-div-datatable">
+                    <form className="datatable-input">
+                        <input type="text" value={this.state.q} onChange={(e) => this.searchDatatable(e)}/>
+                        <label> Pretraži</label>
+                    </form>
+
                     <button className="buton-datatable" disabled={this.state.pageIndex === 0 ? true : false } onClick = {event => this.handleFirstPageClick(event)}><MdFirstPage/></button>
                     <button className="buton-datatable" disabled={this.state.pageIndex === 0 ? true : false } onClick = {event => this.handlePrevPageClick(event)}><MdKeyboardArrowLeft/></button>
                     <form className="forma-datatable">
                         <label>
                             Stranica
                             <input type="text" value={this.state.numberInput} onChange={event => this.handleChangePageNumber(event)}/>
-                            od {this.state.maxPage+1}
+                            od {this.state.maxPage}
                         </label>
                     </form>
-                    <button className="buton-datatable" disabled={this.state.pageIndex === this.state.maxPage ? true : false } onClick = {event => this.handleNextPageClick(event)}><MdKeyboardArrowRight/></button>
-                    <button className="buton-datatable" disabled={this.state.pageIndex === this.state.maxPage ? true : false } onClick = {event => this.handleLastPageClick(event)}><MdLastPage/></button>
+                    <button className="buton-datatable" disabled={this.state.pageIndex+1 === this.state.maxPage ? true : false } onClick = {event => this.handleNextPageClick(event)}><MdKeyboardArrowRight/></button>
+                    <button className="buton-datatable" disabled={this.state.pageIndex+1 === this.state.maxPage ? true : false } onClick = {event => this.handleLastPageClick(event)}><MdLastPage/></button>
                 </div>
             </div>
         )

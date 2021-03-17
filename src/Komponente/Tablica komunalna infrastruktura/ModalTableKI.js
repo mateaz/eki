@@ -19,8 +19,7 @@ export default function ModalTableKI({handleClose, show, zoomIdCoord}) {
     };
 
     return (
-        
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} className="eki-modal">
              <Modal.Header closeButton className="modalheader">
                 <div onClick={minimizeTable}className="table-down"><MdArrowDropDown/></div>
             </Modal.Header>

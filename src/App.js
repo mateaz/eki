@@ -11,14 +11,7 @@ import * as ceste from "./data/javne_ceste_wgs.json";
 import {trg, mostovi, plaze, bicikliste_staze, pjeskacke_zone_setalista, pjeskacke_zone, plocnici} from "./Komponente/data/Javnepovrsinebezprometa";
 import {obj_eki} from "./Komponente/data/Javnepovrsinebezprometa";
 
-
-
-
-import * as bosana_nc from "./data/bosana_nc.json";
-import * as gorica_nc from "./data/gorica_nz.json";
-import * as kosljun_nc from "./data/kosljun_nc.json";
-
-import * as gradpag from "./data/nerazvrstaneceste/gradpag.json"
+import {bosana, dinjiska, gorica, gradpag, miskovici, kosljun, simuni, smokvica, staravas, vlasici, vrcici} from "./Komponente/data/Nerazvrstaneceste";
 
 import * as rasvjeta from "./data/rasvjeta.json";
 import * as groblja from "./data/groblja_krematoriji.json";
@@ -708,7 +701,7 @@ export default function SimpleExample() {
       setBounds([corner1, corner2]);
   };
   
-  console.log(obj_eki);
+  //console.log(obj_eki);
 
 
   return (
@@ -760,25 +753,25 @@ export default function SimpleExample() {
               </LayerGroup>
             </Overlay>
 
-            <Overlay name="Layer 2">
+            <Overlay name="cestePagInputRef 2">
               <LayerGroup ref={cestePagInputRef} >
-                  {gradpag.features.map(data => (
+                  {gradpag.default.features.map(data => (
                   <GeoJSON key={data.properties.fid} data={data} color="black" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
               </Overlay>
 
-            <Overlay name="Layer 2">
+            <Overlay name="cesteMiskoviciInputRef 2">
               <LayerGroup ref={cesteMiskoviciInputRef}>
-                  {kosljun_nc.features.map(data => (
+                  {miskovici.default.features.map(data => (
                   <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
               </Overlay>
 
-            <Overlay name="Layer 2">
+            <Overlay name="cesteGoricaInputRef 2">
                 <LayerGroup ref={cesteGoricaInputRef}>
-                  {gorica_nc.features.map(data => (
+                  {gorica.default.features.map(data => (
                   <GeoJSON key={data.properties.fid} data={data} color="orange" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>

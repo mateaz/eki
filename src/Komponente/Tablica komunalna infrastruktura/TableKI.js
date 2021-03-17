@@ -4,7 +4,7 @@ import {MdFirstPage, MdLastPage, MdKeyboardArrowRight, MdKeyboardArrowLeft, MdAr
 
 export default class TableKI extends Component {
     state = {
-        pageSize: 7, //iam bug, istrazi,
+        pageSize: 7,
         pageIndex: 0,
         data: [],
         q: '', //za filtriranje podataka tj pronalazk, TREBA IMPLEMENTIRATI!
@@ -14,21 +14,18 @@ export default class TableKI extends Component {
         sortedBy: '',
         direction: 'asc',
         columnsnerazcesteort: '',
-
+        filteredData: [],
     };
 
     componentDidMount() {
-       /* let data = ekipodaci.map(data => {
-            return data
-        })  OBRISATI*/
-        this.setState({data: ekipodaci})
+        this.setState({data: ekipodaci});
 
-        this.setState({column: columnseki})
+        this.setState({column: columnseki});
 
-        let maxDataPerPage = Math.floor(ekipodaci.length/this.state.pageSize)
-        //console.log(maxDataPerPage)
-        this.setState({maxPage: maxDataPerPage})
+        this.setState({filteredData: ekipodaci});
 
+        let maxPageI = Math.ceil(ekipodaci.length/this.state.pageSize);
+        this.setState({maxPage: maxPageI});
     };
 
     handlePrevPageClick(event) {
@@ -64,8 +61,8 @@ export default class TableKI extends Component {
     };
 
     handleLastPageClick(event) {
-        this.setState({pageIndex: this.state.maxPage})
-        this.setState({numberInput: this.state.maxPage+1})
+        this.setState({pageIndex: this.state.maxPage-1})
+        this.setState({numberInput: this.state.maxPage})
     };
 
     handleChangePageNumber(event) {
@@ -110,7 +107,6 @@ export default class TableKI extends Component {
     };
 
     onSortColumns(key, namecolumn) {
-
         const direction = this.state.sortedBy ? (this.state.direction === 'desc' ? 'asc' : 'desc') : 'asc';
         const sortData = this.state.data;
         sortData.sort(function(a, b) {
@@ -120,8 +116,31 @@ export default class TableKI extends Component {
                 return (b[key] === null) - (a[key] === null) || ('' + a[key]).localeCompare(b[key]);
             }
         });
-        this.setState({data: sortData, direction: direction, sortedBy: key, columnsnerazcesteort: namecolumn})
+        this.setState({data: sortData, direction: direction, sortedBy: key, columnsnerazcesteort: namecolumn, filteredData: sortData});
+    };
 
+    searchDatatable(e) {
+        e.preventDefault();
+        let value = e.target.value;
+        
+        this.setState({q: value});
+
+        let newData;
+
+        if (value) {
+             newData = this.state.data.filter((row) => { 
+                if (row.Vrsta && row.Naselje && row["Kat opcina"] && row.kcbr && row.zkc) {
+                    return row.Vrsta.toLowerCase().indexOf(value) > -1 || row.Naselje.toLowerCase().indexOf(value) > -1 || row["Kat opcina"].toLowerCase().indexOf(value) > -1 || row.kcbr.toLowerCase().indexOf(value) > -1 || row.zkc.toLowerCase().indexOf(value) > -1}
+                }
+            );
+        } else newData = this.state.data;
+
+        let newMaxPage = Math.ceil(newData.length/this.state.pageSize);
+
+        this.setState({filteredData: newData});
+        this.setState({numberInput: 1})
+        this.setState({pageIndex: 0})
+        this.setState({maxPage: newMaxPage});
     };
 
     render() {     
@@ -133,7 +152,7 @@ export default class TableKI extends Component {
                         <tr>{this.state.column.map((heading, i) => <th onClick={() => this.onSortColumns(heading.selector, heading.name)} key={i}>{heading.name} {this.state.columnsnerazcesteort === heading.name ? (this.state.direction === "asc" ? <MdArrowUpward/> : <MdArrowDownward/>) : null}</th>)}</tr>
                     </thead>
                     <tbody>
-                        {this.state.data.slice(this.state.pageIndex * this.state.pageSize, this.state.pageIndex * this.state.pageSize + this.state.pageSize).map((row, i) => (
+                        {this.state.filteredData.slice(this.state.pageIndex * this.state.pageSize, this.state.pageIndex * this.state.pageSize + this.state.pageSize).map((row, i) => (
                             <tr key={i} onClick={event=> this.handleClickOnTr(event)} title="Lociraj me!">
                                 {this.state.column.map((column, i) => { 
                                     if (column.selector === 'Vlasnistvo') {
@@ -152,17 +171,21 @@ export default class TableKI extends Component {
                     </tbody>
                 </table>
                 <div className="button-div-datatable">
+                    <form className="datatable-input">
+                        <input type="text" value={this.state.q} onChange={(e) => this.searchDatatable(e)}/>
+                        <label> Pretraži</label>
+                    </form>
                     <button className="buton-datatable" disabled={this.state.pageIndex === 0 ? true : false } onClick = {event => this.handleFirstPageClick(event)}><MdFirstPage/></button>
                     <button className="buton-datatable" disabled={this.state.pageIndex === 0 ? true : false } onClick = {event => this.handlePrevPageClick(event)}><MdKeyboardArrowLeft/></button>
                     <form className="forma-datatable">
                         <label>
                             Stranica
                             <input type="text" value={this.state.numberInput} onChange={event => this.handleChangePageNumber(event)}/>
-                            od {this.state.maxPage+1}
+                            od {this.state.maxPage}
                         </label>
                     </form>
-                    <button className="buton-datatable" disabled={this.state.pageIndex === this.state.maxPage ? true : false } onClick = {event => this.handleNextPageClick(event)}><MdKeyboardArrowRight/></button>
-                    <button className="buton-datatable" disabled={this.state.pageIndex === this.state.maxPage ? true : false } onClick = {event => this.handleLastPageClick(event)}><MdLastPage/></button>
+                    <button className="buton-datatable" disabled={this.state.pageIndex+1 === this.state.maxPage ? true : false } onClick = {event => this.handleNextPageClick(event)}><MdKeyboardArrowRight/></button>
+                    <button className="buton-datatable" disabled={this.state.pageIndex+1 === this.state.maxPage ? true : false } onClick = {event => this.handleLastPageClick(event)}><MdLastPage/></button>
                 </div>
             </div>
         )

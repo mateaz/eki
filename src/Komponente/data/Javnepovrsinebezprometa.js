@@ -6,8 +6,6 @@ import * as pjeskacke_zone_setalistaa from "../../data/javnepovrsinebezprometa/p
 import * as pjeskacke_zonea from "../../data/javnepovrsinebezprometa/pjesacke_zone.json";
 import * as plocnicia from "../../data/javnepovrsinebezprometa/plocnici_precaci_nogostupi.json";
 
-
-
 export const trg = trga;
 export const mostovi = mostovia;
 export const plaze = plazea;
