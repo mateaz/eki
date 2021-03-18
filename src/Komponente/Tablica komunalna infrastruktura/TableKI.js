@@ -103,7 +103,7 @@ export default class TableKI extends Component {
             zoomOnMap.coord = [firstPair, secondPair, thirdPair, fourthPair];
 
             this.props.zoomFeatureOnMap(zoomOnMap);
-        } else console.log('Neće se zumirati')
+        };
     };
 
     onSortColumns(key, namecolumn) {

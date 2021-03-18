@@ -27,6 +27,5 @@ export default class OpenTableKI extends Component {
                 <ModalTableKI  handleClose = {this.handleClickOpenClose} show = {this.state.show} zoomIdCoord = {this.handleZoomOnMap}/>
             </div>
         )
-    }
-
+    };
 };

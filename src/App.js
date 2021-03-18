@@ -13,6 +13,7 @@ import {obj_eki} from "./Komponente/data/Javnepovrsinebezprometa";
 
 import {bosana, dinjiska, gorica, gradpag, miskovici, kosljun, simuni, smokvica, staravas, vlasici, vrcici} from "./Komponente/data/Nerazvrstaneceste";
 
+
 import * as rasvjeta from "./data/rasvjeta.json";
 import * as groblja from "./data/groblja_krematoriji.json";
 
@@ -83,9 +84,8 @@ export default function SimpleExample() {
     const javneCesteZupanijskeInputRef = useRef();
     const javneCesteLokalneInputRef = useRef();
 
-    const cestePagInputRef = useRef();
-    const cesteMiskoviciInputRef = useRef();
-    const cesteGoricaInputRef = useRef();
+       let [cestePagInputRef, cesteMiskoviciInputRef, cesteGoricaInputRef, cesteBosanaInputRef, cesteDinjiskaInputRef, cesteKosljunInputRef, cesteSmokvicaInputRef, cesteStaraVasInputRef, cesteSimuniInputRef, cesteVlasiciInputRef, cesteVrciciInputRef ] = [...Array(11)].map(useRef);
+
 
     const rasvjeta1InputRef = useRef();
     const rasvjeta2InputRef = useRef();
@@ -515,6 +515,97 @@ export default function SimpleExample() {
           map.removeLayer(layerAdd);
         }
       };
+      
+      if ('cesteBosanaInputRef'.includes(a)) {
+        let layerAdd = cesteBosanaInputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && cesteBosanaInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && cesteBosanaInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+      if ('cesteDinjiskaInputRef'.includes(a)) {
+        let layerAdd = cesteDinjiskaInputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && cesteDinjiskaInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && cesteDinjiskaInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+      if ('cesteSmokvicaInputRef'.includes(a)) {
+        let layerAdd = cesteSmokvicaInputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && cesteSmokvicaInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && cesteSmokvicaInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+      if ('cesteKosljunInputRef'.includes(a)) {
+        let layerAdd = cesteKosljunInputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && cesteKosljunInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && cesteKosljunInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+      if ('cesteStaraVasInputRef'.includes(a)) {
+        let layerAdd = cesteStaraVasInputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && cesteStaraVasInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && cesteStaraVasInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+      if ('cesteSimuniInputRef'.includes(a)) {
+        let layerAdd = cesteSimuniInputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && cesteSimuniInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && cesteSimuniInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+      if ('cesteVrciciInputRef'.includes(a)) {
+        let layerAdd = cesteVrciciInputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && cesteVrciciInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && cesteVrciciInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+      if ('cesteVlasiciInputRef'.includes(a)) {
+        let layerAdd = cesteVlasiciInputRef.current.leafletElement;
+        if (checkboxProps.checked && mapRef.current && cesteVlasiciInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.addLayer(layerAdd);
+        }
+        else if (!checkboxProps.checked && mapRef.current && cesteVlasiciInputRef.current) {
+          const map = mapRef.current.leafletElement;
+          map.removeLayer(layerAdd);
+        }
+      };
+/*
+*/
 
       if ('javneCesteDrzavneInputRef'.includes(a)) {
         let layerAdd = javneCesteDrzavneInputRef.current.leafletElement;
@@ -753,29 +844,66 @@ export default function SimpleExample() {
               </LayerGroup>
             </Overlay>
 
-            <Overlay name="cestePagInputRef 2">
-              <LayerGroup ref={cestePagInputRef} >
+            <Overlay>
+                <LayerGroup ref={cestePagInputRef} >
                   {gradpag.default.features.map(data => (
                   <GeoJSON key={data.properties.fid} data={data} color="black" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
-              </Overlay>
-
-            <Overlay name="cesteMiskoviciInputRef 2">
-              <LayerGroup ref={cesteMiskoviciInputRef}>
-                  {miskovici.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
-                  ))}
+                <LayerGroup ref={cesteMiskoviciInputRef}>
+                    {miskovici.default.features.map(data => (
+                    <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                    ))}
                 </LayerGroup>
-              </Overlay>
-
-            <Overlay name="cesteGoricaInputRef 2">
                 <LayerGroup ref={cesteGoricaInputRef}>
                   {gorica.default.features.map(data => (
                   <GeoJSON key={data.properties.fid} data={data} color="orange" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
+                <LayerGroup ref={cesteBosanaInputRef} >
+                  {bosana.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="black" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  ))}
+                </LayerGroup>
+                <LayerGroup ref={cesteKosljunInputRef}>
+                  {kosljun.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="orange" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  ))}
+                </LayerGroup>
+                <LayerGroup ref={cesteDinjiskaInputRef}>
+                  {dinjiska.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  ))}
+                </LayerGroup>
+                <LayerGroup ref={cesteVlasiciInputRef}>
+                  {vlasici.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  ))}
+                </LayerGroup>
+                <LayerGroup ref={cesteVrciciInputRef}>
+                  {vrcici.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  ))}
+                </LayerGroup>
+                <LayerGroup ref={cesteStaraVasInputRef}>
+                  {staravas.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  ))}
+                </LayerGroup>
+                <LayerGroup ref={cesteSmokvicaInputRef}>
+                  {smokvica.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  ))}
+                </LayerGroup>
+                <LayerGroup ref={cesteSimuniInputRef}>
+                  {simuni.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  ))}
+                </LayerGroup>
             </Overlay>
+
+
+
 
             <Overlay name="rasvjeta 1">
               <MarkerClusterGroup ref={rasvjeta1InputRef} id="rasvjeta1" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={17}>

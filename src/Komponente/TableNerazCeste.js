@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {nerazceste, columnsnerazceste} from "./datatable";
+import {nerazcestepodaci, nerazceste, columnsnerazceste} from "./datatable";
 
 import {MdFirstPage, MdLastPage, MdKeyboardArrowRight, MdKeyboardArrowLeft, MdArrowDownward, MdArrowUpward} from "react-icons/md";
 
@@ -23,13 +23,13 @@ export default class TableNerazCeste extends Component {
        /* let data = nerazceste.map(data => {
             return data
         }) OBRISATI*/
-        this.setState({data: nerazceste});
+        this.setState({data: nerazcestepodaci});
 
         this.setState({column: columnsnerazceste});
 
-        this.setState({filteredData: nerazceste});
+        this.setState({filteredData: nerazcestepodaci});
 
-        let maxDataPerPage = Math.ceil(nerazceste.length/this.state.pageSize);
+        let maxDataPerPage = Math.ceil(nerazcestepodaci.length/this.state.pageSize);
         this.setState({maxPage: maxDataPerPage});
     };
 
@@ -88,9 +88,27 @@ export default class TableNerazCeste extends Component {
         };
     };
 
-    handleClickOnTr(event) {
-        console.log(event.target.getAttribute("data-attribute")) //centroid za zumiranje na kartu!!!! TESTIRATI!
-        console.log(event.target.getAttribute("data-id")) //da uzme id, proslijedi i onda prema njemu oboja cestu, TESTIRATI!!!
+    handleClickOnTr(event) {       
+        if (event.target.getAttribute("data-attribute") && event.target.getAttribute("data-id")) {
+
+            let a = {
+                id: "",
+                coord: 0,
+            };
+              
+            let zoomOnMap = Object.create(a);
+              
+            zoomOnMap.id = event.target.getAttribute("data-id");
+
+            let firstPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[2] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[3])-0.0002, parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[0] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[1])-0.0003];
+            let secondPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[6] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[7])-0.0002, parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[4] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[5])-0.0003];
+            let thirdPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[10] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[11])-0.0002, parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[8] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[9])-0.0003];
+            let fourthPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[14] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[15])-0.0002, parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[12] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[13])-0.0003];
+
+            zoomOnMap.coord = [firstPair, secondPair, thirdPair, fourthPair];
+
+            this.props.zoomFeatureOnMap(zoomOnMap);
+        };
     };
 
     onSortColumns(key, namecolumn) {
@@ -98,9 +116,9 @@ export default class TableNerazCeste extends Component {
         const sortData = this.state.data;
         sortData.sort(function(a, b) {
             if (direction === 'desc') {
-                return (a.properties[key] === null) - (b.properties[key] === null) || ('' + b.properties[key]).localeCompare(a.properties[key]);
+                return (a[key] === null) - (b[key] === null) || ('' + b[key]).localeCompare(a[key]);
             } else if (direction === 'asc') {
-                return (b.properties[key] === null) - (a.properties[key] === null) || ('' + a.properties[key]).localeCompare(b.properties[key]);
+                return (b[key] === null) - (a[key] === null) || ('' + a[key]).localeCompare(b[key]);
             }
         });
         this.setState({data: sortData, direction: direction, sortedBy: key, columnsnerazcesteort: namecolumn});
@@ -116,8 +134,9 @@ export default class TableNerazCeste extends Component {
 
         if (value) {
              newData = this.state.data.filter((row) => { 
-                if (row.Vrsta && row.Naselje && row["Kat opcina"] && row.kcbr && row.zkc) {
-                    return row.Vrsta.toLowerCase().indexOf(value) > -1 || row.Naselje.toLowerCase().indexOf(value) > -1 || row["Kat opcina"].toLowerCase().indexOf(value) > -1 || row.kcbr.toLowerCase().indexOf(value) > -1 || row.zkc.toLowerCase().indexOf(value) > -1}
+                 console.log(row)
+                if (row.OZNAKA && row.NA_IME && row.UL_IME && row.ZASTOR && row.KCBR) {
+                    return row.OZNAKA.toLowerCase().indexOf(value) > -1 || row.NA_IME.toLowerCase().indexOf(value) > -1 || row.UL_IME.toLowerCase().indexOf(value) > -1 || row.ZASTOR.toLowerCase().indexOf(value) > -1 || row.KCBR.toLowerCase().indexOf(value) > -1}
                 }
             );
         } else newData = this.state.data;
@@ -134,16 +153,26 @@ export default class TableNerazCeste extends Component {
        
         return (                                                                                                                                                       
             <div className="div-eki">            
-                <table className="my-datatable">
+                <table className="my-datatable ceste">
                     <thead>
                         <tr>{this.state.column.map((heading, i) => <th onClick={() => this.onSortColumns(heading.selector, heading.name)} key={i}>{heading.name} {this.state.columnsnerazcesteort === heading.name ? (this.state.direction === "asc" ? <MdArrowUpward/> : <MdArrowDownward/>) : null}</th>)}</tr>
                     </thead>
                     <tbody>
                         {this.state.filteredData.slice(this.state.pageIndex * this.state.pageSize, this.state.pageIndex * this.state.pageSize + this.state.pageSize).map((row, i) => (
-                            <tr key={i} onClick={event=> this.handleClickOnTr(event)}>
-                                {this.state.column.map((column, i) => (
-                                    <td key={i} data-id={row.properties.fid} data-attribute={row.geometry.coordinates}>{row.properties[column.selector]}</td> //centroidi
-                                ))}
+                            <tr key={i} onClick={event=> this.handleClickOnTr(event)} title="Lociraj me!">
+                                {this.state.column.map((column, i) => {
+                                    //<td key={i} data-id={row.fid} >{row[column.selector]}</td> //centroidi
+                                    if (column.selector === 'KCBR') {
+                                        if (row[column.selector]) {
+                                            if (row[column.selector].match(/\d+/g)) {
+                                                return <td key={i} data-id={row.fid} data-attribute={row.bbox}>{row[column.selector].match(/\d+/g).map(Number).map((lista, i) => {  
+                                                        return <a key={i} title="Preuzmi zemljišno-knjižni uložak!"  href={`/2-JPBP-vlasnistvo/${row["objekt"]}/${row["Oznaka"]}-${row["id"]}-${lista}.pdf`} download className="a-datatable">{lista}</a>
+                                                    })}
+                                                </td>
+                                            } else return <td key={i} data-id={row.fid} data-attribute={row.bbox}>{row[column.selector]}</td>;
+                                        } else return <td key={i} data-id={row.fid} data-attribute={row.bbox}>{row[column.selector]}</td>;
+                                } else return <td key={i} data-id={row.fid} data-attribute={row.bbox}>{row[column.selector]}</td>;  
+                                })}
                             </tr>
                         ))}
                     </tbody>

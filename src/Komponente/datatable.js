@@ -1,10 +1,11 @@
 import * as neraz_ceste from '../data/centroidiceste/centroidi.json';
+import {obj_ceste} from '../Komponente/data/Nerazvrstaneceste';
 //import * as neraz_ceste from '../data/nerazvrstaneceste/testneraz.json';
 
 //import * as eki from '../data/javnepovrsinebezprometa/centroidi/javnepovrsinebezprometa.json'; //testiranje, kasnije idu svi podaci vamo iz cijelog KI
 //import * as eki from '../data/javnepovrsinebezprometa/centroidi/test.json'; //testiranje, kasnije idu svi podaci vamo iz cijelog KI
 //import * as eki from '../data/javnepovrsinebezprometa/centroidi/bboxbicikl.json'; //testiranje, kasnije idu svi podaci vamo iz cijelog KI
-import {obj_eki} from "../Komponente/data/Javnepovrsinebezprometa";
+import {obj_eki} from '../Komponente/data/Javnepovrsinebezprometa';
 
 export const columnsnerazceste = [
     {   name: "Oznaka",
@@ -27,11 +28,17 @@ export const columnsnerazceste = [
         selector: "ZASTOR",
         sortable: true,
     },
+    {   name: "Kat. čestice",
+        selector: "KCBR",
+        sortable: true,
+    },
 ];
 
 export const nerazceste = neraz_ceste.features.map((data) => {
     return data;
 })
+
+export const nerazcestepodaci = obj_ceste;
 
 export const columnseki = [
     {   name: "Vrsta",

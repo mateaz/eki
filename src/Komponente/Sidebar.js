@@ -15,6 +15,17 @@ export default class  Sidebar extends Component{
         cestePagInput: false,
         cesteMiskoviciInput: false,
         cesteGoricaInput: false,
+
+        cesteBosanaInput: false,
+        cesteDinjiskaInput: false,
+        cesteKosljunInput: false,
+
+        cesteSmokvicaInput: false,
+        cesteStaraVasInput: false,
+        cesteSimuniInput: false,
+        cesteVlasiciInput: false,
+        cesteVrciciInput: false,
+
         javneCesteDrzavneInput: false,
         javneCesteZupanijskeInput: false,
         javneCesteLokalneInput: false,
@@ -152,57 +163,97 @@ export default class  Sidebar extends Component{
                         <div className="sidebar-nav-menu-item-head">
                             <span className="span_icon"  onClick={() => this.handleExpandCollaps("registar")}><FontAwesomeIcon icon={faRoad}/></span>
                             <span className="sidebar-nav-menu-item-head-title" onClick={() => this.handleExpandCollaps("registar")}>Registar nerazvrstanih cesta</span>
-                            {this.state.activeCollapse === "registar" ? <OpenTableCeste /> : null}
+                            {this.state.activeCollapse === "registar" ? <OpenTableCeste onZoomOnMap={this.handleZoomOnMap}/> : null}
                         </div>
                         <div className="sidebar-nav-menu-item-body">
-                            <SidebarContent
-                                klasa = {this.state.activeItem === "pag" ? 'item-display': ''}
-                                handleExpand={()=>this.handleExpandSpan("pag")}
-                                imeNaselja={'Naselje Pag'}
-                                ikonica = {this.state.activeItem === "pag" ? incompleteIcon: completeIcon}
-                                body = {
-                                    <div>
-                                        <Checkbox
-                                            nameCheckbox="Naselje Pag"
-                                            name="cestePagInput"
-                                            checked={this.state.cestePagInput}
-                                            Change={this.toggleChange.bind(this)}
-                                        />
-                                    </div>
-                                }
-                            />
-                            <SidebarContent
-                                klasa = {this.state.activeItem === "miskovici" ? 'item-display': ''}
-                                handleExpand={()=>this.handleExpandSpan("miskovici")}
-                                imeNaselja={'Naselje Miškovići'}
-                                ikonica = {this.state.activeItem === "miskovici" ? incompleteIcon: completeIcon}
-                                body = {
-                                    <div>
-                                        <Checkbox
-                                            nameCheckbox="Naselje Miškovići"
-                                            name="cesteMiskoviciInput"
-                                            checked={this.state.cesteMiskoviciInput}
-                                            Change={this.toggleChange.bind(this)}
-                                        />
-                                    </div>
-                                }
-                            />
-                            <SidebarContent
-                                klasa = {this.state.activeItem === "gorica" ? 'item-display': ''}
-                                handleExpand={()=>this.handleExpandSpan("gorica")}
-                                ikonica = {this.state.activeItem === "gorica" ? incompleteIcon: completeIcon}
-                                imeNaselja={'Naselje Gorica'}
-                                body = {
-                                    <div>
-                                        <Checkbox
-                                            nameCheckbox="Naselje Gorica"
-                                            name="cesteGoricaInput"
-                                            checked={this.state.cesteGoricaInput}
-                                            Change={this.toggleChange.bind(this)}
-                                        />
-                                    </div>
-                                }
-                            />
+                            <div>
+                                <Checkbox
+                                    nameCheckbox="Naselje Bošana"
+                                    name="cesteBosanaInput"
+                                    checked={this.state.cesteBosanaInput}
+                                    Change={this.toggleChange.bind(this)}
+                                />
+                            </div>
+                            <div>
+                                <Checkbox
+                                    nameCheckbox="Naselje Dinjiška"
+                                    name="cesteDinjiskaInput"
+                                    checked={this.state.cesteDinjiskaInput}
+                                    Change={this.toggleChange.bind(this)}
+                                />
+                            </div>
+                            <div>
+                                <Checkbox
+                                    nameCheckbox="Naselje Gorica"
+                                    name="cesteGoricaInput"
+                                    checked={this.state.cesteGoricaInput}
+                                    Change={this.toggleChange.bind(this)}
+                                />
+                            </div>
+                            <div>
+                                <Checkbox
+                                    nameCheckbox="Naselje Košljun"
+                                    name="cesteKosljunInput"
+                                    checked={this.state.cesteKosljunInput}
+                                    Change={this.toggleChange.bind(this)}
+                                />
+                            </div>
+                            <div>
+                                <Checkbox
+                                    nameCheckbox="Naselje Miškovići"
+                                    name="cesteMiskoviciInput"
+                                    checked={this.state.cesteMiskoviciInput}
+                                    Change={this.toggleChange.bind(this)}
+                                />
+                            </div>
+                            <div>
+                                <Checkbox
+                                    nameCheckbox="Naselje Pag"
+                                    name="cestePagInput"
+                                    checked={this.state.cestePagInput}
+                                    Change={this.toggleChange.bind(this)}
+                                />
+                            </div>
+                            <div>
+                                <Checkbox
+                                    nameCheckbox="Naselje Smokvica"
+                                    name="cesteSmokvicaInput"
+                                    checked={this.state.cesteSmokvicaInput}
+                                    Change={this.toggleChange.bind(this)}
+                                />
+                            </div>
+                            <div>
+                                <Checkbox
+                                    nameCheckbox="Naselje Stara Vas"
+                                    name="cesteStaraVasInput"
+                                    checked={this.state.cesteStaraVasInput}
+                                    Change={this.toggleChange.bind(this)}
+                                />
+                            </div>
+                            <div>
+                                <Checkbox
+                                    nameCheckbox="Naselje Šimuni"
+                                    name="cesteSimuniInput"
+                                    checked={this.state.cesteSimuniInput}
+                                    Change={this.toggleChange.bind(this)}
+                                />
+                            </div>
+                            <div>
+                                <Checkbox
+                                    nameCheckbox="Naselje Vlašići"
+                                    name="cesteVlasiciInput"
+                                    checked={this.state.cesteVlasiciInput}
+                                    Change={this.toggleChange.bind(this)}
+                                />
+                            </div>
+                            <div>
+                                <Checkbox
+                                    nameCheckbox="Naselje Vrčići"
+                                    name="cesteVrciciInput"
+                                    checked={this.state.cesteVrciciInput}
+                                    Change={this.toggleChange.bind(this)}
+                                />
+                            </div>
                         </div>
                     </div>
 
