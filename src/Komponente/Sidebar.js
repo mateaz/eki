@@ -101,10 +101,14 @@ export default class  Sidebar extends Component{
         this.props.OnZoomOnMap(prop);
     };
 
+    sendJsonData = (jsondata) => {
+        this.props.createJsonData(jsondata);
+    };
+
     closeSidebarOnclick = (close) => {
-        console.log(close)
+        //console.log(close)
         if (close) {
-            //this.props.closeSidebarOnClick(close);
+            //this.props.closeSidebarOnClick(close); //ISTRAZI
             this.setState({minimalize: true});
         };
     };
@@ -163,7 +167,7 @@ export default class  Sidebar extends Component{
                         <div className="sidebar-nav-menu-item-head">
                             <span className="span_icon"  onClick={() => this.handleExpandCollaps("registar")}><FontAwesomeIcon icon={faRoad}/></span>
                             <span className="sidebar-nav-menu-item-head-title" onClick={() => this.handleExpandCollaps("registar")}>Registar nerazvrstanih cesta</span>
-                            {this.state.activeCollapse === "registar" ? <OpenTableCeste onZoomOnMap={this.handleZoomOnMap}/> : null}
+                            {this.state.activeCollapse === "registar" ? <OpenTableCeste onZoomOnMap={this.handleZoomOnMap} handleJsonData={this.sendJsonData} closeSidebar={this.closeSidebarOnclick}/> : null}
                         </div>
                         <div className="sidebar-nav-menu-item-body">
                             <div>

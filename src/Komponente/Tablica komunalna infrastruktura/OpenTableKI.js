@@ -10,7 +10,7 @@ export default class OpenTableKI extends Component {
     };
 
     handleClickOpenClose = () => {
-        this.setState({show:!this.state.show})
+        this.setState({show:!this.state.show});
         if (!this.state.show) {
             this.props.closeSidebar('zatvori');
         } else  this.props.closeSidebar();

@@ -9,18 +9,25 @@ export default class OpenTableCeste extends Component {
     };
 
     handleClickClose = () => {
-        this.setState({show:!this.state.show})
+        this.setState({show:!this.state.show});
+        if (!this.state.show) {
+            this.props.closeSidebar('zatvori');
+        } else  this.props.closeSidebar();
     };
 
     handleZoomOnMap = (a) => {
         this.props.onZoomOnMap(a);
     };
 
+    sendJsonDataGeometry = (jsondata) => {
+        this.props.handleJsonData(jsondata);
+    }; 
+
     render() {
         return(
             <div className="ikona_tablica">
                 <button onClick={this.handleClickClose} className="tablica_button"><BsReverseLayoutTextWindowReverse /></button>
-                <ModalTableCeste zoomIdCoord = {this.handleZoomOnMap}  handleClose={this.handleClickClose} show={this.state.show}/>
+                <ModalTableCeste zoomIdCoord = {this.handleZoomOnMap}  handleClose={this.handleClickClose} show={this.state.show} sendJsonData={this.sendJsonDataGeometry}/>
             </div>
         )
     };

@@ -34,6 +34,9 @@ export default class Header extends Component {
         };
     };*/
 
+    sendJsonData = (jsondata) => {
+        this.props.handleJsonData(jsondata);
+    };
 
     render () {
 
@@ -46,7 +49,7 @@ export default class Header extends Component {
                     <MoreInformation OnInformationOut={this.handleStateCheckbox}/>
                 </Nav>
             </Navbar>
-            <Sidebar showSidebar = {this.state.showSidebar}  OnMessageOut={this.handleStateCheckbox} OnZoomOnMap={this.handleZoomOnMap} /*loseSidebarOnClick={this.handleClickClosesidebar}*//>
+            <Sidebar showSidebar = {this.state.showSidebar} createJsonData = {this.sendJsonData}  OnMessageOut={this.handleStateCheckbox} OnZoomOnMap={this.handleZoomOnMap} /*loseSidebarOnClick={this.handleClickClosesidebar}*//>
         </div>
     )
 }

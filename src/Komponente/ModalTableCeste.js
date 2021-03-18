@@ -10,7 +10,7 @@ import { MdArrowDropDown } from "react-icons/md";
 //import {columns, data} from "./datatable"; //deinstalirati
 import TableNerazCeste from "./TableNerazCeste";
 
-export default function ModalTableCeste({handleClose, show, zoomIdCoord}) {
+export default function ModalTableCeste({handleClose, show, zoomIdCoord, sendJsonData}) {
 
     const minimizeTable = () => {
         let modalheader = document.getElementsByClassName("modalheaderceste")[0].parentElement;
@@ -27,7 +27,7 @@ export default function ModalTableCeste({handleClose, show, zoomIdCoord}) {
                 <div onClick={minimizeTable} className="table-down"><MdArrowDropDown/></div>
             </Modal.Header>
             <Modal.Body>
-                <TableNerazCeste zoomFeatureOnMap={zoomIdCoord}/>
+                <TableNerazCeste zoomFeatureOnMap={zoomIdCoord} setJsonData={sendJsonData}/>
             </Modal.Body>
          </Modal>
         )

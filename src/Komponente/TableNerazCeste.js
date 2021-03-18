@@ -90,6 +90,21 @@ export default class TableNerazCeste extends Component {
 
     handleClickOnTr(event) {       
         if (event.target.getAttribute("data-attribute") && event.target.getAttribute("data-id")) {
+            //console.log(event.target.getAttribute("data-id"));
+           
+            let jsonData;
+            let value = event.target.getAttribute("data-id");
+            if (value) {
+                jsonData = this.state.data.filter((row) => { 
+                   if (row.properties.fid === parseInt(value)) {
+                       return row
+                    }}
+               );
+           };
+
+           this.props.setJsonData(jsonData);
+            
+            
 
             let a = {
                 id: "",
@@ -116,9 +131,9 @@ export default class TableNerazCeste extends Component {
         const sortData = this.state.data;
         sortData.sort(function(a, b) {
             if (direction === 'desc') {
-                return (a[key] === null) - (b[key] === null) || ('' + b[key]).localeCompare(a[key]);
+                return (a.properties[key] === null) - (b.properties[key] === null) || ('' + b.properties[key]).localeCompare(a.properties[key]);
             } else if (direction === 'asc') {
-                return (b[key] === null) - (a[key] === null) || ('' + a[key]).localeCompare(b[key]);
+                return (b.properties[key] === null) - (a.properties[key] === null) || ('' + a.properties[key]).localeCompare(b.properties[key]);
             }
         });
         this.setState({data: sortData, direction: direction, sortedBy: key, columnsnerazcesteort: namecolumn});
@@ -134,9 +149,8 @@ export default class TableNerazCeste extends Component {
 
         if (value) {
              newData = this.state.data.filter((row) => { 
-                 console.log(row)
-                if (row.OZNAKA && row.NA_IME && row.UL_IME && row.ZASTOR && row.KCBR) {
-                    return row.OZNAKA.toLowerCase().indexOf(value) > -1 || row.NA_IME.toLowerCase().indexOf(value) > -1 || row.UL_IME.toLowerCase().indexOf(value) > -1 || row.ZASTOR.toLowerCase().indexOf(value) > -1 || row.KCBR.toLowerCase().indexOf(value) > -1}
+                if (row.properties.OZNAKA && row.properties.NA_IME && row.properties.UL_IME && row.properties.ZASTOR && row.properties.KCBR) {
+                    return row.properties.OZNAKA.toLowerCase().indexOf(value) > -1 || row.properties.NA_IME.toLowerCase().indexOf(value) > -1 || row.properties.UL_IME.toLowerCase().indexOf(value) > -1 || row.properties.ZASTOR.toLowerCase().indexOf(value) > -1 || row.properties.KCBR.toLowerCase().indexOf(value) > -1}
                 }
             );
         } else newData = this.state.data;
@@ -161,17 +175,17 @@ export default class TableNerazCeste extends Component {
                         {this.state.filteredData.slice(this.state.pageIndex * this.state.pageSize, this.state.pageIndex * this.state.pageSize + this.state.pageSize).map((row, i) => (
                             <tr key={i} onClick={event=> this.handleClickOnTr(event)} title="Lociraj me!">
                                 {this.state.column.map((column, i) => {
-                                    //<td key={i} data-id={row.fid} >{row[column.selector]}</td> //centroidi
+                                    //<td key={i} data-id={row.properties.fid} >{row[column.selector]}</td> //centroidi
                                     if (column.selector === 'KCBR') {
-                                        if (row[column.selector]) {
-                                            if (row[column.selector].match(/\d+/g)) {
-                                                return <td key={i} data-id={row.fid} data-attribute={row.bbox}>{row[column.selector].match(/\d+/g).map(Number).map((lista, i) => {  
+                                        if (row.properties[column.selector]) {
+                                            if (row.properties[column.selector].match(/\d+/g)) {
+                                                return <td key={i} data-id={row.properties.fid} data-geometry={row.geometry} data-attribute={row.properties.bbox}>{row.properties[column.selector].match(/\d+/g).map(Number).map((lista, i) => {  
                                                         return <a key={i} title="Preuzmi zemljišno-knjižni uložak!"  href={`/2-JPBP-vlasnistvo/${row["objekt"]}/${row["Oznaka"]}-${row["id"]}-${lista}.pdf`} download className="a-datatable">{lista}</a>
                                                     })}
                                                 </td>
-                                            } else return <td key={i} data-id={row.fid} data-attribute={row.bbox}>{row[column.selector]}</td>;
-                                        } else return <td key={i} data-id={row.fid} data-attribute={row.bbox}>{row[column.selector]}</td>;
-                                } else return <td key={i} data-id={row.fid} data-attribute={row.bbox}>{row[column.selector]}</td>;  
+                                            } else return <td key={i} data-id={row.properties.fid}  data-geometry={row.geometry}  data-attribute={row.properties.bbox}>{row.properties[column.selector]}</td>;
+                                        } else return <td key={i} data-id={row.properties.fid}  data-geometry={row.geometry}  data-attribute={row.properties.bbox}>{row.properties[column.selector]}</td>;
+                                } else return <td key={i} data-id={row.properties.fid}  data-geometry={row.geometry}  data-attribute={row.properties.bbox}>{row.properties[column.selector]}</td>;  
                                 })}
                             </tr>
                         ))}

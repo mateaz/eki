@@ -4,12 +4,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./Komponente/Header"; 
 
 import './App.css';
-import { Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup, CircleMarker, Tooltip} from 'react-leaflet';
+import {Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup, CircleMarker, Tooltip} from 'react-leaflet';
 
 import * as ceste from "./data/javne_ceste_wgs.json";
 
 import {trg, mostovi, plaze, bicikliste_staze, pjeskacke_zone_setalista, pjeskacke_zone, plocnici} from "./Komponente/data/Javnepovrsinebezprometa";
-import {obj_eki} from "./Komponente/data/Javnepovrsinebezprometa";
+//import {obj_eki} from "./Komponente/data/Javnepovrsinebezprometa";
 
 import {bosana, dinjiska, gorica, gradpag, miskovici, kosljun, simuni, smokvica, staravas, vlasici, vrcici} from "./Komponente/data/Nerazvrstaneceste";
 
@@ -46,6 +46,7 @@ export default function SimpleExample() {
   const [center, setCenter] = useState([44.442669, 15.054280]);
   const [bounds, setBounds] = useState([[[44.45041, 15.04369], [44.45041, 15.06535]], [[44.43824, 15.06535], [44.43834, 15.04369]]]);
   const [zoom, setZoom] = useState(15);
+  const [data, setData] = useState([]);
 
 
 
@@ -79,6 +80,9 @@ export default function SimpleExample() {
 
     const OSMRef = useRef();
     const DOFRef = useRef();
+
+    const newlayer = useRef();
+
 
     const javneCesteDrzavneInputRef = useRef();
     const javneCesteZupanijskeInputRef = useRef();
@@ -123,7 +127,7 @@ export default function SimpleExample() {
 
 
     const handleCheckboxLayer = (checkboxProps) => {
-      console.log(checkboxProps)
+      //console.log(checkboxProps)
       let a = checkboxProps.target;
       
 
@@ -794,10 +798,37 @@ export default function SimpleExample() {
   
   //console.log(obj_eki);
 
+  const createJsonDataOnMap = (data) => {
+   // if ('javneCesteDrzavneInputRef'.includes(a)) {
+      let layerAdd = newlayer.current.leafletElement;
+      //if (checkboxProps.checked && mapRef.current && javneCesteDrzavneInputRef.current) {
+        const map = mapRef.current.leafletElement;
+        map.addLayer(layerAdd);
+      //}
+      /*else if (!checkboxProps.checked && mapRef.current && javneCesteDrzavneInputRef.current) {
+        const map = mapRef.current.leafletElement;
+        map.removeLayer(layerAdd);
+      }*/
+    //};
+
+
+
+
+    if (data) {
+      setData(data);
+     /* return (
+          <GeoJSON
+              id={data[0].properties.fid}
+              data={data[0]}
+              color="blue"
+          />
+      );*/
+    }
+  };
 
   return (
       < div className="map">
-        <Header checkboxState={handleCheckboxLayer} zoomState={handleZoomStateOnMap}/>
+        <Header checkboxState={handleCheckboxLayer} zoomState={handleZoomStateOnMap} handleJsonData={createJsonDataOnMap}/>
 
         <Map className="markercluster-map" center={center} zoom={zoom} ref={mapRef} maxZoom={18} minZoom={10} bounds={bounds}/* maxBounds={(45, 14), (43, 16)}*/>
           <LayersControl position="topright">
@@ -822,6 +853,15 @@ export default function SimpleExample() {
               <LayerGroup ref={javneCesteDrzavneInputRef}>
                   {drzavneceste.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red"/>
+                    ))
+                  }
+              </LayerGroup>
+            </Overlay>
+
+            <Overlay name="nove dodane ceste">
+              <LayerGroup ref={newlayer}>
+                  {data.map(data => (
+                    <GeoJSON key={data.properties.fid} data={data} color="red" onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                     ))
                   }
               </LayerGroup>
