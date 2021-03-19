@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import SidebarContent from './SidebarContent';
 import Checkbox from './Checkbox';
 import { faChevronRight, faChevronDown, faRoad, faCity, faArchive } from '@fortawesome/free-solid-svg-icons';
-import OpenTableCeste from './OpenTableCeste';
+import OpenTableCeste from './Tablica nerazvrstane ceste/OpenTableCeste';
 import OpenTableKI from './Tablica komunalna infrastruktura/OpenTableKI';
 import { MdSkipPrevious } from "react-icons/md";
 

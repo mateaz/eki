@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {columnseki, ekipodaci} from "../datatable";
 import {MdFirstPage, MdLastPage, MdKeyboardArrowRight, MdKeyboardArrowLeft, MdArrowDownward, MdArrowUpward} from "react-icons/md";
 
-export default class TableKI extends Component {
-    state = {
+export default function TableKI ({data, column, pageIndex, columnsnerazcesteort, direction, pageSize, onSortColumns, handleClickOnTr}) {
+    /*state = {
         pageSize: 7,
         pageIndex: 0,
         data: [],
@@ -143,18 +143,18 @@ export default class TableKI extends Component {
         this.setState({maxPage: newMaxPage});
     };
 
-    render() {     
+    render() { */   
        
-        return (                                                                                                                                                       
-            <div className="div-eki">            
-               <table className="my-datatable eki">
-                    <thead>
-                        <tr>{this.state.column.map((heading, i) => <th onClick={() => this.onSortColumns(heading.selector, heading.name)} key={i}>{heading.name} {this.state.columnsnerazcesteort === heading.name ? (this.state.direction === "asc" ? <MdArrowUpward/> : <MdArrowDownward/>) : null}</th>)}</tr>
-                    </thead>
-                    <tbody>
-                        {this.state.filteredData.slice(this.state.pageIndex * this.state.pageSize, this.state.pageIndex * this.state.pageSize + this.state.pageSize).map((row, i) => (
-                            <tr key={i} onClick={event=> this.handleClickOnTr(event)} title="Lociraj me!">
-                                {this.state.column.map((column, i) => { 
+    return (                                                                                                                                                       
+        <div className="div-eki">            
+            <table className="my-datatable eki">
+                <thead>
+                    <tr>{column.map((heading, i) => <th onClick={() => onSortColumns(heading.selector, heading.name)} key={i}>{heading.name} {columnsnerazcesteort === heading.name ? (direction === "asc" ? <MdArrowUpward/> : <MdArrowDownward/>) : null}</th>)}</tr>
+                </thead>
+                <tbody>
+                        {data.slice(pageIndex * pageSize, pageIndex * pageSize + pageSize).map((row, i) => (
+                            <tr key={i} onClick={event => handleClickOnTr(event)} title="Lociraj me!">
+                                {column.map((column, i) => { 
                                     if (column.selector === 'Vlasnistvo') {
                                         if (row[column.selector]) {
                                             if (row[column.selector].match(/\d+/g)) {
@@ -170,24 +170,6 @@ export default class TableKI extends Component {
                         ))}
                     </tbody>
                 </table>
-                <div className="button-div-datatable">
-                    <form className="datatable-input">
-                        <input type="text" value={this.state.q} onChange={(e) => this.searchDatatable(e)}/>
-                        <label> Pretraži</label>
-                    </form>
-                    <button className="buton-datatable" disabled={this.state.pageIndex === 0 ? true : false } onClick = {event => this.handleFirstPageClick(event)}><MdFirstPage/></button>
-                    <button className="buton-datatable" disabled={this.state.pageIndex === 0 ? true : false } onClick = {event => this.handlePrevPageClick(event)}><MdKeyboardArrowLeft/></button>
-                    <form className="forma-datatable">
-                        <label>
-                            Stranica
-                            <input type="text" value={this.state.numberInput} onChange={event => this.handleChangePageNumber(event)}/>
-                            od {this.state.maxPage}
-                        </label>
-                    </form>
-                    <button className="buton-datatable" disabled={this.state.pageIndex+1 === this.state.maxPage ? true : false } onClick = {event => this.handleNextPageClick(event)}><MdKeyboardArrowRight/></button>
-                    <button className="buton-datatable" disabled={this.state.pageIndex+1 === this.state.maxPage ? true : false } onClick = {event => this.handleLastPageClick(event)}><MdLastPage/></button>
-                </div>
             </div>
-        )
-    }
+    )
 }

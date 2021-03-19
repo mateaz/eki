@@ -1,0 +1,290 @@
+import React, {Component} from "react";
+import {nerazcestepodaci, columnsnerazceste} from "../datatable";
+import FormaSearch from '../Komponente tablica/FormaSearch';
+import OptionSelect from '../Komponente tablica/OptionSelect';
+import SelectDropdown from '../Komponente tablica/SelectDropdown';
+import Button from '../Komponente tablica/Button';
+import FormaPageNumber from '../Komponente tablica/FormaPageNumber';
+
+
+import {Modal} from "react-bootstrap";
+import { MdArrowDropDown, MdFirstPage, MdLastPage, MdKeyboardArrowRight, MdKeyboardArrowLeft} from "react-icons/md";
+
+//import DataTable from "react-data-table-component"; //deinstalirati
+//import DataTableExtensions from "react-data-table-component-extensions"; //deinstalirati
+//import {MdArrowDownward} from "react-icons/md"; 
+//import "react-data-table-component-extensions/dist/index.css"; //deinstalirati
+
+//import {columns, data} from "./datatable"; //deinstalirati
+import TableNerazCeste from "./TableNerazCeste";
+
+
+export default class ModalTableCeste extends Component  {
+    state = {
+        pageSize: 7,
+        pageIndex: 0,
+        data: [],
+        searchedValue: '', //za filtriranje podataka tj pronalazk, TREBA IMPLEMENTIRATI!
+        column: [],
+        maxPage: 0,
+        numberInput: 1,
+        sortedBy: '',
+        direction: 'asc',
+        columnsnerazcesteort: '',
+        select: [],
+        selectedValue: '',
+    };
+
+    componentDidMount() {
+        
+         this.setState({data: nerazcestepodaci});
+ 
+         this.setState({column: columnsnerazceste});
+  
+         let maxDataPerPage = Math.ceil(nerazcestepodaci.length/this.state.pageSize);
+         this.setState({maxPage: maxDataPerPage});
+          
+         let unique = nerazcestepodaci.map(data => data.properties.NA_IME).filter((item, i, ar) => ar.indexOf(item) === i);
+         this.setState({select: unique})
+    };
+
+    minimizeTable = () => {
+        let modalheader = document.getElementsByClassName("modalheaderceste")[0].parentElement;
+        if (modalheader.classList.contains("modal-dialog-hide")) {
+            modalheader.classList.remove("modal-dialog-hide")
+        } else {
+            modalheader.classList.add("modal-dialog-hide")
+        }
+    };
+
+    onSortColumns = (key, column) => {
+        const direction = this.state.sortedBy ? (this.state.direction === 'desc' ? 'asc' : 'desc') : 'asc';
+        const sortData = nerazcestepodaci;
+        sortData.sort(function(a, b) {
+            if (direction === 'desc') {
+                return (a.properties[key] === null) - (b.properties[key] === null) || ('' + b.properties[key]).localeCompare(a.properties[key]);
+            } else if (direction === 'asc') {
+                return (b.properties[key] === null) - (a.properties[key] === null) || ('' + a.properties[key]).localeCompare(b.properties[key]);
+            }
+        });
+        this.setState({data: sortData, direction: direction, sortedBy: key, columnsnerazcesteort: column});
+    };
+
+    handleClickOnTr = (event) => {       
+        if (event.target.getAttribute("data-attribute") && event.target.getAttribute("data-id")) {           
+            let jsonData;
+            let value = event.target.getAttribute("data-id");
+
+            if (value) {
+                jsonData = nerazcestepodaci.filter((row) => { 
+                   if (row.properties.fid === parseInt(value)) {
+                       return row
+                    }}
+               );
+           };
+           this.props.setJsonData(jsonData);
+
+
+            let a = {
+                id: "",
+                coord: 0,
+            };
+              
+            let zoomOnMap = Object.create(a);
+              
+            zoomOnMap.id = event.target.getAttribute("data-id");
+
+            let firstPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[2] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[3])-0.0002, parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[0] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[1])-0.0003];
+            let secondPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[6] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[7])-0.0002, parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[4] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[5])-0.0003];
+            let thirdPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[10] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[11])-0.0002, parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[8] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[9])-0.0003];
+            let fourthPair = [parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[14] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[15])-0.0002, parseFloat(event.target.getAttribute("data-attribute").match(/\d+/g)[12] +"."+event.target.getAttribute("data-attribute").match(/\d+/g)[13])-0.0003];
+
+            zoomOnMap.coord = [firstPair, secondPair, thirdPair, fourthPair];
+            this.props.zoomFeatureOnMap(zoomOnMap);
+        };
+    };
+
+    handlePrevPageClick = (event) => {
+        this.setState(prevState => ({
+          pageIndex: prevState.pageIndex > 0 ? prevState.pageIndex - 1 : 0
+        }));
+        this.setState(prevState => ({
+            numberInput: prevState.numberInput > 0 ? prevState.numberInput - 1 : 0
+          }));
+    };
+    
+    handleNextPageClick = (event) => {
+        this.setState(prevState => ({
+          pageIndex:
+            prevState.pageIndex <
+            Math.floor(prevState.data.length / prevState.pageSize)
+              ? prevState.pageIndex + 1
+              : prevState.pageIndex + 1
+        }));
+
+        this.setState(prevState => ({
+            numberInput:
+              prevState.numberInput <
+              Math.floor(prevState.data.length / prevState.pageSize)
+                ? prevState.numberInput + 1
+                : prevState.numberInput + 1
+          }));
+    };
+
+    handleFirstPageClick = (event) => {
+        this.setState({pageIndex: 0})
+        this.setState({numberInput: 1})
+    };
+
+    handleLastPageClick = (event) => {
+        this.setState({pageIndex: this.state.maxPage-1})
+        this.setState({numberInput: this.state.maxPage})
+    };
+
+    handleChangePageNumber = (event) => {
+        let val = parseInt(event.target.value);
+
+        if (isNaN(val)) {
+            this.setState({pageIndex: 0});
+            this.setState({numberInput: ""});
+        } else {
+            if (val < 1) {
+                this.setState({pageIndex: 0});
+                this.setState({numberInput: 1});
+            }
+            if (val) {
+                this.setState({pageIndex: val-1});
+                this.setState({numberInput: val});
+            };
+        };
+    };
+
+    searchDatatable = (e) => {
+        e.preventDefault();
+        let value = e.target.value;
+
+        let newData;
+
+        if (value) {
+            if (this.state.selectedValue) {
+                let anewData = nerazcestepodaci.filter((row) => { 
+                    if (row.properties.NA_IME === this.state.selectedValue) {
+                        return row.properties }
+                })
+
+                newData = anewData.filter((row) => { 
+                    if (row.properties.OZNAKA && row.properties.NA_IME && row.properties.UL_IME && row.properties.ZASTOR && row.properties.KCBR) {
+                        return row.properties.OZNAKA.toLowerCase().indexOf(value) > -1 || row.properties.NA_IME.toLowerCase().indexOf(value) > -1 || row.properties.UL_IME.toLowerCase().indexOf(value) > -1 || row.properties.ZASTOR.toLowerCase().indexOf(value) > -1 || row.properties.KCBR.toLowerCase().indexOf(value) > -1}
+                    }
+                );
+            } else {
+                newData = nerazcestepodaci.filter((row) => { 
+                    if (row.properties.OZNAKA && row.properties.NA_IME && row.properties.UL_IME && row.properties.ZASTOR && row.properties.KCBR) {
+                        return row.properties.OZNAKA.toLowerCase().indexOf(value) > -1 || row.properties.NA_IME.toLowerCase().indexOf(value) > -1 || row.properties.UL_IME.toLowerCase().indexOf(value) > -1 || row.properties.ZASTOR.toLowerCase().indexOf(value) > -1 || row.properties.KCBR.toLowerCase().indexOf(value) > -1}
+                    }
+                );
+            }
+        } else if (this.state.selectedValue && !value) {
+
+            newData = nerazcestepodaci.filter((row) => { 
+                if (row.properties.NA_IME === this.state.selectedValue) {
+                    return row.properties 
+                }
+            });
+        } else newData = nerazcestepodaci;
+
+        let newMaxPage = Math.ceil(newData.length/this.state.pageSize);
+        this.setState({searchedValue: value});
+
+
+        this.setState({data: newData});
+        this.setState({numberInput: 1})
+        this.setState({pageIndex: 0})
+        this.setState({maxPage: newMaxPage});
+    };
+
+    handleChange = (e) => {
+        e.preventDefault();
+        let value = e.target.value;
+
+        let newData;
+
+        if (value) {
+            if (this.state.searchedValue) {
+                let anewData = nerazcestepodaci.filter((row) => { 
+                    if (row.properties.OZNAKA && row.properties.NA_IME && row.properties.UL_IME && row.properties.ZASTOR && row.properties.KCBR) {
+                        return row.properties.OZNAKA.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.NA_IME.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.UL_IME.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.ZASTOR.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.KCBR.toLowerCase().indexOf(this.state.searchedValue) > -1}
+                    }
+                );
+                newData = anewData.filter((row) => { 
+                    if (row.properties.NA_IME === value) {
+                        return row.properties }
+                    }
+                );
+            } else {
+                newData = nerazcestepodaci.filter((row) => { 
+                    if (row.properties.NA_IME === value) {
+                        return row.properties }
+                    }
+                ) 
+            };
+        } else if (this.state.searchedValue && !value) {
+
+            newData = nerazcestepodaci.filter((row) => { 
+                if (row.properties.OZNAKA && row.properties.NA_IME && row.properties.UL_IME && row.properties.ZASTOR && row.properties.KCBR) {
+                    return row.properties.OZNAKA.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.NA_IME.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.UL_IME.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.ZASTOR.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.KCBR.toLowerCase().indexOf(this.state.searchedValue) > -1}
+                }
+            );
+        } else newData = nerazcestepodaci;
+
+        let newMaxPage = Math.ceil(newData.length/this.state.pageSize);
+
+        this.setState({selectedValue: value});
+        this.setState({data: newData});
+        this.setState({numberInput: 1})
+        this.setState({pageIndex: 0})
+        this.setState({maxPage: newMaxPage});
+    };
+
+    render () {
+   
+    return (
+        <Modal show={this.props.show} onHide={this.props.handleClose} backdrop="static" className="eki-modal">
+            <Modal.Header closeButton className="modalheaderceste">
+                <div onClick={this.minimizeTable} className="table-down"><MdArrowDropDown/></div>
+                
+            </Modal.Header>
+            <Modal.Body>
+                <TableNerazCeste 
+                    data = {this.state.data}
+                    column = {this.state.column}
+                    pageIndex = {this.state.pageIndex}
+                    pageSize = {this.state.pageSize}
+                    columnsnerazcesteort = {this.state.columnsnerazcesteort}
+                    direction = {this.state.direction}
+                    onSortColumns = {this.onSortColumns}
+                    handleClickOnTr = {this.handleClickOnTr}
+                />
+                <div className="footer-modal-eki">
+                    <FormaSearch value={this.state.searchedValue} onChange={(e) => this.searchDatatable(e)}/>
+                    <SelectDropdown onChange={(e) => this.handleChange(e)}>
+                        <OptionSelect value="" description="- Odaberi naselje -"/>
+                        {this.state.select.map((select, i) => 
+                            <OptionSelect value={select} description={select} key={i}/>
+                        )}
+                    </SelectDropdown>
+
+                    <div className="footer-modal-buttons">
+                        <Button children={<MdFirstPage/>} disabled={this.state.pageIndex === 0 ? true : false } onClick= {event => this.handleFirstPageClick(event)}/>
+                        <Button children={<MdKeyboardArrowLeft/>} disabled={this.state.pageIndex === 0 ? true : false } onClick = {event => this.handlePrevPageClick(event)}/>
+                        <FormaPageNumber value={this.state.numberInput} onChange={event => this.handleChangePageNumber(event)} maxpage = {this.state.maxPage}/>
+                        <Button children={<MdKeyboardArrowRight/>} disabled={this.state.pageIndex+1 === this.state.maxPage ? true : false } onClick = {event => this.handleNextPageClick(event)}/>
+                        <Button children={<MdLastPage/>} disabled={this.state.pageIndex+1 === this.state.maxPage ? true : false } onClick = {event => this.handleLastPageClick(event)}/>
+                    </div>
+
+                </div>
+            </Modal.Body>
+         </Modal>
+        )
+    }
+};

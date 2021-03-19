@@ -497,18 +497,19 @@ Datatable
   text-align: center;
   border-radius: 2px;
   cursor: pointer;
-  border: 1px solid #637e8d;
+  border: 1px solid #2e6ca4;
 }
 
 .table-down:hover {
-  background-color: #637e8d;
+  background-color: #2e6ca4;
+  color: white;
 }
 
 .buton-datatable {
   font-weight: 700;
-  background-color: #d1e1e9;
-  color: #526f7f;
-  border: 1.5px solid #526f7f;
+  background-color: #2e6ca4;
+  color: #d1e1e9;
+  border: 1.5px solid #d1e1e9;
   border-radius: 5px;
   cursor: pointer;
   height: 32px;
@@ -517,8 +518,8 @@ Datatable
 }
 
 .buton-datatable:hover {
-  background-color: #2e6ca4;
-  color: #d1e1e9;
+  background-color: #d1e1e9;
+  color: #2e6ca4;
 }
 
 .buton-datatable:disabled {
@@ -637,11 +638,26 @@ Datatable
   font-size: 14px;
 }
 
-.datatable-input {
-  position: absolute;
-  left: 10px;
+.footer-modal-eki {
+  display: flex;
+  flex-basis: 100%;
+  align-items: baseline;
+  flex-direction: row;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
 }
 
+.footer-modal-buttons {
+  display: flex;
+  position: absolute;
+  right: 0px;
+}
+
+.datatable-input {
+  font-weight: 500;
+  margin-right: 10px;
+}
 .datatable-input:hover {
   font-weight: 500;
 }
@@ -651,9 +667,28 @@ Datatable
 }
 
 .datatable-input label {
-  margin-left: 5px;
+  margin-right: 5px;
   color: #2e6ca4;
   font-weight: 600;
+}
+
+.datatable-input input {
+  outline: unset!important;
+}
+
+.datatable-input select {
+  height: 4vh;
+  background-color: #2e6ca4;
+  color: #d1e1e9;
+  border: 1.5px solid #d1e1e9;
+  border-radius: 5px;
+  padding-right: 4px;
+  padding-left: 4px;
+  outline: unset!important;
+}
+
+.datatable-input:hover select {
+  cursor: pointer;
 }
 
 .eki-modal .modal-dialog-hide {
