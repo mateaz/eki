@@ -694,3 +694,7 @@ Datatable
 .eki-modal .modal-dialog-hide {
   height: 5vh;
 }
+
+.table-close {
+  cursor: pointer;
+}

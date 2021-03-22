@@ -16,31 +16,31 @@ export const plocnici = plocnicia;
 
 
 let trg_obj = trg.default.features.map(data => {
-   return data.properties;
+   return data;
 });
 
 let mostovi_obj = mostovi.default.features.map(data => {
-    return data.properties;
+    return data;
 });
 
 let plaze_obj = plaze.default.features.map(data => {
-    return data.properties;
+    return data;
 });
 
 let biciklisticke_staze_obj = bicikliste_staze.default.features.map(data => {
-    return data.properties;
+    return data;
 });
 
 let pjeskacke_zone_setalista_obj = pjeskacke_zone_setalista.default.features.map(data => {
-    return data.properties;
+    return data;
 });
 
 let pjeskacke_zone_obj = pjeskacke_zone.default.features.map(data => {
-    return data.properties;
+    return data;
 });
 
 let plocnici_obj = plocnici.default.features.map(data => {
-    return data.properties;
+    return data;
 });
 
 export const obj_eki = [...trg_obj, ...mostovi_obj, ...plaze_obj, ...biciklisticke_staze_obj, ...pjeskacke_zone_setalista_obj, ...pjeskacke_zone_obj, ...plocnici_obj];

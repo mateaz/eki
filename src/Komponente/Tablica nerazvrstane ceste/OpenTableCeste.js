@@ -23,11 +23,15 @@ export default class OpenTableCeste extends Component {
         this.props.handleJsonData(jsondata);
     }; 
 
+    closeModal = (a) => {
+        this.setState({show:a});
+    };
+
     render() {
         return(
             <div className="ikona_tablica">
                 <button onClick={this.handleClickClose} className="tablica_button"><BsReverseLayoutTextWindowReverse /></button>
-                <ModalTableCeste zoomFeatureOnMap = {this.handleZoomOnMap}  handleClose={this.handleClickClose} show={this.state.show} setJsonData={this.sendJsonDataGeometry}/>
+                <ModalTableCeste zoomFeatureOnMap = {this.handleZoomOnMap} closeModal = {this.closeModal}  handleClose={this.handleClickClose} show={this.state.show} setJsonData={this.sendJsonDataGeometry}/>
             </div>
         )
     };

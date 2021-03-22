@@ -9,7 +9,7 @@ export default class OpenTableKI extends Component {
         show: false,
     };
 
-    handleClickOpenClose = () => {
+    handleClickClose = () => {
         this.setState({show:!this.state.show});
         if (!this.state.show) {
             this.props.closeSidebar('zatvori');
@@ -20,11 +20,19 @@ export default class OpenTableKI extends Component {
         this.props.onZoomOnMap(a);
     };
 
+    sendJsonDataGeometry = (jsondata) => {
+        this.props.handleJsonData(jsondata);
+    };
+    
+    closeModal = (a) => {
+        this.setState({show:a});
+    };
+
     render() {
         return(
             <div className="ikona_tablica">
-                <button onClick={this.handleClickOpenClose} className="tablica_button"><BsReverseLayoutTextWindowReverse /></button>
-                <ModalTableKI  handleClose = {this.handleClickOpenClose} show = {this.state.show} zoomIdCoord = {this.handleZoomOnMap}/>
+                <button onClick = {this.handleClickClose} className="tablica_button"><BsReverseLayoutTextWindowReverse /></button>
+                <ModalTableKI  zoomFeatureOnMap = {this.handleZoomOnMap} closeModal = {this.closeModal}  handleClose={this.handleClickClose} show={this.state.show} setJsonData={this.sendJsonDataGeometry}/>
             </div>
         )
     };

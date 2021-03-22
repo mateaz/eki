@@ -265,7 +265,7 @@ export default class  Sidebar extends Component{
                         <div className="sidebar-nav-menu-item-head" >
                             <span className="span_icon" onClick={() => this.handleExpandCollaps("komunalna")}><FontAwesomeIcon icon={faCity}/></span>
                             <span className="sidebar-nav-menu-item-head-title" onClick={() => this.handleExpandCollaps("komunalna")}>Komunalna infrastrukutra</span>
-                            {this.state.activeCollapse === "komunalna" ? <OpenTableKI onZoomOnMap={this.handleZoomOnMap} closeSidebar={this.closeSidebarOnclick}/> : null}
+                            {this.state.activeCollapse === "komunalna" ? <OpenTableKI onZoomOnMap={this.handleZoomOnMap} handleJsonData={this.sendJsonData} closeSidebar={this.closeSidebarOnclick}/> : null}
                         </div>
                         <div className="sidebar-nav-menu-item-body">
                             <SidebarContent

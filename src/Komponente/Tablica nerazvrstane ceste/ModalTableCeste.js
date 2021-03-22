@@ -8,7 +8,7 @@ import FormaPageNumber from '../Komponente tablica/FormaPageNumber';
 
 
 import {Modal} from "react-bootstrap";
-import { MdArrowDropDown, MdFirstPage, MdLastPage, MdKeyboardArrowRight, MdKeyboardArrowLeft} from "react-icons/md";
+import { MdArrowDropDown, MdFirstPage, MdLastPage, MdKeyboardArrowRight, MdKeyboardArrowLeft, MdClose} from "react-icons/md";
 
 //import DataTable from "react-data-table-component"; //deinstalirati
 //import DataTableExtensions from "react-data-table-component-extensions"; //deinstalirati
@@ -36,17 +36,16 @@ export default class ModalTableCeste extends Component  {
     };
 
     componentDidMount() {
-        
-         this.setState({data: nerazcestepodaci});
+        this.setState({data: nerazcestepodaci});
  
-         this.setState({column: columnsnerazceste});
+        this.setState({column: columnsnerazceste});
   
-         let maxDataPerPage = Math.ceil(nerazcestepodaci.length/this.state.pageSize);
-         this.setState({maxPage: maxDataPerPage});
+        let maxDataPerPage = Math.ceil(nerazcestepodaci.length/this.state.pageSize);
+        this.setState({maxPage: maxDataPerPage});
           
-         let unique = nerazcestepodaci.map(data => data.properties.NA_IME).filter((item, i, ar) => ar.indexOf(item) === i);
-         this.setState({select: unique})
-    };
+        let unique = nerazcestepodaci.map(data => data.properties.NA_IME).filter((item, i, ar) => ar.indexOf(item) === i);
+        this.setState({select: unique})
+    };  
 
     minimizeTable = () => {
         let modalheader = document.getElementsByClassName("modalheaderceste")[0].parentElement;
@@ -59,7 +58,7 @@ export default class ModalTableCeste extends Component  {
 
     onSortColumns = (key, column) => {
         const direction = this.state.sortedBy ? (this.state.direction === 'desc' ? 'asc' : 'desc') : 'asc';
-        const sortData = nerazcestepodaci;
+        const sortData = this.state.data;
         sortData.sort(function(a, b) {
             if (direction === 'desc') {
                 return (a.properties[key] === null) - (b.properties[key] === null) || ('' + b.properties[key]).localeCompare(a.properties[key]);
@@ -173,14 +172,20 @@ export default class ModalTableCeste extends Component  {
                 })
 
                 newData = anewData.filter((row) => { 
-                    if (row.properties.OZNAKA && row.properties.NA_IME && row.properties.UL_IME && row.properties.ZASTOR && row.properties.KCBR) {
-                        return row.properties.OZNAKA.toLowerCase().indexOf(value) > -1 || row.properties.NA_IME.toLowerCase().indexOf(value) > -1 || row.properties.UL_IME.toLowerCase().indexOf(value) > -1 || row.properties.ZASTOR.toLowerCase().indexOf(value) > -1 || row.properties.KCBR.toLowerCase().indexOf(value) > -1}
+                        return (row.properties.OZNAKA && row.properties.OZNAKA.toString().toLowerCase().indexOf(value) > -1) ||
+                        (row.properties.NA_IME && row.properties.NA_IME.toString().toLowerCase().indexOf(value) > -1) ||
+                        (row.properties.UL_IME && row.properties.UL_IME.toString().toLowerCase().indexOf(value) > -1) ||
+                        (row.properties.ZASTOR && row.properties.ZASTOR.toString().toLowerCase().indexOf(value) > -1) ||
+                        (row.properties.KCBR && row.properties.KCBR.toString().toLowerCase().indexOf(value) > -1)
                     }
                 );
             } else {
                 newData = nerazcestepodaci.filter((row) => { 
-                    if (row.properties.OZNAKA && row.properties.NA_IME && row.properties.UL_IME && row.properties.ZASTOR && row.properties.KCBR) {
-                        return row.properties.OZNAKA.toLowerCase().indexOf(value) > -1 || row.properties.NA_IME.toLowerCase().indexOf(value) > -1 || row.properties.UL_IME.toLowerCase().indexOf(value) > -1 || row.properties.ZASTOR.toLowerCase().indexOf(value) > -1 || row.properties.KCBR.toLowerCase().indexOf(value) > -1}
+                    return (row.properties.OZNAKA && row.properties.OZNAKA.toString().toLowerCase().indexOf(value) > -1) ||
+                    (row.properties.NA_IME && row.properties.NA_IME.toString().toLowerCase().indexOf(value) > -1) ||
+                    (row.properties.UL_IME && row.properties.UL_IME.toString().toLowerCase().indexOf(value) > -1) ||
+                    (row.properties.ZASTOR && row.properties.ZASTOR.toString().toLowerCase().indexOf(value) > -1) ||
+                    (row.properties.KCBR && row.properties.KCBR.toString().toLowerCase().indexOf(value) > -1)
                     }
                 );
             }
@@ -194,6 +199,7 @@ export default class ModalTableCeste extends Component  {
         } else newData = nerazcestepodaci;
 
         let newMaxPage = Math.ceil(newData.length/this.state.pageSize);
+
         this.setState({searchedValue: value});
 
 
@@ -212,10 +218,12 @@ export default class ModalTableCeste extends Component  {
         if (value) {
             if (this.state.searchedValue) {
                 let anewData = nerazcestepodaci.filter((row) => { 
-                    if (row.properties.OZNAKA && row.properties.NA_IME && row.properties.UL_IME && row.properties.ZASTOR && row.properties.KCBR) {
-                        return row.properties.OZNAKA.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.NA_IME.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.UL_IME.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.ZASTOR.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.KCBR.toLowerCase().indexOf(this.state.searchedValue) > -1}
-                    }
-                );
+                    return (row.properties.OZNAKA && row.properties.OZNAKA.toString().toLowerCase().indexOf(value) > -1) ||
+                    (row.properties.NA_IME && row.properties.NA_IME.toString().toLowerCase().indexOf(value) > -1) ||
+                    (row.properties.UL_IME && row.properties.UL_IME.toString().toLowerCase().indexOf(value) > -1) ||
+                    (row.properties.ZASTOR && row.properties.ZASTOR.toString().toLowerCase().indexOf(value) > -1) ||
+                    (row.properties.KCBR && row.properties.KCBR.toString().toLowerCase().indexOf(value) > -1)
+                });
                 newData = anewData.filter((row) => { 
                     if (row.properties.NA_IME === value) {
                         return row.properties }
@@ -230,14 +238,18 @@ export default class ModalTableCeste extends Component  {
             };
         } else if (this.state.searchedValue && !value) {
 
-            newData = nerazcestepodaci.filter((row) => { 
-                if (row.properties.OZNAKA && row.properties.NA_IME && row.properties.UL_IME && row.properties.ZASTOR && row.properties.KCBR) {
-                    return row.properties.OZNAKA.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.NA_IME.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.UL_IME.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.ZASTOR.toLowerCase().indexOf(this.state.searchedValue) > -1 || row.properties.KCBR.toLowerCase().indexOf(this.state.searchedValue) > -1}
-                }
+            newData = nerazcestepodaci.filter((row) =>{ 
+                return (row.properties.OZNAKA && row.properties.OZNAKA.toString().toLowerCase().indexOf(value) > -1) ||
+                (row.properties.NA_IME && row.properties.NA_IME.toString().toLowerCase().indexOf(value) > -1) ||
+                (row.properties.UL_IME && row.properties.UL_IME.toString().toLowerCase().indexOf(value) > -1) ||
+                (row.properties.ZASTOR && row.properties.ZASTOR.toString().toLowerCase().indexOf(value) > -1) ||
+                (row.properties.KCBR && row.properties.KCBR.toString().toLowerCase().indexOf(value) > -1)
+            }
             );
         } else newData = nerazcestepodaci;
 
         let newMaxPage = Math.ceil(newData.length/this.state.pageSize);
+
 
         this.setState({selectedValue: value});
         this.setState({data: newData});
@@ -246,12 +258,28 @@ export default class ModalTableCeste extends Component  {
         this.setState({maxPage: newMaxPage});
     };
 
+    resetDataCeste = () => {
+        this.setState({data: nerazcestepodaci});
+ 
+        this.setState({column: columnsnerazceste});
+  
+        let maxDataPerPage = Math.ceil(nerazcestepodaci.length/this.state.pageSize);
+        this.setState({maxPage: maxDataPerPage});
+          
+        let unique = nerazcestepodaci.map(data => data.properties.NA_IME).filter((item, i, ar) => ar.indexOf(item) === i);
+        this.setState({select: unique});
+
+        this.props.closeModal(false);
+
+    };
+
     render () {
    
     return (
         <Modal show={this.props.show} onHide={this.props.handleClose} backdrop="static" className="eki-modal">
-            <Modal.Header closeButton className="modalheaderceste">
+            <Modal.Header className="modalheaderceste">
                 <div onClick={this.minimizeTable} className="table-down"><MdArrowDropDown/></div>
+                <div onClick={this.resetDataCeste} className="table-close" ><MdClose/></div>
                 
             </Modal.Header>
             <Modal.Body>
