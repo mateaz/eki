@@ -9,29 +9,34 @@ import {Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup, Circle
 import * as ceste from "./data/javne_ceste_wgs.json";
 
 import {trg, mostovi, plaze, bicikliste_staze, pjeskacke_zone_setalista, pjeskacke_zone, plocnici} from "./Komponente/data/Javnepovrsinebezprometa";
+import {gradevine, odlagalista_otpada, reciklazna_dvorista, sajmista_trznice, spomenici, stajalista_javnog_prijevoza} from "./Komponente/data/Javnepovrsinebezprometa";
+import {parkiralista, parkiralista_naplata} from "./Komponente/data/Javnepovrsinebezprometa";
+import {sportski_tereni, parkovi, drvoredi_zivice_travnjaci, djecja_igralista} from "./Komponente/data/Javnepovrsinebezprometa";
+import {groblja_krematoriji} from "./Komponente/data/Javnepovrsinebezprometa";
+
 //import {obj_eki} from "./Komponente/data/Javnepovrsinebezprometa";
 
 import {bosana, dinjiska, gorica, gradpag, miskovici, kosljun, simuni, smokvica, staravas, vlasici, vrcici} from "./Komponente/data/Nerazvrstaneceste";
 
 
-import * as rasvjeta from "./data/rasvjeta.json";
-import * as groblja from "./data/groblja_krematoriji.json";
+import * as rasvjeta from "./data/rasvjeta/rasvjeta.json";
+//import * as groblja from "./data/groblja_krematoriji.json";
 
 
-import * as parkiralista_naplata from "./data/javnaparkiralista/parkiralista_naplata.json";
-import * as parkiralista from "./data/javnaparkiralista/parkiralista.json";
+/*import * as parkiralista_naplata from "./data/javnaparkiralista/parkiralista_naplata.json";
+import * as parkiralista from "./data/javnaparkiralista/parkiralista.json";*/
 
-import * as djecja_igralista from "./data/javnezelenepovrsine/djecja_igralista.json";
-import * as drvoredi from "./data/javnezelenepovrsine/drvoredi_zivice_travnjaci.json";
-import * as parkovi from "./data/javnezelenepovrsine/parkovi.json";
-import * as sportski_tereni from "./data/javnezelenepovrsine/sportski_tereni.json";
+//import * as djecja_igralista from "./data/javnezelenepovrsine/djecja_igralista.json";
+//import * as drvoredi from "./data/javnezelenepovrsine/drvoredi_zivice_travnjaci.json";
+//import * as parkovi from "./data/javnezelenepovrsine/parkovi.json";
+//import * as sportski_tereni from "./data/javnezelenepovrsine/sportski_tereni.json";
 
-import * as stajalista from "./data/gradevineuredajijavnenamjene/stajalista_javnog_prijevoza.json";
-import * as spomenici from "./data/gradevineuredajijavnenamjene/spomenici.json";
-import * as odlagalista from "./data/gradevineuredajijavnenamjene/odlagalista_otpada.json";
-import * as reciklazna_dvorista from "./data/gradevineuredajijavnenamjene/reciklazna_dvorista.json";
-import * as sajmista from "./data/gradevineuredajijavnenamjene/sajmista_trznice.json";
-import * as gradevine from "./data/gradevineuredajijavnenamjene/gradevine_lokalnog_znacaja.json";
+//import * as stajalista from "./data/gradevineuredajijavnenamjene/stajalista_javnog_prijevoza.json";
+//import * as spomenici from "./data/gradevineuredajijavnenamjene/spomenici.json";
+//import * as odlagalista from "./data/gradevineuredajijavnenamjene/odlagalista_otpada.json";
+//import * as reciklazna_dvorista from "./data/gradevineuredajijavnenamjene/reciklazna_dvorista.json";
+//import * as sajmista from "./data/gradevineuredajijavnenamjene/sajmista_trznice.json";
+//import * as gradevine from "./data/gradevineuredajijavnenamjene/gradevine_lokalnog_znacaja.json";
 
 import * as drzavneceste from "./data/javneceste/drzavneceste.json";
 import * as lokalneceste from "./data/javneceste/lokalneceste.json";
@@ -942,10 +947,7 @@ export default function SimpleExample() {
                 </LayerGroup>
             </Overlay>
 
-
-
-
-            <Overlay name="rasvjeta 1">
+            <Overlay name="Rasvjeta">
               <MarkerClusterGroup ref={rasvjeta1InputRef} id="rasvjeta1" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={17}>
                 {rasvjeta1.map((elem, i) => {
                 return (
@@ -965,8 +967,6 @@ export default function SimpleExample() {
                 )
               })}
               </MarkerClusterGroup>
-            </Overlay>
-            <Overlay name="rasvjeta 2">
               <MarkerClusterGroup ref={rasvjeta2InputRef} id="rasvjeta2" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={16}>
                 {rasvjeta2.map((elem, i) => {
                 return (
@@ -986,8 +986,6 @@ export default function SimpleExample() {
                 )
               })}
               </MarkerClusterGroup>
-            </Overlay>
-            <Overlay name="rasvjeta 3">
               <MarkerClusterGroup ref={rasvjeta3InputRef} id="rasvjeta3" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={16}>
                 {rasvjeta3.map((elem, i) => {
                 return (
@@ -1007,8 +1005,6 @@ export default function SimpleExample() {
                 )
               })}
               </MarkerClusterGroup>
-            </Overlay>
-            <Overlay name="rasvjeta 4">
               <MarkerClusterGroup ref={rasvjeta4InputRef} id="rasvjeta4" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={16}>
                 {rasvjeta4.map((elem, i) => {
                 return (
@@ -1028,8 +1024,6 @@ export default function SimpleExample() {
                 )
               })}
               </MarkerClusterGroup>
-            </Overlay>
-            <Overlay name="rasvjeta 5">
               <MarkerClusterGroup ref={rasvjeta5InputRef} id="rasvjeta5" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={17}>
                 {rasvjeta5.map((elem, i) => {
                 return (
@@ -1049,8 +1043,6 @@ export default function SimpleExample() {
                 )
               })}
               </MarkerClusterGroup>
-            </Overlay>
-            <Overlay name="rasvjeta 6">
               <MarkerClusterGroup ref={rasvjeta6InputRef} id="rasvjeta6" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={18}>
                 {rasvjeta6.map((elem, i) => {
                 return (
@@ -1070,8 +1062,6 @@ export default function SimpleExample() {
                 )
               })}
               </MarkerClusterGroup>
-            </Overlay>
-            <Overlay name="rasvjeta 7">
               <MarkerClusterGroup ref={rasvjeta7InputRef} id="rasvjeta7" iconCreateFunction={createClusterCustomIcon} disableClusteringAtZoom={18}>
                 {rasvjeta7.map((elem, i) => {
                 return (
@@ -1091,28 +1081,23 @@ export default function SimpleExample() {
               })}
               </MarkerClusterGroup>
             </Overlay>
-            <Overlay name="trg">
+
+            <Overlay name="javne površine bez prometa">
               <LayerGroup ref={trgJavnePovrsineInputRef}>
                 {trg.default.features.map(data => (
                   <GeoJSON key={data.properties.id} data={data} color="#bab667" fillColor="#d9d73d" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="plocnici">
               <LayerGroup ref={plocniciJavnePovrsineInputRef}>
                 {plocnici.default.features.map(data => (
                   <GeoJSON key={data.properties.id} data={data} color="#7d8b8f" dashArray="5"/>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="plaze">
               <LayerGroup ref={plazeJavnePovrsineInputRef}>
                 {plaze.default.features.map(data => (
                   <GeoJSON key={data.properties.id} data={data} color="#265980" fillColor="#7babd0" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="bicikl">
               <LayerGroup ref={biciklistickeJavnePovrsineInputRef}>
                 {bicikliste_staze.default.features.map(data => (
                   <GeoJSON key={data.properties.id} data={data} color="#f3a6b2" ref={geoJsonRef} onEachFeature={onEachFeatureEKI.bind(this)}>
@@ -1122,84 +1107,70 @@ export default function SimpleExample() {
                     </GeoJSON>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="mostovi">
               <LayerGroup ref={mostoviJavnePovrsineInputRef}>
                 {mostovi.default.features.map(data => (
                   <GeoJSON key={data.properties.id} data={data} color="#9f7acc" fillColor="#9f7acc" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="pjesacke_zone">
               <LayerGroup ref={pjesackeJavnePovrsineInputRef}>
                 {pjeskacke_zone.default.features.map(data => (
                   <GeoJSON key={data.properties.id} data={data} color="#098d09" fillColor="#76b70c" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="setalista">
               <LayerGroup ref={setalistaJavnePovrsineInputRef}>
                 {pjeskacke_zone_setalista.default.features.map(data => (
                   <GeoJSON key={data.properties.id} data={data} color="#285b22" dashArray="5"/>
                 ))}
               </LayerGroup>
             </Overlay>
-            <Overlay name="parkiralista naplata">
+
+            <Overlay name="Javna parkirališta">
               <LayerGroup ref={parkiralistaNaplataJavnaInputRef}>
-                {parkiralista_naplata.features.map(data => (
-                  <GeoJSON key={data.properties.Id} data={data} color="#232323" fillColor="#beb297" fillOpacity="0.7" weight="2"/>
+                {parkiralista_naplata.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#beb297" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="parkiralista">
               <LayerGroup ref={parkiralistaJavnaInputRef}>
-                {parkiralista.features.map(data => (
-                  <GeoJSON key={data.properties.Id} data={data} color="#232323"  fillColor="#c43c39" fillOpacity="0.7" weight="2"/>
+                {parkiralista.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323"  fillColor="#c43c39" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
             </Overlay>
-            <Overlay name="djecja">
+
+            <Overlay name="Javne zelene površine">
               <LayerGroup ref={djecjaIgralistaInputRef}>
-                {djecja_igralista.features.map(data => (
+                {djecja_igralista.default.features.map(data => (
                   <GeoJSON key={data.properties.Id} data={data} color="#232323" fillColor="#e77148" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="drvored">
               <LayerGroup ref={zeleniloInputRef}>
-                {drvoredi.features.map(data => (
+                {drvoredi_zivice_travnjaci.default.features.map(data => (
                   <GeoJSON key={data.properties.id} data={data} color="#232323" fillColor="#987db7" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="parkovi">
               <LayerGroup ref={parkoviInputRef}>
-                {parkovi.features.map(data => (
+                {parkovi.default.features.map(data => (
                   <GeoJSON key={data.properties.Id} data={data} color="#232323" fillColor="#becf50" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="sportski tereni">
               <LayerGroup ref={sportskiTereniInputRef}>
-                {sportski_tereni.features.map(data => (
+                {sportski_tereni.default.features.map(data => (
                   <GeoJSON key={data.properties.Id} data={data} color="#232323" fillColor="#e15989" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
             </Overlay>
 
-            <Overlay name="stajalista_javni">
-              <LayerGroup ref={stajalistaPrijevozInputRef}>
-                {stajalista.features.map(data => (
-                  <GeoJSON key={data.properties.id} data={data} color="#232323" fillColor="#a47158" fillOpacity="0.7" weight="2"/>
+            <Overlay name="Građevine i uređaji javne namjene">
+            <LayerGroup ref={stajalistaPrijevozInputRef}>
+                {stajalista_javnog_prijevoza.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#a47158" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="spomenici">
               <LayerGroup ref={spomeniciInputRef}>
-                {spomenici.features.map((elem, i) => {
+                {spomenici.default.features.map(elem => {
                   return (
                   <CircleMarker 
-                      key = {i}
+                      key = {elem.properties.fid}
                       center={{lat: elem.geometry.coordinates[1], lng: elem.geometry.coordinates[0]}}
                       fillColor="#85b66f" 
                       color="black"
@@ -1211,39 +1182,32 @@ export default function SimpleExample() {
                   )
                 })}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="odlagalista">
               <LayerGroup ref={odlagalistaInputRef}>
-                {odlagalista.features.map(data => (
-                  <GeoJSON key={data.properties.Id} data={data} color="#232323" fillColor="#beb297" fillOpacity="0.7" weight="2"/>
+                {odlagalista_otpada.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#beb297" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="reciklazna">
               <LayerGroup ref={reciklaznaInputRef}>
-                {reciklazna_dvorista.features.map(data => (
-                  <GeoJSON key={data.properties.Id} data={data} color="#232323" fillColor="#91522d" fillOpacity="0.7" weight="2"/>
+                {reciklazna_dvorista.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#91522d" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="sajmista">
               <LayerGroup ref={trzniceInputRef}>
-                {sajmista.features.map(data => (
-                  <GeoJSON key={data.properties.Id} data={data} color="#232323" fillColor="#7d8b8f" fillOpacity="0.7" weight="2"/>
+                {sajmista_trznice.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#7d8b8f" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
-            </Overlay>
-            <Overlay name="gradevine">
               <LayerGroup ref={gradjevineInputRef}>
-                {gradevine.features.map(data => (
-                  <GeoJSON key={data.properties.id} data={data} color="#232323" fillColor="#e5b636" fillOpacity="0.7" weight="2"/>
+                {gradevine.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#e5b636" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
             </Overlay>
+
             <Overlay name="groblja">
               <LayerGroup ref={grobljaInputRef}>
-                {groblja.features.map(data => (
-                  <GeoJSON key={data.properties.Id} data={data} color="#c43c39" fillColor="#c43c39" fillOpacity="0.7" weight="2"/>
+                {groblja_krematoriji.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} color="#c43c39" fillColor="#c43c39" fillOpacity="0.7" weight="2"/>
                 ))}
               </LayerGroup>
             </Overlay>

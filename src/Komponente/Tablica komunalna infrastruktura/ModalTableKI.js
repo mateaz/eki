@@ -38,8 +38,9 @@ export default class ModalTableKI extends Component  {
         let maxDataPerPage = Math.ceil(ekipodaci.length/this.state.pageSize);
         this.setState({maxPage: maxDataPerPage});
          
-        let unique = ekipodaci.map(data => data.properties.objekt).filter((item, i, ar) => ar.indexOf(item) === i);
-        this.setState({select: unique})
+        let unique = ekipodaci.map(data => data.properties.Komunalna).filter((item, i, ar) => ar.indexOf(item) === i);
+        this.setState({select: unique});
+
     };
     
     minimizeTable = () => {
@@ -163,7 +164,7 @@ export default class ModalTableKI extends Component  {
             if (this.state.selectedValue) {
 
                 let anewData = ekipodaci.filter((row) => { 
-                    if (row.properties.objekt === this.state.selectedValue) {
+                    if (row.properties.Komunalna === this.state.selectedValue) {
                         return row.properties }
                 })
                 newData = anewData.filter((row) => { 
@@ -187,7 +188,7 @@ export default class ModalTableKI extends Component  {
         } else if (this.state.selectedValue && !value) {
 
             newData = ekipodaci.filter((row) => { 
-                if (row.properties.objekt === this.state.selectedValue) {
+                if (row.properties.Komunalna === this.state.selectedValue) {
                     return row.properties 
                 }
             });
@@ -220,13 +221,13 @@ export default class ModalTableKI extends Component  {
                     (row.properties.Vlasnistvo && row.properties.Vlasnistvo.toString().toLowerCase().indexOf(value) > -1)
                 });
                 newData = anewData.filter((row) => { 
-                    if (row.properties.objekt === value) {
+                    if (row.properties.Komunalna === value) {
                         return row.properties }
                     }
                 );
             } else {
                 newData = ekipodaci.filter((row) => { 
-                    if (row.properties.objekt === value) {
+                    if (row.properties.Komunalna === value) {
                         return row.properties }
                     }
                 ) 
@@ -260,7 +261,7 @@ export default class ModalTableKI extends Component  {
         let maxDataPerPage = Math.ceil(ekipodaci.length/this.state.pageSize);
         this.setState({maxPage: maxDataPerPage});
          
-        let unique = ekipodaci.map(data => data.properties.objekt).filter((item, i, ar) => ar.indexOf(item) === i);
+        let unique = ekipodaci.map(data => data.properties.Komunalna).filter((item, i, ar) => ar.indexOf(item) === i);
         this.setState({select: unique});
         this.props.closeModal(false);
 
