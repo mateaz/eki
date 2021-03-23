@@ -10,7 +10,7 @@ import { MdSkipPrevious } from "react-icons/md";
 export default class  Sidebar extends Component{
     state = {
         activeCollapse: '',
-        activeItem: '',
+        activeitem: [],
         activeNaselje: '',
         cestePagInput: false,
         cesteMiskoviciInput: false,
@@ -77,24 +77,24 @@ export default class  Sidebar extends Component{
         if (this.state.activeCollapse === name) {
 
           //If collapsiable is already visible and clicked on same then this will hide it
-            this.setState({ activeCollapse: '' })
-
+            this.setState({ activeCollapse: '' });
+            this.setState({ activeitem: [] });
         } else {
             //To show collapsiable
-            this.setState({ activeCollapse: name })
+            this.setState({ activeCollapse: name });
+            this.setState({ activeitem: [] });
         }
     };
 
     handleExpandSpan = (naselje) => {
-          if (this.state.activeItem === naselje) {
-
-            //If collapsiable is already visible and clicked on same then this will hide it
-              this.setState({ activeItem: '' })
-  
+          let newlist = [...this.state.activeitem];
+          if (newlist.includes(naselje)) {
+                newlist = newlist.filter(naziv => naziv !== naselje)
           } else {
-              //To show collapsiable
-              this.setState({ activeItem: naselje })
-          }
+                newlist.push(naselje);
+            }
+          this.setState({activeitem: newlist});
+
     };
 
     handleZoomOnMap = (prop) => {
@@ -261,7 +261,7 @@ export default class  Sidebar extends Component{
                         </div>
                     </div>
 
-                    <div className={`sidebar-nav-menu-item ${this.state.activeCollapse === "komunalna" ? 'item-active' : ''}`}  data-id="komunalna">
+                    <div className={`sidebar-nav-menu-item komunalna-infrastruktura ${this.state.activeCollapse === "komunalna" ? 'item-active' : ''}`}  data-id="komunalna">
                         <div className="sidebar-nav-menu-item-head" >
                             <span className="span_icon" onClick={() => this.handleExpandCollaps("komunalna")}><FontAwesomeIcon icon={faCity}/></span>
                             <span className="sidebar-nav-menu-item-head-title" onClick={() => this.handleExpandCollaps("komunalna")}>Komunalna infrastrukutra</span>
@@ -269,9 +269,9 @@ export default class  Sidebar extends Component{
                         </div>
                         <div className="sidebar-nav-menu-item-body">
                             <SidebarContent
-                                klasa = {this.state.activeItem === "javnePovrsine" ? 'item-display': ''}
+                                klasa = {this.state.activeitem.includes("javnePovrsine") ? 'item-display': ''}
                                 handleExpand={()=>this.handleExpandSpan("javnePovrsine")}
-                                ikonica = {this.state.activeItem === "javnePovrsine" ? incompleteIcon: completeIcon}
+                                ikonica = {this.state.activeitem.includes("javnePovrsine") ? incompleteIcon: completeIcon}
                                 imeNaselja={'Javne površine bez prometa'}
                                 body = {
                                     <div>
@@ -322,9 +322,9 @@ export default class  Sidebar extends Component{
                                 }
                             />
                             <SidebarContent
-                                klasa = {this.state.activeItem === "javnaParkiralista" ? 'item-display': ''}
+                                klasa = {this.state.activeitem.includes("javnaParkiralista") ? 'item-display': ''}
                                 handleExpand={()=>this.handleExpandSpan("javnaParkiralista")}
-                                ikonica = {this.state.activeItem === "javnaParkiralista" ? incompleteIcon: completeIcon}
+                                ikonica = {this.state.activeitem.includes("javnaParkiralista") ? incompleteIcon: completeIcon}
                                 imeNaselja={'Javna parkirališta'}
                                 body = {
                                     <div>
@@ -344,9 +344,9 @@ export default class  Sidebar extends Component{
                                 }
                             />
                             <SidebarContent
-                                klasa = {this.state.activeItem === "javneZelenePovrsine" ? 'item-display': ''}
+                                klasa = {this.state.activeitem.includes("javneZelenePovrsine") ? 'item-display': ''}
                                 handleExpand={()=>this.handleExpandSpan("javneZelenePovrsine")}
-                                ikonica = {this.state.activeItem === "javneZelenePovrsine" ? incompleteIcon: completeIcon}
+                                ikonica = {this.state.activeitem.includes("javneZelenePovrsine") ? incompleteIcon: completeIcon}
                                 imeNaselja={'Javne zelene površine'}
                                 body = {
                                     <div>
@@ -378,9 +378,9 @@ export default class  Sidebar extends Component{
                                 }
                             />
                             <SidebarContent
-                                klasa = {this.state.activeItem === "gradjevine" ? 'item-display': ''}
+                                klasa = {this.state.activeitem.includes("gradjevine") ? 'item-display': ''}
                                 handleExpand={()=>this.handleExpandSpan("gradjevine")}
-                                ikonica = {this.state.activeItem === "gradjevine" ? incompleteIcon: completeIcon}
+                                ikonica = {this.state.activeitem.includes("gradjevine") ? incompleteIcon: completeIcon}
                                 imeNaselja={'Građevine i uređaji javne namjene'}
                                 body = {
                                     <div>
@@ -430,9 +430,9 @@ export default class  Sidebar extends Component{
                                 Change={this.toggleChange.bind(this)}
                             />
                             <SidebarContent
-                                klasa = {this.state.activeItem === "rasvjeta" ? 'item-display': ''}
+                                klasa = {this.state.activeitem.includes("rasvjeta") ? 'item-display': ''}
                                 handleExpand={()=>this.handleExpandSpan("rasvjeta")}
-                                ikonica = {this.state.activeItem === "rasvjeta" ? incompleteIcon: completeIcon}
+                                ikonica = {this.state.activeitem.includes("rasvjeta") ? incompleteIcon: completeIcon}
                                 imeNaselja={'Rasvjeta'}
                                 body = {
                                     <div>

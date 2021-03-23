@@ -128,6 +128,9 @@ h1, p {
   transition: height 0ms 400ms, opacity 400ms 0ms;
   padding-left: 20px;
 }
+
+
+
 .sidebar-nav-menu-item.item-active .sidebar-nav-menu-item-body{
   /*This is equivalent to display: block*/
   height: auto; 
@@ -167,9 +170,11 @@ h1, p {
   justify-content: normal;
 }
 
-.item-active {
-  background-color: #dae4e97a;
+.komunalna-infrastruktura .sidebar-nav-menu-item-body{
+  overflow-y: auto;
+  max-height: 65vh;
 }
+
 
 input[type=checkbox] {
   margin-right: 10px;
@@ -212,8 +217,9 @@ input[type=checkbox] {
   top: calc(100% - 50vh);
   line-height: 50px;
   height: 50px;
-  background-color: #2e6ca433;
+  background-color: #2e6ca445;
   box-shadow: 6px -1px 6px 0px #00000061;
+  border: 1px solid #2e6ca48a;
   right: -15px;
   border-left: unset;
   cursor: pointer;
@@ -401,9 +407,9 @@ PANEL
 LEAFLET LAYERS CONTROL
 */
 
-/*.leaflet-control-layers {
+.leaflet-control-layers {
   display: none;
-}*/
+}
 
 .paglogo a img {
   height: 38px!important;
@@ -697,4 +703,11 @@ Datatable
 
 .table-close {
   cursor: pointer;
+}
+
+.popup-a {
+  margin-left: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
 }

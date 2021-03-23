@@ -1,5 +1,4 @@
 import React from 'react';
-//import {columnseki, ekipodaci} from "../datatable";
 import {MdArrowDownward, MdArrowUpward} from "react-icons/md";
 
 export default function TableKI ({data, column, pageIndex, columnsnekisort, direction, pageSize, onSortColumns, handleClickOnTr}) {
@@ -18,7 +17,7 @@ export default function TableKI ({data, column, pageIndex, columnsnekisort, dire
                                         if (row.properties[column.selector]) {
                                             if (row.properties[column.selector].match(/\d+/g)) {
                                                 return <td key={i} data-id={row.properties.fid} data-attribute={row.properties.bbox}>{row.properties[column.selector].match(/\d+/g).map(Number).map((lista, i) => {  
-                                                        return <a key={i} title="Preuzmi zemljišno-knjižni uložak!"  href={`/2-JPBP-vlasnistvo/${row.properties["objekt"]}/${row.properties["Oznaka"]}-${row.properties["id"]}-${lista}.pdf`} download className="a-datatable">{lista}</a>
+                                                        return <a key={i} title="Preuzmi zemljišno-knjižni uložak!"  href={`/${row.properties["Oznaka"]}-vlasnistvo/${row.properties["objekt"]}/${row.properties["Oznaka"]}-${row.properties["id"]}-${lista}.pdf`} download className="a-datatable">{lista}</a>
                                                     })}
                                                 </td>
                                             } else return <td key={i} data-id={row.properties.fid} data-attribute={row.properties.bbox}>{row.properties[column.selector]}</td>;

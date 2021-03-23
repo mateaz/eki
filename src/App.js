@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./Komponente/Header"; 
 
+
 import './App.css';
 import {Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup, CircleMarker, Tooltip} from 'react-leaflet';
 
@@ -17,26 +18,7 @@ import {groblja_krematoriji} from "./Komponente/data/Javnepovrsinebezprometa";
 //import {obj_eki} from "./Komponente/data/Javnepovrsinebezprometa";
 
 import {bosana, dinjiska, gorica, gradpag, miskovici, kosljun, simuni, smokvica, staravas, vlasici, vrcici} from "./Komponente/data/Nerazvrstaneceste";
-
-
-import * as rasvjeta from "./data/rasvjeta/rasvjeta.json";
-//import * as groblja from "./data/groblja_krematoriji.json";
-
-
-/*import * as parkiralista_naplata from "./data/javnaparkiralista/parkiralista_naplata.json";
-import * as parkiralista from "./data/javnaparkiralista/parkiralista.json";*/
-
-//import * as djecja_igralista from "./data/javnezelenepovrsine/djecja_igralista.json";
-//import * as drvoredi from "./data/javnezelenepovrsine/drvoredi_zivice_travnjaci.json";
-//import * as parkovi from "./data/javnezelenepovrsine/parkovi.json";
-//import * as sportski_tereni from "./data/javnezelenepovrsine/sportski_tereni.json";
-
-//import * as stajalista from "./data/gradevineuredajijavnenamjene/stajalista_javnog_prijevoza.json";
-//import * as spomenici from "./data/gradevineuredajijavnenamjene/spomenici.json";
-//import * as odlagalista from "./data/gradevineuredajijavnenamjene/odlagalista_otpada.json";
-//import * as reciklazna_dvorista from "./data/gradevineuredajijavnenamjene/reciklazna_dvorista.json";
-//import * as sajmista from "./data/gradevineuredajijavnenamjene/sajmista_trznice.json";
-//import * as gradevine from "./data/gradevineuredajijavnenamjene/gradevine_lokalnog_znacaja.json";
+import {rasvjeta1, rasvjeta2, rasvjeta3, rasvjeta4, rasvjeta5, rasvjeta6, rasvjeta7} from "./Komponente/data/Rasvjeta";
 
 import * as drzavneceste from "./data/javneceste/drzavneceste.json";
 import * as lokalneceste from "./data/javneceste/lokalneceste.json";
@@ -51,7 +33,8 @@ export default function SimpleExample() {
   const [center, setCenter] = useState([44.442669, 15.054280]);
   const [bounds, setBounds] = useState([[[44.45041, 15.04369], [44.45041, 15.06535]], [[44.43824, 15.06535], [44.43834, 15.04369]]]);
   const [zoom, setZoom] = useState(15);
-  const [data, setData] = useState([]);
+  const [roadData, setRoadData] = useState([]);
+  const [ekiData, setEkiData] = useState([]);
 
 
 
@@ -79,63 +62,19 @@ export default function SimpleExample() {
       return data;
     })
 
-    const geoJsonRef = useRef();
-
-    const mapRef = useRef();
-
-    const OSMRef = useRef();
-    const DOFRef = useRef();
-
-    const newlayer = useRef();
-
-
-    const javneCesteDrzavneInputRef = useRef();
-    const javneCesteZupanijskeInputRef = useRef();
-    const javneCesteLokalneInputRef = useRef();
-
-       let [cestePagInputRef, cesteMiskoviciInputRef, cesteGoricaInputRef, cesteBosanaInputRef, cesteDinjiskaInputRef, cesteKosljunInputRef, cesteSmokvicaInputRef, cesteStaraVasInputRef, cesteSimuniInputRef, cesteVlasiciInputRef, cesteVrciciInputRef ] = [...Array(11)].map(useRef);
-
-
-    const rasvjeta1InputRef = useRef();
-    const rasvjeta2InputRef = useRef();
-    const rasvjeta3InputRef = useRef();
-    const rasvjeta4InputRef = useRef();
-    const rasvjeta5InputRef = useRef();
-    const rasvjeta6InputRef = useRef();
-    const rasvjeta7InputRef = useRef();
-
+    let [OSMRef, DOFRef, mapRef] = [...Array(3)].map(useRef);
+    let [javneCesteDrzavneInputRef, javneCesteZupanijskeInputRef, javneCesteLokalneInputRef, newRoadlayer, newEkilayer, geoJsonRef] = [...Array(6)].map(useRef);
+    let [cestePagInputRef, cesteMiskoviciInputRef, cesteGoricaInputRef, cesteBosanaInputRef, cesteDinjiskaInputRef, cesteKosljunInputRef, cesteSmokvicaInputRef, cesteStaraVasInputRef, cesteSimuniInputRef, cesteVlasiciInputRef, cesteVrciciInputRef ] = [...Array(11)].map(useRef);
+    let [rasvjeta1InputRef, rasvjeta2InputRef, rasvjeta3InputRef, rasvjeta4InputRef, rasvjeta5InputRef, rasvjeta6InputRef, rasvjeta7InputRef] = [...Array(7)].map(useRef);
     const grobljaInputRef = useRef();
-
-    const trgJavnePovrsineInputRef = useRef();
-    const plocniciJavnePovrsineInputRef = useRef();
-    const plazeJavnePovrsineInputRef = useRef();
-    const biciklistickeJavnePovrsineInputRef = useRef();
-    const mostoviJavnePovrsineInputRef = useRef();
-    const pjesackeJavnePovrsineInputRef = useRef();
-    const setalistaJavnePovrsineInputRef = useRef();
-
-    const parkiralistaNaplataJavnaInputRef = useRef();
-    const parkiralistaJavnaInputRef = useRef();
-
-    const sportskiTereniInputRef = useRef();
-    const djecjaIgralistaInputRef = useRef();
-    const parkoviInputRef = useRef();
-    const zeleniloInputRef = useRef();
-
-
-    const stajalistaPrijevozInputRef = useRef();
-    const spomeniciInputRef = useRef();
-    const odlagalistaInputRef = useRef();
-    const reciklaznaInputRef = useRef();
-    const trzniceInputRef = useRef();
-    const gradjevineInputRef = useRef();
+    let [trgJavnePovrsineInputRef, plocniciJavnePovrsineInputRef, plazeJavnePovrsineInputRef, biciklistickeJavnePovrsineInputRef, mostoviJavnePovrsineInputRef, pjesackeJavnePovrsineInputRef, setalistaJavnePovrsineInputRef] = [...Array(7)].map(useRef);
+    let [parkiralistaNaplataJavnaInputRef, parkiralistaJavnaInputRef] = [...Array(2)].map(useRef);
+    let [sportskiTereniInputRef, djecjaIgralistaInputRef, parkoviInputRef, zeleniloInputRef, stajalistaPrijevozInputRef, spomeniciInputRef, odlagalistaInputRef, reciklaznaInputRef, trzniceInputRef, gradjevineInputRef] = [...Array(10)].map(useRef);
 
 
     const handleCheckboxLayer = (checkboxProps) => {
       //console.log(checkboxProps)
       let a = checkboxProps.target;
-      
-
 
       if ('OSMRef'.includes(a)) {
         let layerAdd = OSMRef.current.leafletElement;
@@ -657,30 +596,6 @@ export default function SimpleExample() {
       //console.log({[checkboxProps.target]:checkboxProps.checked})
 
     };
-    
-    const rasvjeta1 = rasvjeta.features.filter(data => data.properties.Tip === 1).map((data) => {
-      return data;
-    });
-
-    const rasvjeta2 = rasvjeta.features.filter(data => data.properties.Tip === 2).map((data) => {
-      return data;
-    });
-
-    const rasvjeta3 = rasvjeta.features.filter(data => data.properties.Tip === 3).map((data) => {
-      return data;
-    });
-    const rasvjeta4 = rasvjeta.features.filter(data => data.properties.Tip === 4).map((data) => {
-      return data;
-    });
-    const rasvjeta5 = rasvjeta.features.filter(data => data.properties.Tip === 5).map((data) => {
-      return data;
-    });
-    const rasvjeta6 = rasvjeta.features.filter(data => data.properties.Tip === 6).map((data) => {
-      return data;
-    });
-    const rasvjeta7 = rasvjeta.features.filter(data => data.properties.Tip === 7).map((data) => {
-      return data;
-    });
 
   /*  const abc = groblja.features.map((data) => {
 
@@ -744,34 +659,12 @@ export default function SimpleExample() {
       });
   
       layer.bringToFront();
-  };
+    };
   
   const resetHighlight = (e) => {
     geoJsonRef.current.leafletElement.resetStyle(e.target);
       //console.log(event.target)
   };
-
-  const onEachFeatureEKI = (feature, layer) => {
-    const popupContent = `
-    <div class="main-popup-div">
-      <p class="popup-p">Naziv komunalne infrastrukture: <span class="popup-span">${feature.properties.Naziv}</span></p>
-      <p class="popup-p">Oznaka: <span class="popup-span">${feature.properties.Oznaka}</span></p>
-      <p class="popup-p">Naziv naselja: <span class="popup-span">${feature.properties.Naselje}</span></p>
-      <p class="popup-p">Broj katastarske čestice: <span class="popup-span">${feature.properties.kcbr}</span></p>
-    </div>`;
-
-  if (feature.properties && feature.properties.popupContent) {
-    popupContent += feature.properties.popupContent;
-  };
-
-  layer.bindPopup(popupContent);
-
-  layer.on({
-    mouseover: highlightFeature.bind(this),
-    mouseout: resetHighlight.bind(this)
-  });
-
-};
 
   const onEachFeatureNerazCeste = (feature, layer) => {
       const popupContent = `
@@ -794,6 +687,114 @@ export default function SimpleExample() {
       });
   };
 
+  const onEachFeatureKomunalnaInfrastruktura = (feature, layer) => {
+    let popupContent = document.createElement('div');
+    popupContent.classList.add('main-popup-div');
+    
+    if (feature.properties.Vrsta) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Vrsta komunalne infrastrukture: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.Vrsta;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.Oznaka) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Oznaka komunalne infrastrukture: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.Oznaka;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.Naziv) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Naziv komunalne infrastrukture: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.Naziv;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.Naselje) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Naselje: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.Naselje;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.kcbr) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Broj katastarske čestice: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.kcbr;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.Vlasnistvo) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Vlasništvo: <br>";
+
+      if (feature.properties.Vlasnistvo.match(/\d+/g)) {
+        feature.properties.Vlasnistvo.match(/\d+/g).map((data) => {
+           
+
+            let text_a = document.createElement('a');
+            text_a.classList.add('popup-a');
+            text_a.innerHTML = data;
+            let aa = "/"+feature.properties.Oznaka+"-vlasnistvo/"+feature.properties.objekt+"/"+feature.properties.Oznaka+"-"+feature.properties.id+"-"+data+".pdf";
+            text_a.setAttribute("href", aa);
+            text_a.setAttribute("target", "_blank");
+            text_p.appendChild(text_a);
+        })
+        } else {
+          let text_span = document.createElement('span');
+          text_span.classList.add('popup-span');
+          text_span.innerHTML = feature.properties.Vlasnistvo;
+
+          text_p.appendChild(text_span);
+        }
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties && feature.properties.popupContent) {
+      popupContent += feature.properties.popupContent;
+    };
+
+    layer.bindPopup(popupContent);
+
+    layer.on({
+      mouseover: highlightFeature.bind(this),
+      mouseout: resetHighlight.bind(this)
+    });
+  };
+
   const handleZoomStateOnMap = (a) => {
       const corner1 = [a.coord[1], a.coord[0]];
       const corner2 = [a.coord[3], a.coord[2]];
@@ -801,35 +802,59 @@ export default function SimpleExample() {
       setBounds([corner1, corner2]);
   };
   
-  //console.log(obj_eki);
 
   const createJsonDataOnMap = (data) => {
-   // if ('javneCesteDrzavneInputRef'.includes(a)) {
-      let layerAdd = newlayer.current.leafletElement;
-      //if (checkboxProps.checked && mapRef.current && javneCesteDrzavneInputRef.current) {
-        const map = mapRef.current.leafletElement;
-        map.addLayer(layerAdd);
-      //}
-      /*else if (!checkboxProps.checked && mapRef.current && javneCesteDrzavneInputRef.current) {
-        const map = mapRef.current.leafletElement;
-        map.removeLayer(layerAdd);
-      }*/
-    //};
+    let layerRoadAdd = newRoadlayer.current.leafletElement;
+    let layerEkiAdd = newEkilayer.current.leafletElement;
+    
 
-
-
-
-    if (data) {
-      setData(data);
-     /* return (
-          <GeoJSON
-              id={data[0].properties.fid}
-              data={data[0]}
-              color="blue"
-          />
-      );*/
-    }
+    if (data[0].properties.Komunalna) {
+      const map = mapRef.current.leafletElement;
+      map.addLayer(layerEkiAdd);
+      setEkiData(data);
+      setRoadData([]);
+      if (newRoadlayer.current) {
+        map.removeLayer(layerRoadAdd);
+      };
+    } else {
+      const map = mapRef.current.leafletElement;
+      map.addLayer(layerRoadAdd);
+      setEkiData([]);
+      setRoadData(data);
+      if (newEkilayer.current) {
+        map.removeLayer(layerEkiAdd);
+      };
+    };
   };
+
+  const onEachFeaturePoint = (feature, layer) =>  {
+    const popupContent = `
+      <div class="main-popup-div">
+        <p class="popup-p">Vrsta komunalne infrastrukture: <span class="popup-span">${feature.properties.Vrsta}</span></p>
+        <p class="popup-p">Oznaka komunalne infrastrukture: <span class="popup-span">${feature.properties.Oznaka}</span></p>
+        <p class="popup-p">Naziv komunalne infrastrukture: <span class="popup-span">${feature.properties.Naziv}</span></p>
+        <p class="popup-p">Naselje: <span class="popup-span">${feature.properties.Naselje}</span></p>
+        <p class="popup-p">Broj katastarske čestice: <span class="popup-span">${feature.properties.kcbr}</span></p>
+        <p class="popup-p">Vlasništvo: <span class="popup-span">${feature.properties.Vlasnistvo}</span></p>
+
+      </div>`;
+    if (feature.properties && feature.properties.popupContent) {
+      popupContent += feature.properties.popupContent;
+    };
+
+    layer.bindPopup(popupContent);
+
+    layer.on({
+      mouseover: highlightFeature.bind(this),
+      mouseout: resetHighlight.bind(this)
+    });
+  };
+
+ const pointToLayer = (latlng) => {
+    return L.circleMarker(latlng, 
+      { radius: 8, fillOpacity: 1, fillColor: "#85b66f", color: "#000", opacity: 1, weight: 1,});
+  };
+
 
   return (
       < div className="map">
@@ -864,9 +889,15 @@ export default function SimpleExample() {
             </Overlay>
 
             <Overlay name="nove dodane ceste">
-              <LayerGroup ref={newlayer}>
-                  {data.map(data => (
+              <LayerGroup ref={newRoadlayer}>
+                  {roadData.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red" onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                    ))
+                  }
+              </LayerGroup>
+              <LayerGroup ref={newEkilayer}>
+                  {ekiData.map(data => (
+                    <GeoJSON key={data.properties.fid} data={data} color="red" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                     ))
                   }
               </LayerGroup>
@@ -889,60 +920,64 @@ export default function SimpleExample() {
               </LayerGroup>
             </Overlay>
 
-            <Overlay>
+            <Overlay name="nerazvrstane ceste"> 
                 <LayerGroup ref={cestePagInputRef} >
                   {gradpag.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="black" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
+                    <Tooltip direction='right' offset={[-10, -5]} opacity={1} permanent>
+                      <span>{data.properties.OZNAKA}</span>
+                    </Tooltip>
+                  </GeoJSON>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteMiskoviciInputRef}>
                     {miskovici.default.features.map(data => (
-                    <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                     ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteGoricaInputRef}>
                   {gorica.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="orange" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteBosanaInputRef} >
                   {bosana.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="black" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteKosljunInputRef}>
                   {kosljun.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="orange" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteDinjiskaInputRef}>
                   {dinjiska.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteVlasiciInputRef}>
                   {vlasici.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteVrciciInputRef}>
                   {vrcici.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteStaraVasInputRef}>
                   {staravas.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteSmokvicaInputRef}>
                   {smokvica.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteSimuniInputRef}>
                   {simuni.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="brown" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                   ))}
                 </LayerGroup>
             </Overlay>
@@ -960,7 +995,7 @@ export default function SimpleExample() {
                     fillOpacity= {1}
                     weight={1}
                     radius={5}>
-                    <Tooltip direction='right' offset={[-8, -2]} opacity={1} permanent>
+                    <Tooltip direction='right' offset={[-10, -13]} opacity={1} permanent>
                       <span>{elem.properties.id}</span>
                     </Tooltip>
                 </CircleMarker>
@@ -1085,22 +1120,22 @@ export default function SimpleExample() {
             <Overlay name="javne površine bez prometa">
               <LayerGroup ref={trgJavnePovrsineInputRef}>
                 {trg.default.features.map(data => (
-                  <GeoJSON key={data.properties.id} data={data} color="#bab667" fillColor="#d9d73d" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#bab667" fillColor="#d9d73d" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
               <LayerGroup ref={plocniciJavnePovrsineInputRef}>
                 {plocnici.default.features.map(data => (
-                  <GeoJSON key={data.properties.id} data={data} color="#7d8b8f" dashArray="5"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#7d8b8f" dashArray="5" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
               <LayerGroup ref={plazeJavnePovrsineInputRef}>
                 {plaze.default.features.map(data => (
-                  <GeoJSON key={data.properties.id} data={data} color="#265980" fillColor="#7babd0" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#265980" fillColor="#7babd0" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
               <LayerGroup ref={biciklistickeJavnePovrsineInputRef}>
                 {bicikliste_staze.default.features.map(data => (
-                  <GeoJSON key={data.properties.id} data={data} color="#f3a6b2" ref={geoJsonRef} onEachFeature={onEachFeatureEKI.bind(this)}>
+                  <GeoJSON key={data.properties.fid} data={data} color="#f3a6b2" ref={geoJsonRef} onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
                     <Tooltip direction='center' offset={[0, 0]} opacity={1} permanent>
                       <span>{data.properties.Naziv}</span>
                     </Tooltip>
@@ -1109,17 +1144,17 @@ export default function SimpleExample() {
               </LayerGroup>
               <LayerGroup ref={mostoviJavnePovrsineInputRef}>
                 {mostovi.default.features.map(data => (
-                  <GeoJSON key={data.properties.id} data={data} color="#9f7acc" fillColor="#9f7acc" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#9f7acc" fillColor="#9f7acc" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
               <LayerGroup ref={pjesackeJavnePovrsineInputRef}>
                 {pjeskacke_zone.default.features.map(data => (
-                  <GeoJSON key={data.properties.id} data={data} color="#098d09" fillColor="#76b70c" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#098d09" fillColor="#76b70c" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)} />
                 ))}
               </LayerGroup>
               <LayerGroup ref={setalistaJavnePovrsineInputRef}>
                 {pjeskacke_zone_setalista.default.features.map(data => (
-                  <GeoJSON key={data.properties.id} data={data} color="#285b22" dashArray="5"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#285b22" dashArray="5" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
             </Overlay>
@@ -1127,12 +1162,12 @@ export default function SimpleExample() {
             <Overlay name="Javna parkirališta">
               <LayerGroup ref={parkiralistaNaplataJavnaInputRef}>
                 {parkiralista_naplata.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#beb297" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#beb297" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
               <LayerGroup ref={parkiralistaJavnaInputRef}>
                 {parkiralista.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323"  fillColor="#c43c39" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323"  fillColor="#c43c39" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
             </Overlay>
@@ -1140,22 +1175,22 @@ export default function SimpleExample() {
             <Overlay name="Javne zelene površine">
               <LayerGroup ref={djecjaIgralistaInputRef}>
                 {djecja_igralista.default.features.map(data => (
-                  <GeoJSON key={data.properties.Id} data={data} color="#232323" fillColor="#e77148" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#e77148" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
               <LayerGroup ref={zeleniloInputRef}>
                 {drvoredi_zivice_travnjaci.default.features.map(data => (
-                  <GeoJSON key={data.properties.id} data={data} color="#232323" fillColor="#987db7" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#987db7" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
               <LayerGroup ref={parkoviInputRef}>
                 {parkovi.default.features.map(data => (
-                  <GeoJSON key={data.properties.Id} data={data} color="#232323" fillColor="#becf50" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#becf50" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
               <LayerGroup ref={sportskiTereniInputRef}>
                 {sportski_tereni.default.features.map(data => (
-                  <GeoJSON key={data.properties.Id} data={data} color="#232323" fillColor="#e15989" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#e15989" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
             </Overlay>
@@ -1163,43 +1198,34 @@ export default function SimpleExample() {
             <Overlay name="Građevine i uređaji javne namjene">
             <LayerGroup ref={stajalistaPrijevozInputRef}>
                 {stajalista_javnog_prijevoza.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#a47158" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#a47158" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
               <LayerGroup ref={spomeniciInputRef}>
                 {spomenici.default.features.map(elem => {
                   return (
-                  <CircleMarker 
-                      key = {elem.properties.fid}
-                      center={{lat: elem.geometry.coordinates[1], lng: elem.geometry.coordinates[0]}}
-                      fillColor="#85b66f" 
-                      color="black"
-                      opacity= {1}
-                      fillOpacity= {1}
-                      weight={1}
-                      radius={5}>
-                  </CircleMarker>
+                  <GeoJSON key={elem.properties.fid} data={elem} onEachFeature={onEachFeaturePoint.bind(this)} pointToLayer={pointToLayer.bind(this)} />
                   )
                 })}
               </LayerGroup>
               <LayerGroup ref={odlagalistaInputRef}>
                 {odlagalista_otpada.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#beb297" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#beb297" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
               <LayerGroup ref={reciklaznaInputRef}>
                 {reciklazna_dvorista.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#91522d" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#91522d" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
               <LayerGroup ref={trzniceInputRef}>
                 {sajmista_trznice.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#7d8b8f" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#7d8b8f" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
               <LayerGroup ref={gradjevineInputRef}>
                 {gradevine.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#e5b636" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#e5b636" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
             </Overlay>
@@ -1207,7 +1233,7 @@ export default function SimpleExample() {
             <Overlay name="groblja">
               <LayerGroup ref={grobljaInputRef}>
                 {groblja_krematoriji.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#c43c39" fillColor="#c43c39" fillOpacity="0.7" weight="2"/>
+                  <GeoJSON key={data.properties.id} data={data} color="#c43c39" fillColor="#c43c39" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
               </LayerGroup>
             </Overlay>
