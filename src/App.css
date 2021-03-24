@@ -155,7 +155,7 @@ h1, p {
   /*cursor: pointer;*/
 }
 
-.sidebar-nav-menu-item-head:hover {
+.sidebar-nav-menu-item-head span:hover {
   color: #1d292f;
   font-weight: 600;
 }
@@ -233,7 +233,7 @@ input[type=checkbox] {
   display: block;
 }
 
-form:hover{
+form label:hover{
   font-weight: 600;
 }
 
@@ -251,10 +251,11 @@ div .buttonabsolute:last-child {
   left: 100px;
 }
 
-.tooltip-css.leaflet-tooltip-right:before {
+.tooltip-css.leaflet-tooltip-right:before, .ekiTooltip.leaflet-tooltip-right:before {
   border: none;
   background: none;
 }
+
 
 .leaflet-tooltip {
   border: none;
@@ -273,6 +274,12 @@ div .buttonabsolute:last-child {
   background-color: #f5efe7!important;
   border: 1px solid #c2ab98;
 }
+
+.ekiTooltip {
+  background-color: #dac5da94!important;
+  border: 1px solid #b4a4a4;
+}
+
 
 .roadTooltip.leaflet-tooltip-right:before {
   border-right-color: #c2ab98!important;

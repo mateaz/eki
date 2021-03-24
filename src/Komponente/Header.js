@@ -12,11 +12,6 @@ export default class Header extends Component {
 
     handleClickButton = () => {
         this.setState({showSidebar: !this.state.showSidebar})
-      /* if (!this.state.showSidebar) {
-            console.log(document.getElementsByClassName('sidebar-div'))
-        }
-        console.log(!this.state.showSidebar);*/
-        //.sidebar-div
     };
 
     handleStateCheckbox = (checkboxInput) => {
@@ -24,15 +19,8 @@ export default class Header extends Component {
     };
 
     handleZoomOnMap = (zoomProp) => {
-       // console.log(zoomProp);
         this.props.zoomState(zoomProp);
     };
-
-   /* handleClickClosesidebar = (close) => {
-        if (close) {
-            this.setState({showSidebar: false})
-        };
-    };*/
 
     sendJsonData = (jsondata) => {
         this.props.handleJsonData(jsondata);
@@ -43,13 +31,13 @@ export default class Header extends Component {
     return (
         <div>
             <Navbar bg="light" expand="lg">
-                <button className ="button-logo" onClick = {this.handleClickButton}><img className="listlogo" src={listlogo}/></button>
+                <button className ="button-logo" onClick = {this.handleClickButton}><img className="listlogo" alt="logo_list geoinformatika d.o.o." src={listlogo}/></button>
                 <Nav className="mr-auto navbar-pag">GRAD PAG <br />Evidencija Komunalne infrastrukture</Nav>
                 <Nav className="navbar-pag">
                     <MoreInformation OnInformationOut={this.handleStateCheckbox}/>
                 </Nav>
             </Navbar>
-            <Sidebar showSidebar = {this.state.showSidebar} createJsonData = {this.sendJsonData}  OnMessageOut={this.handleStateCheckbox} OnZoomOnMap={this.handleZoomOnMap} /*loseSidebarOnClick={this.handleClickClosesidebar}*//>
+            <Sidebar showSidebar = {this.state.showSidebar} createJsonData = {this.sendJsonData}  OnMessageOut={this.handleStateCheckbox} OnZoomOnMap={this.handleZoomOnMap} />
         </div>
     )
 }

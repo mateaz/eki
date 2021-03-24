@@ -10,12 +10,6 @@ import FormaPageNumber from '../Komponente tablica/FormaPageNumber';
 import {Modal} from "react-bootstrap";
 import { MdArrowDropDown, MdFirstPage, MdLastPage, MdKeyboardArrowRight, MdKeyboardArrowLeft, MdClose} from "react-icons/md";
 
-//import DataTable from "react-data-table-component"; //deinstalirati
-//import DataTableExtensions from "react-data-table-component-extensions"; //deinstalirati
-//import {MdArrowDownward} from "react-icons/md"; 
-//import "react-data-table-component-extensions/dist/index.css"; //deinstalirati
-
-//import {columns, data} from "./datatable"; //deinstalirati
 import TableNerazCeste from "./TableNerazCeste";
 
 
@@ -64,7 +58,7 @@ export default class ModalTableCeste extends Component  {
                 return (a.properties[key] === null) - (b.properties[key] === null) || ('' + b.properties[key]).localeCompare(a.properties[key]);
             } else if (direction === 'asc') {
                 return (b.properties[key] === null) - (a.properties[key] === null) || ('' + a.properties[key]).localeCompare(b.properties[key]);
-            }
+            } else return false
         });
         this.setState({data: sortData, direction: direction, sortedBy: key, columnsnerazcesteort: column});
     };
@@ -78,7 +72,7 @@ export default class ModalTableCeste extends Component  {
                 jsonData = nerazcestepodaci.filter((row) => { 
                    if (row.properties.fid === parseInt(value)) {
                        return row
-                    }}
+                    } else return false }
                );
            };
            this.props.setJsonData(jsonData);
@@ -168,7 +162,8 @@ export default class ModalTableCeste extends Component  {
             if (this.state.selectedValue) {
                 let anewData = nerazcestepodaci.filter((row) => { 
                     if (row.properties.NA_IME === this.state.selectedValue) {
-                        return row.properties }
+                        return row.properties 
+                    } else return false
                 })
 
                 newData = anewData.filter((row) => { 
@@ -194,7 +189,7 @@ export default class ModalTableCeste extends Component  {
             newData = nerazcestepodaci.filter((row) => { 
                 if (row.properties.NA_IME === this.state.selectedValue) {
                     return row.properties 
-                }
+                } else return false
             });
         } else newData = nerazcestepodaci;
 
@@ -226,13 +221,15 @@ export default class ModalTableCeste extends Component  {
                 });
                 newData = anewData.filter((row) => { 
                     if (row.properties.NA_IME === value) {
-                        return row.properties }
+                        return row.properties 
+                    } else return false
                     }
                 );
             } else {
                 newData = nerazcestepodaci.filter((row) => { 
                     if (row.properties.NA_IME === value) {
-                        return row.properties }
+                        return row.properties 
+                    } else return false
                     }
                 ) 
             };

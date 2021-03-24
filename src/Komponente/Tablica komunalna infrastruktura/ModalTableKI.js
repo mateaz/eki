@@ -9,10 +9,6 @@ import SelectDropdown from '../Komponente tablica/SelectDropdown';
 import Button from '../Komponente tablica/Button';
 import FormaPageNumber from '../Komponente tablica/FormaPageNumber';
 
-
-import Draggable from 'react-draggable'; //uninstall
-import ModalDialog from 'react-bootstrap/ModalDialog';
-
 export default class ModalTableKI extends Component  {
     state = {
         pageSize: 7,
@@ -60,7 +56,7 @@ export default class ModalTableKI extends Component  {
                 return (a.properties[key] === null) - (b.properties[key] === null) || ('' + b.properties[key]).localeCompare(a.properties[key]);
             } else if (direction === 'asc') {
                 return (b.properties[key] === null) - (a.properties[key] === null) || ('' + a.properties[key]).localeCompare(b.properties[key]);
-            }
+            } else return false
         });
         this.setState({data: sortData, direction: direction, sortedBy: key, columnsnekisort: column});
     };
@@ -74,7 +70,7 @@ export default class ModalTableKI extends Component  {
                 jsonData = ekipodaci.filter((row) => { 
                    if (row.properties.fid === parseInt(value)) {
                        return row
-                    }}
+                    } else return false}
                );
            };
            this.props.setJsonData(jsonData);
@@ -165,7 +161,8 @@ export default class ModalTableKI extends Component  {
 
                 let anewData = ekipodaci.filter((row) => { 
                     if (row.properties.Komunalna === this.state.selectedValue) {
-                        return row.properties }
+                        return row.properties 
+                    } else return false
                 })
                 newData = anewData.filter((row) => { 
                     return (row.properties.Vrsta && row.properties.Vrsta.toString().toLowerCase().indexOf(value) > -1) ||
@@ -190,7 +187,7 @@ export default class ModalTableKI extends Component  {
             newData = ekipodaci.filter((row) => { 
                 if (row.properties.Komunalna === this.state.selectedValue) {
                     return row.properties 
-                }
+                } else return false
             });
         } else newData = ekipodaci;
 
@@ -222,13 +219,15 @@ export default class ModalTableKI extends Component  {
                 });
                 newData = anewData.filter((row) => { 
                     if (row.properties.Komunalna === value) {
-                        return row.properties }
+                        return row.properties 
+                    } else return false
                     }
                 );
             } else {
                 newData = ekipodaci.filter((row) => { 
                     if (row.properties.Komunalna === value) {
-                        return row.properties }
+                        return row.properties 
+                    } else return false
                     }
                 ) 
             };

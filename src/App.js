@@ -5,7 +5,7 @@ import Header from "./Komponente/Header";
 
 
 import './App.css';
-import {Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, LayerGroup, CircleMarker, Tooltip} from 'react-leaflet';
+import {Map, WMSTileLayer, TileLayer, GeoJSON, LayersControl, FeatureGroup, CircleMarker, Tooltip } from 'react-leaflet';
 
 import * as ceste from "./data/javne_ceste_wgs.json";
 
@@ -14,9 +14,6 @@ import {gradevine, odlagalista_otpada, reciklazna_dvorista, sajmista_trznice, sp
 import {parkiralista, parkiralista_naplata} from "./Komponente/data/Javnepovrsinebezprometa";
 import {sportski_tereni, parkovi, drvoredi_zivice_travnjaci, djecja_igralista} from "./Komponente/data/Javnepovrsinebezprometa";
 import {groblja_krematoriji} from "./Komponente/data/Javnepovrsinebezprometa";
-
-//import {obj_eki} from "./Komponente/data/Javnepovrsinebezprometa";
-
 import {bosana, dinjiska, gorica, gradpag, miskovici, kosljun, simuni, smokvica, staravas, vlasici, vrcici} from "./Komponente/data/Nerazvrstaneceste";
 import {rasvjeta1, rasvjeta2, rasvjeta3, rasvjeta4, rasvjeta5, rasvjeta6, rasvjeta7} from "./Komponente/data/Rasvjeta";
 
@@ -29,22 +26,13 @@ import L from 'leaflet';
 
 const { Overlay } = LayersControl;
 
-export default function SimpleExample() {
-  const [center, setCenter] = useState([44.442669, 15.054280]);
+export default function MapLeaflet() {
+  const center = [44.442669, 15.054280];
   const [bounds, setBounds] = useState([[[44.45041, 15.04369], [44.45041, 15.06535]], [[44.43824, 15.06535], [44.43834, 15.04369]]]);
-  const [zoom, setZoom] = useState(15);
+  const zoom = 15;
   const [roadData, setRoadData] = useState([]);
   const [ekiData, setEkiData] = useState([]);
   const [state, setState] = useState();
-
-
-  let [checkedInput, setCheckedCeste] = useState({ 
-      cesteGoricaInput: false, 
-      cestePagInput: false, 
-      cesteMiskoviciInput: false, 
-      javneCesteDrzavneInput: false, 
-      javneCesteZupanijskeInput: false,
-      javneCesteLokalneInput: false });
 
   const onEachFeatureJavneCeste = (feature, layer) => {
     //console.log(layer);
@@ -72,6 +60,12 @@ export default function SimpleExample() {
 
     const handleCheckboxLayer = (checkboxProps) => {
       let a = checkboxProps.target;
+      
+      let northEast;
+      let southWest;
+
+      let coordinates;
+
 
       /*Triger za rjesavanje collision tooltip*/
       if (state === a) {
@@ -114,6 +108,12 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && stajalistaPrijevozInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && stajalistaPrijevozInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -127,6 +127,7 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && spomeniciInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
         }
         else if (!checkboxProps.checked && mapRef.current && spomeniciInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -136,9 +137,10 @@ export default function SimpleExample() {
 
       if ('odlagalistaInputRef'.includes(a)) {
         let layerAdd = odlagalistaInputRef.current.leafletElement;
-        if (checkboxProps.odlagalistaInputRef && mapRef.current && odlagalistaInputRef.current) {
+        if (checkboxProps.checked && mapRef.current && odlagalistaInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
         }
         else if (!checkboxProps.checked && mapRef.current && odlagalistaInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -151,6 +153,7 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && reciklaznaInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
         }
         else if (!checkboxProps.checked && mapRef.current && reciklaznaInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -164,6 +167,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && trzniceInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && trzniceInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -176,6 +181,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && gradjevineInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && gradjevineInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -188,6 +195,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && sportskiTereniInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && sportskiTereniInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -200,6 +209,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && djecjaIgralistaInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && djecjaIgralistaInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -211,6 +222,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && parkoviInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && parkoviInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -223,6 +236,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && zeleniloInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && zeleniloInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -235,6 +250,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && parkiralistaNaplataJavnaInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && parkiralistaNaplataJavnaInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -247,6 +264,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && parkiralistaJavnaInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && parkiralistaJavnaInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -259,6 +278,13 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && pjesackeJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && pjesackeJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -271,6 +297,13 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && setalistaJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && setalistaJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -283,6 +316,7 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && mostoviJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
         }
         else if (!checkboxProps.checked && mapRef.current && mostoviJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -295,6 +329,7 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && grobljaInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
         }
         else if (!checkboxProps.checked && mapRef.current && grobljaInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -307,6 +342,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && plazeJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && plazeJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -319,6 +356,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && plocniciJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && plocniciJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -331,6 +370,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && trgJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && trgJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -343,6 +384,13 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && biciklistickeJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && biciklistickeJavnePovrsineInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -355,6 +403,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && rasvjeta1InputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && rasvjeta1InputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -367,6 +417,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && rasvjeta2InputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && rasvjeta2InputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -379,6 +431,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && rasvjeta3InputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && rasvjeta3InputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -391,6 +445,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && rasvjeta4InputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && rasvjeta4InputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -403,6 +459,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && rasvjeta5InputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && rasvjeta5InputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -415,6 +473,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && rasvjeta6InputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && rasvjeta6InputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -427,6 +487,8 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && rasvjeta7InputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          setBounds(layerAdd.getBounds());
+
         }
         else if (!checkboxProps.checked && mapRef.current && rasvjeta7InputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -439,6 +501,14 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && cestePagInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && cestePagInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -451,6 +521,13 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && cesteMiskoviciInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && cesteMiskoviciInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -463,6 +540,13 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && cesteGoricaInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && cesteGoricaInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -475,6 +559,13 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && cesteBosanaInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && cesteBosanaInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -486,6 +577,13 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && cesteDinjiskaInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && cesteDinjiskaInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -497,6 +595,13 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && cesteSmokvicaInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && cesteSmokvicaInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -508,6 +613,13 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && cesteKosljunInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && cesteKosljunInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -519,6 +631,13 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && cesteStaraVasInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && cesteStaraVasInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -530,6 +649,13 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && cesteSimuniInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && cesteSimuniInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -541,6 +667,13 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && cesteVrciciInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && cesteVrciciInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -552,6 +685,14 @@ export default function SimpleExample() {
         if (checkboxProps.checked && mapRef.current && cesteVlasiciInputRef.current) {
           const map = mapRef.current.leafletElement;
           map.addLayer(layerAdd);
+          
+          northEast = layerAdd.getBounds()._northEast;
+          northEast.lng = northEast.lng - 0.009;
+          southWest = layerAdd.getBounds()._southWest;
+          
+          coordinates = [northEast, southWest];
+
+          setBounds(coordinates);
         }
         else if (!checkboxProps.checked && mapRef.current && cesteVlasiciInputRef.current) {
           const map = mapRef.current.leafletElement;
@@ -601,11 +742,6 @@ export default function SimpleExample() {
 
     };
 
-  /*  const abc = groblja.features.map((data) => {
-
-      return data.geometry.coordinates[0][0];
-    })*/
-
   const createClusterCustomIcon = function (cluster) {
       if (this.id === "rasvjeta1") {
         return L.divIcon({
@@ -654,9 +790,9 @@ export default function SimpleExample() {
   };
 
   const highlightFeature = (e) => {
-      var layer = e.target;
+      let layer = e.target;
       layer.setStyle({
-          weight: 5,
+          weight: 6,
           color: "red",
           dashArray: "",
           fillOpacity: 0.7
@@ -670,18 +806,79 @@ export default function SimpleExample() {
   };
 
   const onEachFeatureNerazCeste = (feature, layer) => {
-    
-      const popupContent = `
-        <div class="main-popup-div">
-          <p class="popup-p">Oznaka nerazvrstane ceste: <span class="popup-span">${feature.properties.OZNAKA}</span></p>
-          <p class="popup-p">Naziv ulice: <span class="popup-span">${feature.properties.UL_IME}</span></p>
-          <p class="popup-p">Naziv naselja: <span class="popup-span">${feature.properties.NA_IME}</span></p>
-          <p class="popup-p">Broj katastarske čestice: <span class="popup-span">${feature.properties.KCBR}</span></p>
-          <p class="popup-p">Zastor: <span class="popup-span">${feature.properties.ZASTOR}</span></p>
-        </div>`;
-      if (feature.properties && feature.properties.popupContent) {
+
+    let popupContent = document.createElement('div');
+    popupContent.classList.add('main-popup-div');
+
+    if (feature.properties.OZNAKA) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Oznaka nerazvrstane ceste: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.OZNAKA;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.UL_IME) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Naziv ulice: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.UL_IME;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.NA_IME) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Naziv naselja: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.NA_IME;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.KCBR) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Broj katastarske čestice: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.KCBR;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.ZASTOR) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Zastor: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.ZASTOR;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+     
+    if (feature.properties && feature.properties.popupContent) {
         popupContent += feature.properties.popupContent;
-      };
+    };
 
       layer.bindPopup(popupContent);
 
@@ -766,9 +963,7 @@ export default function SimpleExample() {
       text_p.innerHTML = "Vlasništvo: <br>";
 
       if (feature.properties.Vlasnistvo.match(/\d+/g)) {
-        feature.properties.Vlasnistvo.match(/\d+/g).map((data) => {
-           
-
+        feature.properties.Vlasnistvo.match(/\d+/g).forEach(data => {
             let text_a = document.createElement('a');
             text_a.classList.add('popup-a');
             text_a.innerHTML = data;
@@ -776,7 +971,7 @@ export default function SimpleExample() {
             text_a.setAttribute("href", aa);
             text_a.setAttribute("target", "_blank");
             text_p.appendChild(text_a);
-        })
+        });
         } else {
           let text_span = document.createElement('span');
           text_span.classList.add('popup-span');
@@ -832,16 +1027,99 @@ export default function SimpleExample() {
   };
 
   const onEachFeaturePoint = (feature, layer) =>  {
-    const popupContent = `
-      <div class="main-popup-div">
-        <p class="popup-p">Vrsta komunalne infrastrukture: <span class="popup-span">${feature.properties.Vrsta}</span></p>
-        <p class="popup-p">Oznaka komunalne infrastrukture: <span class="popup-span">${feature.properties.Oznaka}</span></p>
-        <p class="popup-p">Naziv komunalne infrastrukture: <span class="popup-span">${feature.properties.Naziv}</span></p>
-        <p class="popup-p">Naselje: <span class="popup-span">${feature.properties.Naselje}</span></p>
-        <p class="popup-p">Broj katastarske čestice: <span class="popup-span">${feature.properties.kcbr}</span></p>
-        <p class="popup-p">Vlasništvo: <span class="popup-span">${feature.properties.Vlasnistvo}</span></p>
+    let popupContent = document.createElement('div');
+    popupContent.classList.add('main-popup-div');
+    
+    if (feature.properties.Vrsta) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Vrsta komunalne infrastrukture: <br>";
 
-      </div>`;
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.Vrsta;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.Oznaka) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Oznaka komunalne infrastrukture: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.Oznaka;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.Naziv) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Naziv komunalne infrastrukture: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.Naziv;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.Naselje) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Naselje: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.Naselje;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.kcbr) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Broj katastarske čestice: <br>";
+
+      let text_span = document.createElement('span');
+      text_span.classList.add('popup-span');
+      text_span.innerHTML = feature.properties.kcbr;
+
+      text_p.appendChild(text_span);
+      popupContent.appendChild(text_p);
+    };
+
+    if (feature.properties.Vlasnistvo) {
+      let text_p = document.createElement('p');
+      text_p.classList.add('popup-p');
+      text_p.innerHTML = "Vlasništvo: <br>";
+
+      if (feature.properties.Vlasnistvo.match(/\d+/g)) {
+        feature.properties.Vlasnistvo.match(/\d+/g).forEach((data) => {
+            let text_a = document.createElement('a');
+            text_a.classList.add('popup-a');
+            text_a.innerHTML = data;
+            let aa = "/"+feature.properties.Oznaka+"-vlasnistvo/"+feature.properties.objekt+"/"+feature.properties.Oznaka+"-"+feature.properties.id+"-"+data+".pdf";
+            text_a.setAttribute("href", aa);
+            text_a.setAttribute("target", "_blank");
+            text_p.appendChild(text_a);
+        })
+        } else {
+          let text_span = document.createElement('span');
+          text_span.classList.add('popup-span');
+          text_span.innerHTML = feature.properties.Vlasnistvo;
+
+          text_p.appendChild(text_span);
+        }
+      popupContent.appendChild(text_p);
+    };
+
     if (feature.properties && feature.properties.popupContent) {
       popupContent += feature.properties.popupContent;
     };
@@ -854,7 +1132,7 @@ export default function SimpleExample() {
     });
   };
 
- const pointToLayer = (latlng) => {
+ const pointToLayer = (feature, latlng) => {
     return L.circleMarker(latlng, 
       { radius: 8, fillOpacity: 1, fillColor: "#85b66f", color: "#000", opacity: 1, weight: 1,});
   };
@@ -876,7 +1154,7 @@ export default function SimpleExample() {
     };
 
     for (let i = 0; i < tooltips.length; i++) {
-      if (tooltips[i].style.visibility != 'hidden') {
+      if (tooltips[i].style.visibility !== 'hidden') {
         for (let j = i + 1; j < tooltips.length; j++) {
           if (overlap(rects[i], rects[j])) tooltips[j].style.visibility = 'hidden';
         };
@@ -884,9 +1162,8 @@ export default function SimpleExample() {
     };
   };
 
-  useEffect(() => {
-    handleZoomEnd();
-  }, [state]); //zove funkciju svaki put kada korisnik doda novi sloj na map
+  useEffect(handleZoomEnd, [state]); //zove funkciju svaki put kada korisnik doda novi sloj na map
+
 
   return (
       < div className="map">
@@ -912,48 +1189,48 @@ export default function SimpleExample() {
             </LayersControl.Overlay>
       
             <Overlay name="Layer 1">
-              <LayerGroup ref={javneCesteDrzavneInputRef}>
+              <FeatureGroup ref={javneCesteDrzavneInputRef}>
                   {drzavneceste.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red"/>
                     ))
                   }
-              </LayerGroup>
+              </FeatureGroup>
             </Overlay>
 
             <Overlay name="nove dodane ceste">
-              <LayerGroup ref={newRoadlayer}>
+              <FeatureGroup ref={newRoadlayer}>
                   {roadData.map(data => (
-                    <GeoJSON key={data.properties.fid} data={data} color="red" onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" weight={5} onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
                     ))
                   }
-              </LayerGroup>
-              <LayerGroup ref={newEkilayer}>
+              </FeatureGroup>
+              <FeatureGroup ref={newEkilayer}>
                   {ekiData.map(data => (
-                    <GeoJSON key={data.properties.fid} data={data} color="red" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" weight={5} onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                     ))
                   }
-              </LayerGroup>
+              </FeatureGroup>
             </Overlay>
 
             <Overlay name="Layer 2">
-              <LayerGroup ref={javneCesteZupanijskeInputRef}>
+              <FeatureGroup ref={javneCesteZupanijskeInputRef}>
                   {zupanijskeceste.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="blue"/>
                     ))
                   }
-              </LayerGroup>
+              </FeatureGroup>
             </Overlay>
             <Overlay name="Layer 1">
-              <LayerGroup ref={javneCesteLokalneInputRef}>
+              <FeatureGroup ref={javneCesteLokalneInputRef}>
                   {lokalneceste.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="purple"/>
                     ))
                   }
-              </LayerGroup>
+              </FeatureGroup>
             </Overlay>
 
             <Overlay name="nerazvrstane ceste"> 
-                <LayerGroup ref={cestePagInputRef} >
+                <FeatureGroup ref={cestePagInputRef} >
                   {gradpag.default.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
                       <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
@@ -961,8 +1238,8 @@ export default function SimpleExample() {
                       </Tooltip>
                     </GeoJSON>
                   ))}
-                </LayerGroup>
-                <LayerGroup ref={cesteMiskoviciInputRef}>
+                </FeatureGroup>
+                <FeatureGroup ref={cesteMiskoviciInputRef}>
                   {miskovici.default.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}>
                       <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
@@ -970,8 +1247,8 @@ export default function SimpleExample() {
                       </Tooltip>
                     </GeoJSON>
                   ))}
-                </LayerGroup>
-                <LayerGroup ref={cesteGoricaInputRef}>
+                </FeatureGroup>
+                <FeatureGroup ref={cesteGoricaInputRef}>
                   {gorica.default.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}>
                       <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
@@ -979,8 +1256,8 @@ export default function SimpleExample() {
                       </Tooltip>
                     </GeoJSON>
                   ))}
-                </LayerGroup>
-                <LayerGroup ref={cesteBosanaInputRef} >
+                </FeatureGroup>
+                <FeatureGroup  ref={cesteBosanaInputRef} >
                   {bosana.default.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
                       <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
@@ -988,8 +1265,8 @@ export default function SimpleExample() {
                       </Tooltip>
                     </GeoJSON>
                   ))}
-                </LayerGroup>
-                <LayerGroup ref={cesteKosljunInputRef}>
+                </FeatureGroup >
+                <FeatureGroup ref={cesteKosljunInputRef}>
                   {kosljun.default.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
                       <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
@@ -997,8 +1274,8 @@ export default function SimpleExample() {
                       </Tooltip>
                     </GeoJSON>
                   ))}
-                </LayerGroup>
-                <LayerGroup ref={cesteDinjiskaInputRef}>
+                </FeatureGroup>
+                <FeatureGroup ref={cesteDinjiskaInputRef}>
                   {dinjiska.default.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
                       <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
@@ -1006,8 +1283,8 @@ export default function SimpleExample() {
                       </Tooltip>
                     </GeoJSON>
                   ))}
-                </LayerGroup>
-                <LayerGroup ref={cesteVlasiciInputRef}>
+                </FeatureGroup>
+                <FeatureGroup ref={cesteVlasiciInputRef}>
                   {vlasici.default.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
                       <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
@@ -1015,8 +1292,8 @@ export default function SimpleExample() {
                       </Tooltip>
                     </GeoJSON>
                   ))}
-                </LayerGroup>
-                <LayerGroup ref={cesteVrciciInputRef}>
+                </FeatureGroup>
+                <FeatureGroup ref={cesteVrciciInputRef}>
                   {vrcici.default.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
                     <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
@@ -1024,8 +1301,8 @@ export default function SimpleExample() {
                     </Tooltip>
                     </GeoJSON>
                   ))}
-                </LayerGroup>
-                <LayerGroup ref={cesteStaraVasInputRef}>
+                </FeatureGroup>
+                <FeatureGroup ref={cesteStaraVasInputRef}>
                   {staravas.default.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
                       <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
@@ -1033,8 +1310,8 @@ export default function SimpleExample() {
                       </Tooltip>
                     </GeoJSON>
                   ))}
-                </LayerGroup>
-                <LayerGroup ref={cesteSmokvicaInputRef}>
+                </FeatureGroup>
+                <FeatureGroup ref={cesteSmokvicaInputRef}>
                   {smokvica.default.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
                       <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
@@ -1042,8 +1319,8 @@ export default function SimpleExample() {
                       </Tooltip>
                     </GeoJSON>
                   ))}
-                </LayerGroup>
-                <LayerGroup ref={cesteSimuniInputRef}>
+                </FeatureGroup>
+                <FeatureGroup ref={cesteSimuniInputRef}>
                   {simuni.default.features.map(data => (
                     <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
                       <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
@@ -1051,7 +1328,7 @@ export default function SimpleExample() {
                       </Tooltip>
                     </GeoJSON>
                   ))}
-                </LayerGroup>
+                </FeatureGroup>
             </Overlay>
 
             <Overlay name="Rasvjeta">
@@ -1190,124 +1467,198 @@ export default function SimpleExample() {
             </Overlay>
 
             <Overlay name="javne površine bez prometa">
-              <LayerGroup ref={trgJavnePovrsineInputRef}>
+              <FeatureGroup ref={trgJavnePovrsineInputRef}>
                 {trg.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#bab667" fillColor="#d9d73d" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#bab667" fillColor="#d9d73d" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
-              <LayerGroup ref={plocniciJavnePovrsineInputRef}>
+              </FeatureGroup>
+              <FeatureGroup ref={plocniciJavnePovrsineInputRef}>
                 {plocnici.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#7d8b8f" dashArray="5" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#7d8b8f" dashArray="5" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
-              <LayerGroup ref={plazeJavnePovrsineInputRef}>
+              </FeatureGroup>
+              <FeatureGroup ref={plazeJavnePovrsineInputRef}>
                 {plaze.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#265980" fillColor="#7babd0" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#265980" fillColor="#7babd0" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
-              <LayerGroup ref={biciklistickeJavnePovrsineInputRef}>
+              </FeatureGroup>
+              <FeatureGroup ref={biciklistickeJavnePovrsineInputRef}>
                 {bicikliste_staze.default.features.map(data => (
                   <GeoJSON key={data.properties.fid} data={data} color="#f3a6b2" ref={geoJsonRef} onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
-                    <Tooltip direction='center' offset={[0, 0]} opacity={1} permanent>
-                      <span>{data.properties.Naziv}</span>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
                     </Tooltip>
-                    </GeoJSON>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
-              <LayerGroup ref={mostoviJavnePovrsineInputRef}>
+              </FeatureGroup>
+              <FeatureGroup ref={mostoviJavnePovrsineInputRef}>
                 {mostovi.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#9f7acc" fillColor="#9f7acc" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#9f7acc" fillColor="#9f7acc" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
-              <LayerGroup ref={pjesackeJavnePovrsineInputRef}>
+              </FeatureGroup>
+              <FeatureGroup ref={pjesackeJavnePovrsineInputRef}>
                 {pjeskacke_zone.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#098d09" fillColor="#76b70c" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)} />
+                  <GeoJSON key={data.properties.fid} data={data} color="#098d09" fillColor="#76b70c" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)} >
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
-              <LayerGroup ref={setalistaJavnePovrsineInputRef}>
+              </FeatureGroup>
+              <FeatureGroup ref={setalistaJavnePovrsineInputRef}>
                 {pjeskacke_zone_setalista.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#285b22" dashArray="5" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#285b22" dashArray="5" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
+              </FeatureGroup>
             </Overlay>
 
             <Overlay name="Javna parkirališta">
-              <LayerGroup ref={parkiralistaNaplataJavnaInputRef}>
+              <FeatureGroup ref={parkiralistaNaplataJavnaInputRef}>
                 {parkiralista_naplata.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#beb297" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
-                ))}
-              </LayerGroup>
-              <LayerGroup ref={parkiralistaJavnaInputRef}>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#beb297" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                </GeoJSON>
+              ))}
+              </FeatureGroup>
+              <FeatureGroup ref={parkiralistaJavnaInputRef}>
                 {parkiralista.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323"  fillColor="#c43c39" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323"  fillColor="#c43c39" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
+              </FeatureGroup>
             </Overlay>
 
             <Overlay name="Javne zelene površine">
-              <LayerGroup ref={djecjaIgralistaInputRef}>
+              <FeatureGroup ref={djecjaIgralistaInputRef}>
                 {djecja_igralista.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#e77148" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#e77148" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
-              <LayerGroup ref={zeleniloInputRef}>
+              </FeatureGroup>
+              <FeatureGroup ref={zeleniloInputRef}>
                 {drvoredi_zivice_travnjaci.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#987db7" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#987db7" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
-              <LayerGroup ref={parkoviInputRef}>
+              </FeatureGroup>
+              <FeatureGroup ref={parkoviInputRef}>
                 {parkovi.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#becf50" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#becf50" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
-              <LayerGroup ref={sportskiTereniInputRef}>
+              </FeatureGroup>
+              <FeatureGroup ref={sportskiTereniInputRef}>
                 {sportski_tereni.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#e15989" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#e15989" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
+              </FeatureGroup>
             </Overlay>
 
             <Overlay name="Građevine i uređaji javne namjene">
-            <LayerGroup ref={stajalistaPrijevozInputRef}>
+            <FeatureGroup ref={stajalistaPrijevozInputRef}>
                 {stajalista_javnog_prijevoza.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#a47158" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#a47158" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
-              <LayerGroup ref={spomeniciInputRef}>
-                {spomenici.default.features.map(elem => {
-                  return (
-                  <GeoJSON key={elem.properties.fid} data={elem} onEachFeature={onEachFeaturePoint.bind(this)} pointToLayer={pointToLayer.bind(this)} />
-                  )
-                })}
-              </LayerGroup>
-             <LayerGroup ref={odlagalistaInputRef}>
+              </FeatureGroup>
+              <FeatureGroup ref={spomeniciInputRef}>
+                {spomenici.default.features.map(data => (
+                  <GeoJSON key={data.properties.fid} data={data} onEachFeature={onEachFeaturePoint.bind(this)} pointToLayer={pointToLayer.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
+                ))}
+              </FeatureGroup>
+             <FeatureGroup ref={odlagalistaInputRef}>
                 {odlagalista_otpada.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#beb297" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#beb297" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
-              <LayerGroup ref={reciklaznaInputRef}>
+              </FeatureGroup>
+              <FeatureGroup ref={reciklaznaInputRef}>
                 {reciklazna_dvorista.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#91522d" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#91522d" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
-              <LayerGroup ref={trzniceInputRef}>
+              </FeatureGroup>
+              <FeatureGroup ref={trzniceInputRef}>
                 {sajmista_trznice.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#7d8b8f" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#7d8b8f" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
-              <LayerGroup ref={gradjevineInputRef}>
+              </FeatureGroup>
+              <FeatureGroup ref={gradjevineInputRef}>
                 {gradevine.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#e5b636" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#e5b636" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
+              </FeatureGroup>
             </Overlay>
 
             <Overlay name="groblja">
-              <LayerGroup ref={grobljaInputRef}>
+              <FeatureGroup ref={grobljaInputRef}>
                 {groblja_krematoriji.default.features.map(data => (
-                  <GeoJSON key={data.properties.id} data={data} color="#c43c39" fillColor="#c43c39" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
+                  <GeoJSON key={data.properties.id} data={data} color="#c43c39" fillColor="#c43c39" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}>
+                    <Tooltip offset={[-10, 0]} direction='right' opacity={1} permanent className = 'myTooltip ekiTooltip'>
+                      <span>{data.properties.Vrsta}</span>
+                    </Tooltip>
+                  </GeoJSON>
                 ))}
-              </LayerGroup>
+              </FeatureGroup>
             </Overlay>
           </LayersControl>
         </Map>

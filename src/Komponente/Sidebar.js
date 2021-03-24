@@ -106,9 +106,7 @@ export default class  Sidebar extends Component{
     };
 
     closeSidebarOnclick = (close) => {
-        //console.log(close)
         if (close) {
-            //this.props.closeSidebarOnClick(close); //ISTRAZI
             this.setState({minimalize: true});
         };
     };

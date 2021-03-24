@@ -71,7 +71,7 @@ export default class MoreInformation extends Component {
                 <FontAwesomeIcon icon={faInfoCircle}/>
             </button>
             <Information handleClose={this.handleClickClose} show={this.state.show}/>
-            <button className="mapBaseLayers paglogo"><a  href="https://www.pag.hr/" target="_blank"><img src={paglogo} alt="Grad Pag grb" title="Službena stranica grada Paga"/></a></button>
+            <button className="mapBaseLayers paglogo"><a rel="noreferrer" href="https://www.pag.hr/" target="_blank"><img src={paglogo} alt="Grad Pag grb" title="Službena stranica grada Paga"/></a></button>
         </div>
     )
     }
