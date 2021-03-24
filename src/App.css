@@ -220,7 +220,7 @@ input[type=checkbox] {
   background-color: #2e6ca445;
   box-shadow: 6px -1px 6px 0px #00000061;
   border: 1px solid #2e6ca48a;
-  right: -15px;
+  right: -17px;
   border-left: unset;
   cursor: pointer;
 }
@@ -251,22 +251,31 @@ div .buttonabsolute:last-child {
   left: 100px;
 }
 
-.leaflet-tooltip-right:before {
+.tooltip-css.leaflet-tooltip-right:before {
   border: none;
   background: none;
 }
 
 .leaflet-tooltip {
   border: none;
-  /*background: unset;*/
-  background: rgba(255, 255, 255, 0.589);
+  background: rgba(255, 255, 255, 0.733);
   padding: 2px;
   box-shadow: none;
   font-weight: 700;
 }
 
-.leaflet-tooltip-right {
+.tooltip-css .leaflet-tooltip-right {
   margin-left: 10px;
+}
+
+.roadTooltip {
+  color: red!important;
+  background-color: #f5efe7!important;
+  border: 1px solid #c2ab98;
+}
+
+.roadTooltip.leaflet-tooltip-right:before {
+  border-right-color: #c2ab98!important;
 }
 
 .left-sidebar {

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./Komponente/Header"; 
@@ -35,9 +35,7 @@ export default function SimpleExample() {
   const [zoom, setZoom] = useState(15);
   const [roadData, setRoadData] = useState([]);
   const [ekiData, setEkiData] = useState([]);
-
-
-
+  const [state, setState] = useState();
 
 
   let [checkedInput, setCheckedCeste] = useState({ 
@@ -73,8 +71,16 @@ export default function SimpleExample() {
 
 
     const handleCheckboxLayer = (checkboxProps) => {
-      //console.log(checkboxProps)
       let a = checkboxProps.target;
+
+      /*Triger za rjesavanje collision tooltip*/
+      if (state === a) {
+        setState('')
+      } else if (state !== a) {
+        setState(a)
+      };
+
+      /*Dodavanje layera na map*/
 
       if ('OSMRef'.includes(a)) {
         let layerAdd = OSMRef.current.leafletElement;
@@ -552,8 +558,6 @@ export default function SimpleExample() {
           map.removeLayer(layerAdd);
         }
       };
-/*
-*/
 
       if ('javneCesteDrzavneInputRef'.includes(a)) {
         let layerAdd = javneCesteDrzavneInputRef.current.leafletElement;
@@ -602,7 +606,7 @@ export default function SimpleExample() {
       return data.geometry.coordinates[0][0];
     })*/
 
-    const createClusterCustomIcon = function (cluster) {
+  const createClusterCustomIcon = function (cluster) {
       if (this.id === "rasvjeta1") {
         return L.divIcon({
           html: `<span>${cluster.getChildCount()}</span>`,
@@ -647,9 +651,9 @@ export default function SimpleExample() {
           });
        }
       
-    };
+  };
 
-   const highlightFeature = (e) => {
+  const highlightFeature = (e) => {
       var layer = e.target;
       layer.setStyle({
           weight: 5,
@@ -659,14 +663,14 @@ export default function SimpleExample() {
       });
   
       layer.bringToFront();
-    };
+  };
   
   const resetHighlight = (e) => {
     geoJsonRef.current.leafletElement.resetStyle(e.target);
-      //console.log(event.target)
   };
 
   const onEachFeatureNerazCeste = (feature, layer) => {
+    
       const popupContent = `
         <div class="main-popup-div">
           <p class="popup-p">Oznaka nerazvrstane ceste: <span class="popup-span">${feature.properties.OZNAKA}</span></p>
@@ -684,7 +688,7 @@ export default function SimpleExample() {
       layer.on({
         mouseover: highlightFeature.bind(this),
         mouseout: resetHighlight.bind(this)
-      });
+      });    
   };
 
   const onEachFeatureKomunalnaInfrastruktura = (feature, layer) => {
@@ -855,12 +859,40 @@ export default function SimpleExample() {
       { radius: 8, fillOpacity: 1, fillColor: "#85b66f", color: "#000", opacity: 1, weight: 1,});
   };
 
+  const overlap = (rect1, rect2) => {
+    return(!(rect1.right < rect2.left || 
+            rect1.left > rect2.right || 
+            rect1.bottom < rect2.top || 
+            rect1.top > rect2.bottom));
+  };
+  
+
+  const handleZoomEnd = () => {
+    let rects = [];
+    let tooltips = document.getElementsByClassName('myTooltip');
+    for (let i = 0; i < tooltips.length; i++) {
+      tooltips[i].style.visibility = '';
+      rects[i] = tooltips[i].getBoundingClientRect();
+    };
+
+    for (let i = 0; i < tooltips.length; i++) {
+      if (tooltips[i].style.visibility != 'hidden') {
+        for (let j = i + 1; j < tooltips.length; j++) {
+          if (overlap(rects[i], rects[j])) tooltips[j].style.visibility = 'hidden';
+        };
+      };
+    };
+  };
+
+  useEffect(() => {
+    handleZoomEnd();
+  }, [state]); //zove funkciju svaki put kada korisnik doda novi sloj na map
 
   return (
       < div className="map">
         <Header checkboxState={handleCheckboxLayer} zoomState={handleZoomStateOnMap} handleJsonData={createJsonDataOnMap}/>
 
-        <Map className="markercluster-map" center={center} zoom={zoom} ref={mapRef} maxZoom={18} minZoom={10} bounds={bounds}/* maxBounds={(45, 14), (43, 16)}*/>
+        <Map onMoveEnd={handleZoomEnd} className="markercluster-map" center={center} zoom={zoom} ref={mapRef} maxZoom={18} minZoom={10} bounds={bounds}/* maxBounds={(45, 14), (43, 16)}*/>
           <LayersControl position="topright">
             <LayersControl.BaseLayer checked name="OpenStreetMap" >
               <TileLayer ref={OSMRef}
@@ -923,61 +955,101 @@ export default function SimpleExample() {
             <Overlay name="nerazvrstane ceste"> 
                 <LayerGroup ref={cestePagInputRef} >
                   {gradpag.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
-                    <Tooltip direction='right' offset={[-10, -5]} opacity={1} permanent>
-                      <span>{data.properties.OZNAKA}</span>
-                    </Tooltip>
-                  </GeoJSON>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
+                      <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
+                        <span>{data.properties.OZNAKA}</span>
+                      </Tooltip>
+                    </GeoJSON>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteMiskoviciInputRef}>
-                    {miskovici.default.features.map(data => (
-                    <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
-                    ))}
+                  {miskovici.default.features.map(data => (
+                    <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}>
+                      <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
+                        <span>{data.properties.OZNAKA}</span>
+                      </Tooltip>
+                    </GeoJSON>
+                  ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteGoricaInputRef}>
                   {gorica.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}>
+                      <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
+                        <span>{data.properties.OZNAKA}</span>
+                      </Tooltip>
+                    </GeoJSON>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteBosanaInputRef} >
                   {bosana.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
+                      <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
+                        <span>{data.properties.OZNAKA}</span>
+                      </Tooltip>
+                    </GeoJSON>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteKosljunInputRef}>
                   {kosljun.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
+                      <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
+                        <span>{data.properties.OZNAKA}</span>
+                      </Tooltip>
+                    </GeoJSON>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteDinjiskaInputRef}>
                   {dinjiska.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
+                      <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
+                        <span>{data.properties.OZNAKA}</span>
+                      </Tooltip>
+                    </GeoJSON>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteVlasiciInputRef}>
                   {vlasici.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
+                      <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
+                        <span>{data.properties.OZNAKA}</span>
+                      </Tooltip>
+                    </GeoJSON>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteVrciciInputRef}>
                   {vrcici.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
+                    <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
+                      <span>{data.properties.OZNAKA}</span>
+                    </Tooltip>
+                    </GeoJSON>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteStaraVasInputRef}>
                   {staravas.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
+                      <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
+                        <span>{data.properties.OZNAKA}</span>
+                      </Tooltip>
+                    </GeoJSON>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteSmokvicaInputRef}>
                   {smokvica.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
+                      <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
+                        <span>{data.properties.OZNAKA}</span>
+                      </Tooltip>
+                    </GeoJSON>
                   ))}
                 </LayerGroup>
                 <LayerGroup ref={cesteSimuniInputRef}>
                   {simuni.default.features.map(data => (
-                  <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef}  onEachFeature={onEachFeatureNerazCeste.bind(this)}/>
+                    <GeoJSON key={data.properties.fid} data={data} color="red" ref={geoJsonRef} onEachFeature={onEachFeatureNerazCeste.bind(this)}>
+                      <Tooltip direction='right' opacity={1} permanent className = 'myTooltip roadTooltip'>
+                        <span>{data.properties.OZNAKA}</span>
+                      </Tooltip>
+                    </GeoJSON>
                   ))}
                 </LayerGroup>
             </Overlay>
@@ -995,7 +1067,7 @@ export default function SimpleExample() {
                     fillOpacity= {1}
                     weight={1}
                     radius={5}>
-                    <Tooltip direction='right' offset={[-10, -13]} opacity={1} permanent>
+                    <Tooltip direction='right' offset={[-10, -13]} opacity={1} permanent className = 'myTooltip tooltip-css'>
                       <span>{elem.properties.id}</span>
                     </Tooltip>
                 </CircleMarker>
@@ -1208,7 +1280,7 @@ export default function SimpleExample() {
                   )
                 })}
               </LayerGroup>
-              <LayerGroup ref={odlagalistaInputRef}>
+             <LayerGroup ref={odlagalistaInputRef}>
                 {odlagalista_otpada.default.features.map(data => (
                   <GeoJSON key={data.properties.fid} data={data} color="#232323" fillColor="#beb297" fillOpacity="0.7" weight="2" onEachFeature={onEachFeatureKomunalnaInfrastruktura.bind(this)}/>
                 ))}
