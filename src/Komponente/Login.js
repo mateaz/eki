@@ -57,7 +57,9 @@ export default function Login ({ setToken }) {
   return(
     <div className="login-page">
         <div className="logo-login-page">
-        <a rel="noreferrer" href="https://www.pag.hr/" target="_blank"><img src={paglogo} alt="Grad Pag grb" title="Službena stranica grada Paga" onClick={ImageClick}/></a>
+            <a rel="noreferrer" href="https://www.pag.hr/" target="_blank"><img src={paglogo} alt="Grad Pag grb" title="Službena stranica grada Paga" onClick={ImageClick}/></a>
+            <h3>GRAD PAG</h3>
+            <p>Evidencija komunalne infrastrukture</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-forma">

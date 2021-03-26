@@ -6,13 +6,20 @@
     background-repeat: no-repeat;
     width: 100vw;
     text-align: center;
-    padding-top: 15vh;
+    padding-top: 5vh;
     margin: auto;
     display: flex;
     flex-direction: row;
     flex-basis: 100%;
     flex-wrap: wrap;
     padding-bottom: 15vh;
+    color: white;
+}
+.logo-login-page p {
+    font-size: 20px;
+}
+.logo-login-page h3 {
+    margin-top: 20px;
 }
 
 .logo-login-page {
