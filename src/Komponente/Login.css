@@ -1,0 +1,82 @@
+.login-page {
+    height: 100vh;
+    background: url("../img/pozadina_pag.jpg");
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100vw;
+    text-align: center;
+    padding-top: 15vh;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    padding-bottom: 15vh;
+}
+
+.logo-login-page {
+    flex-basis: 100%;
+    height: fit-content;
+}
+
+.login-forma  {
+    flex-basis: 100%;
+}
+.login-forma label {
+    display: block;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    width: 250px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.login-forma label input {
+    width: 250px;
+    background:linear-gradient(to bottom, #e9edee 5%, #d1e1e4 100%);
+	background-color:#ffffff;
+    border-radius: 5px;
+    border: 1px solid white;
+}
+.login-forma label input:active, .login-forma label input:focus {
+    box-shadow: 0px 9px 14px 0px #ffffff54; 
+    outline: #0535508e;
+}
+
+.login-forma label:hover {
+    cursor: unset;
+    font-weight: 600;
+}
+
+.login-forma label input:hover {
+    border: 2px solid white;
+	background-color:#ccdfeb;
+    box-shadow: 0px 9px 14px 0px #ffffff54;
+}
+
+.login-button {
+    box-shadow: 0px 9px 14px 0px #ffffff54;
+	background:linear-gradient(to bottom, #c6d1d4 5%, #afd5db 100%);
+	background-color:#599bb3;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#1a597d;
+	padding: 8px 10px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #053450;
+    border: 1px solid #ffffff33;
+    margin-top: 10px;
+}
+
+.login-button:hover {
+	background:linear-gradient(to bottom, #12608d 5%, #96b0be 100%);
+	background-color:#1a597d;
+    color: white;
+}
+.login-button:active {
+	position:relative;
+	top:1px;
+}

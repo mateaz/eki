@@ -6,7 +6,7 @@ import Sidebar from './Sidebar';
 
 export default class Header extends Component {
     state = {
-        showSidebar: false,
+        showSidebar: true,
         klasa: 'show'
     };
 
